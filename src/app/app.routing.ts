@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
+import { data } from 'jquery';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 export const AppRoutes: Routes = [
   {
@@ -26,6 +28,13 @@ export const AppRoutes: Routes = [
     component:LoginComponent,
     data:{
       title:"Login Usuarios"
+    }
+  },
+  {
+    path: 'register',
+    component:RegisterComponent,
+    data:{
+       title:"Registro de usuarios"
     }
   }
 ]

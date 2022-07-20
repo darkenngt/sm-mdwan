@@ -15,12 +15,14 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 
 import { LoginComponent } from './pages/login/login.component';
 
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserAnimationsModule,
