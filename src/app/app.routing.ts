@@ -4,6 +4,7 @@ import { data } from 'jquery';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
 import { LoginComponent } from './pages/login/login.component';
+import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { RegisterComponent } from './pages/register/register.component';
 
 export const AppRoutes: Routes = [
@@ -35,6 +36,13 @@ export const AppRoutes: Routes = [
     component:RegisterComponent,
     data:{
        title:"Registro de usuarios"
+    }
+  },
+  {
+    path: 'pedidos',
+    component:PedidosComponent,
+    data:{
+       title:"Pedisos Middleware"
     }
   }
 ]
