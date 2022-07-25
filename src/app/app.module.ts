@@ -19,6 +19,8 @@ import { RegisterComponent } from './pages/register/register.component';
 
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,8 @@ import { PedidosComponent } from './pages/pedidos/pedidos.component';
     NavbarModule,
     ToastrModule.forRoot(),
     FooterModule,
-    FixedPluginModule
+    FixedPluginModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

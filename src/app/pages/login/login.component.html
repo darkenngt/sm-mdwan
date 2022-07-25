@@ -39,18 +39,18 @@
         <form>
             <div class="mb-3">
               <label for="codigo_user" class="form-label">Código</label>
-              <input type="text" class="form-control" id="codigo_user" aria-describedby="codigolHelp">
+              <input [(ngModel)]="userName" type="text" class="form-control" id="codigo_user" aria-describedby="codigolHelp">
               <div id="codigolHelp" class="form-text">Ingresa tu código y contraseña para loguearte</div>
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <label for="Pass_md" class="form-label">Contraseña</label>
+              <input [(ngModel)]="password" type="password" class="form-control" id="Pass_md">
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" (click)="getValue()" class="btn btn-primary">Submit</button>
           </form>
     </div>
 </div>
