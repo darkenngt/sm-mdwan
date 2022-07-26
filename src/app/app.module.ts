@@ -20,6 +20,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 
 import { FormsModule } from '@angular/forms';
+import { DeliveryComponent } from "./pages/delivery/delivery.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FormsModule } from '@angular/forms';
     AdminLayoutComponent,
     LoginComponent,
     RegisterComponent,
-    PedidosComponent
+    PedidosComponent,
+    DeliveryComponent
   ],
   imports: [
     BrowserAnimationsModule,

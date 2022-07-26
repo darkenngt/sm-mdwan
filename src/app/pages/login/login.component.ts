@@ -34,5 +34,7 @@ export class LoginComponent implements OnInit{
         //console.log(this.userAuthentication.user)
         console.log(this.userName);
         console.log(this.password);
+        $("#btn_sub").removeClass("btn-primary");
+        $("#btn_sub").addClass("btn-danger");
     }
 }

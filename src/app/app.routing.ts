@@ -6,6 +6,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { LoginComponent } from './pages/login/login.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { DeliveryComponent } from './pages/delivery/delivery.component';
 
 export const AppRoutes: Routes = [
   {
@@ -43,6 +44,13 @@ export const AppRoutes: Routes = [
     component:PedidosComponent,
     data:{
        title:"Pedisos Middleware"
+    }
+  },
+  {
+    path: 'delivery',
+    component:DeliveryComponent,
+    data:{
+      title:"Pedidos delivery"
     }
   }
 ]
