@@ -94,6 +94,13 @@ export class PedidosComponent implements OnInit{
             tipoPago:"efectivo",
             total:100.00,
             numeroPedido:"4444"
+        },{
+            estado:"emergencia",
+            nombre:"yyyy Petrona",
+            fecha:"2022-07-22",
+            tipoPago:"efectivo",
+            total:100.00,
+            numeroPedido:"4444"
         }];
         console.log(this.showPickup);
     }

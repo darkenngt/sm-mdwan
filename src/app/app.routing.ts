@@ -7,6 +7,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { DeliveryComponent } from './pages/delivery/delivery.component';
+import { SingleOrderComponent } from './pages/single-order/single-order.component'
+import { BikerComponent } from './pages/biker/biker.component';
+import { ItemsModalComponent } from './pages/itemsmodal/itemsmodal.component';
 
 export const AppRoutes: Routes = [
   {
@@ -51,6 +54,24 @@ export const AppRoutes: Routes = [
     component:DeliveryComponent,
     data:{
       title:"Pedidos delivery"
+    }
+  },{
+    path: 'single-order',
+    component:SingleOrderComponent,
+    data:{
+      title:"Datos pedido"
+    }
+  },{
+    path: 'biker',
+    component:BikerComponent,
+    data:{
+      title:"Ordenes biker"
+    }
+  },{
+    path: 'itemmodal',
+    component:ItemsModalComponent,
+    data:{
+      title:" items modal"
     }
   }
 ]

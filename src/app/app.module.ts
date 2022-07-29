@@ -21,6 +21,9 @@ import { PedidosComponent } from './pages/pedidos/pedidos.component';
 
 import { FormsModule } from '@angular/forms';
 import { DeliveryComponent } from "./pages/delivery/delivery.component";
+import { SingleOrderComponent } from "./pages/single-order/single-order.component";
+import { BikerComponent  } from "./pages/biker/biker.component";
+import { ItemsModalComponent } from "./pages/itemsmodal/itemsmodal.component";
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { DeliveryComponent } from "./pages/delivery/delivery.component";
     LoginComponent,
     RegisterComponent,
     PedidosComponent,
-    DeliveryComponent
+    DeliveryComponent,
+    SingleOrderComponent,
+    BikerComponent,
+    ItemsModalComponent
   ],
   imports: [
     BrowserAnimationsModule,

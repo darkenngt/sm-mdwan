@@ -1,0 +1,92 @@
+<br>
+<div class="container-sm">
+    <div *ngIf="this.vistaPedido"  class="">
+        <div *ngFor="let orderBiker of ordersStructureBiker" class="row border border-primary border-2">
+            <div class="col-12 fs-6 fw-bold text-danger">
+                Orden No. {{orderBiker.orden}}
+            </div>
+            <div class="col-6">
+                {{orderBiker.nombre}}
+            </div>
+            <div class="col-6 text-end">
+                00:23:12
+            </div>
+            <div class="col-12">
+                Dirección de Entrega
+            </div>
+            <div class="col-12">
+                {{orderBiker.direccion}}
+            </div>
+            <div class=" col-6 row">
+                <div *ngIf="this.mEnRuta" class="">
+                    <button (click)="showRuta()" class="btn btn-warning col-12">inicio</button>
+                </div>
+                <div *ngIf="this.mEnSitio" class="">
+                    <button (click)="showSitio()" class="btn btn-info col-12">En sitio</button>
+                </div>
+                <div *ngIf="this.mEntregado" class="">
+                    <button (click)="finOrden()" class="btn btn-success col-12">fin</button>
+                </div>
+            </div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Emergencia
+            </button>
+  
+            <div class="col-12">
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="{{'#collapseExample' + orderBiker.orden}}" role="button" aria-expanded="false" aria-controls="exampleModalLabel">
+                  Ver Orden
+                </a>
+            </div>
+            <div class="collapse" id="{{'collapseExample' + orderBiker.orden}}">
+                <div class="row card card-body">
+                    <div class="col-12">
+                        {{orderBiker.tipoPago}}
+                    </div>
+                    <div class="col-6">
+                        Total
+                    </div>
+                    <div class="col-6">
+                        {{orderBiker.total}}
+                    </div>
+                    
+                    <div class="col-12">
+                        <table class="table table-borderless col-12">
+                            <thead>
+                              <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let masterBiker of orderBiker.detalle">
+                                    <td scope="row">
+                                        <div class="fs-6">
+                                            {{masterBiker.master}}
+                                        </div>
+                                        <div *ngFor="let itemsBiker of masterBiker.items" class="">
+                                            <div>
+                                                - {{itemsBiker.producto}}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{masterBiker.cantidad}}</td>
+                                    <td>{{masterBiker.cantidad}}</td>
+                                    <td>Q {{masterBiker.total}}</td>
+                              </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <itemsModal></itemsModal>
+</div>
+
