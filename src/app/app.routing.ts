@@ -10,20 +10,22 @@ import { DeliveryComponent } from './pages/delivery/delivery.component';
 import { SingleOrderComponent } from './pages/single-order/single-order.component'
 import { BikerComponent } from './pages/biker/biker.component';
 import { ItemsModalComponent } from './pages/itemsmodal/itemsmodal.component';
+import { StoredAssigmentsComponent } from './pages/storedAssigments/storedAssigments.component';
+import { NavSm } from './pages/navsm/navsm.component';
 
 export const AppRoutes: Routes = [
-  {
+  /*{
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  }, {
+  },*//* {
     path: '',
     component: AdminLayoutComponent,
     children: [
         {
       path: '',
       loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(x => x.AdminLayoutModule)
-  }]},
+  }]},+/
  /* {
     path: '**',
     redirectTo: 'dashboard'
@@ -72,6 +74,18 @@ export const AppRoutes: Routes = [
     component:ItemsModalComponent,
     data:{
       title:" items modal"
+    }
+  },{
+    path: 'asignacion',
+    component:StoredAssigmentsComponent,
+    data:{
+      title:" asignacion motoristas"
+    }
+  },{
+    path: 'navsm',
+    component:NavSm,
+    data:{
+      title:"navsm"
     }
   }
 ]

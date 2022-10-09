@@ -1,4 +1,11 @@
+<NavSm></NavSm>
 <br>
+<div class="container-sm">
+     <!-- Button trigger modal -->
+     <button (click)="emergency()" data-orden="" type="button" class="btn btn-danger col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Emergencia
+    </button>
+</div>
 <div class="container-sm">
   
         <div *ngFor="let orderBiker of ordersStructureBiker" class="">
@@ -18,6 +25,12 @@
             <div class="col-12">
                 {{orderBiker.direccion}}
             </div>
+            <div class="col-12">
+                Telefono
+            </div>
+            <div class="col-12">
+                {{orderBiker.telefono}}
+            </div>
             <div class=" col-6 row">
                 <div *ngIf="orderBiker.mEnRuta" class="">
                     <button (click)="showRuta(orderBiker.orden, orderBiker.indice)" id="{{'ruta' + orderBiker.orden}}" class="btn btn-warning col-12">inicio</button>
@@ -29,11 +42,6 @@
                     <button (click)="finOrden(orderBiker.orden, orderBiker.indice)" id="{{'fin' + orderBiker.orden}}" class="btn btn-success col-12">fin</button>
                 </div>
             </div>
-            <!-- Button trigger modal -->
-            <button (click)="pinchazo(orderBiker.orden)" data-orden="{{orderBiker.orden}}" type="button" class="btn btn-danger col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Emergencia
-            </button>
-  
             <div class="col-12">
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="{{'#collapseExample' + orderBiker.orden}}" role="button" aria-expanded="false" aria-controls="exampleModalLabel">
                   Ver Orden

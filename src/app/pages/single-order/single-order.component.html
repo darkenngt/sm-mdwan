@@ -1,123 +1,130 @@
+<NavSm></NavSm>
 <div class="container">
-    <div class="row">
+    <div *ngFor="let orderSingle of ordersStructureSingle"  class="row">
         <div class="col-md-4 overflow-auto">
             <h4>Datos del cliente</h4>
             <div class="progress" [ngStyle]="{background: '#00356f'}">
                 <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <br>
+            <h6 class="col-md-12">Asignar motorista:</h6>
+            <div class="col-md-12 fs-5">
+                <select name="" id="">
+                    <option value="Morista 1">Morista 1</option>
+                    <option value="Morista 2">Morista 2</option>
+                    <option value="Morista 3">Morista 3</option>
+                </select>
+            </div>
+            <div class="col-md-12 fs-5">
+                <button class="btn btn-success">Enviar Aloha</button>
+            </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">
-                124345
+                {{orderSingle.orden}}
             </div>
             <h6 class="col-md-12">Nombre de la orden:</h6>
             <div class="col-md-12 fs-5">
-                Chimoltrufio chimuelo chimuelon
+                {{orderSingle.nombre}}
             </div>
             <h6 class="col-md-12">Telefono:</h6>
             <div class="col-md-12 fs-5">
-                43256543
+                {{orderSingle.telefono}}
             </div>
             <h6 class="col-md-12">Telefono alternativo:</h6>
             <div class="col-md-12 fs-5">
-                43253455
+                {{orderSingle.telalt}}
             </div>
             <h6 class="col-md-12">Correo</h6>
             <div class="col-md-12 fs-5">
-               chimuelo@gmail.com
+                {{orderSingle.correo}}
             </div>
             <h6 class="col-md-12">Dirección entrega:</h6>
             <div class="col-md-12 fs-5">
-                34 avenida 7-60 Tikal II , Zona 7, GUATEMALA, CIUDAD DE GUATEMALA
+                {{orderSingle.direccion}}
             </div>
             <hr [ngStyle]="{background: '#00356f'}" class="col-md-12 border-2">
             <h6 class="col-md-12">Datos facturación</h6>
             <h6 class="col-md-12">Nombre:</h6>
             <div class="col-md-12 fs-5">
-               Los Chimuelos S.A
+                {{orderSingle.nomfac}}
             </div>
             <h6 class="col-md-12">Nit:</h6>
             <div class="col-md-12 fs-5">
-               342345-1
+                {{orderSingle.nit}}
             </div>
             <h6 class="col-md-12">Dirección</h6>
             <div class="col-md-12 fs-5">
-               Ciudad
+                {{orderSingle.direcfact}}
             </div>
             <h6 class="col-md-12">Indicaciones del Pedido</h6>
             <div class="col-md-12 fs-5">
-               Tocar la puerta 3 veces
+                {{orderSingle.indicaciones}}
             </div>
             <hr class="col-md-12 border-2" [ngStyle]="{background: '#00356f'}">
             <h6 class="col-md-12">Datos de pago</h6>
             <h6 class="col-md-12">Tipo de pago:</h6>
             <div class="col-md-12 fs-5">
-                visanet delivery
+                {{orderSingle.tipoPago}}
             </div>
             <h6 class="col-md-12">Autorización</h6>
             <div class="col-md-12 fs-5">
-               345654
+                {{orderSingle.autorizacion}}
             </div>
             <h6 class="col-md-12">Total</h6>
             <div class="col-md-12 fs-5">
-               Q 100.00
+                {{orderSingle.total}}
             </div>
             <h6 class="col-md-12">Fecha</h6>
             <div class="col-md-12 fs-5">
-              2022-07-26
+                {{orderSingle.fecha}}
             </div>
         </div>
         <div class="col-md-8 overflow-hidden">
             <h4>Orden</h4>
-        <div class="progress" [ngStyle]="{background: '#00356f'}">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th scope="col">Item</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
+            <div class="progress" [ngStyle]="{background: '#00356f'}">
+                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <table class="table table-borderless">
+                <thead>
                 <tr>
-                    <th scope="row">
-                        <div class="fs-6">
-                            Pastel Fresita
-                        </div>
-                        <div class="">
-                            - Pastel grande
-                        </div>
-                    </th>
-                    <td>1</td>
-                    <td>Q 100</td>
-                    <td>Q 100.00</td>
-                  </tr>
-              <tr>
-                <th scope="row">
-                    <div class="fs-6">
-                        Dos de tres
-                    </div>
-                    <div class="">
-                        - sopa de tortilla
-                    </div>
-                    <div>- ensalda santa fe</div>
-                    <div>- Horchata</div>
-                </th>
-                <td>1</td>
-                <td>Q 64.00</td>
-                <td>Q 64.00</td>
-              </tr>
-              <tr>
-                <th scope="row">Pan de Muerto</th>
-                <td>1</td>
-                <td>Q 25.00</td>
-                <td>Q 25.00</td>
-              </tr>
-            </tbody>
-          </table>
+                    <th scope="col">Item</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody *ngIf="orderSingle.detalle.length > 0">
+                    <tr *ngFor="let masterSingle of orderSingle.detalle">
+                            <td scope="row">
+                                <div class="fs-6">
+                                    {{masterSingle.master}}
+                                </div>
+                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                                        <div>
+                                            - {{itemsSingle.producto}}
+                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                                <div *ngFor="let complemento of itemsSingle.complemento">
+                                                    <div>
+                                                        -- {{complemento.itemcomp}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                            <td>{{masterSingle.cantidad}}</td>
+                            <td>{{masterSingle.cantidad}}</td>
+                            <td>Q {{masterSingle.total}}</td>
+                      </tr>
+                </tbody>
+            </table>
+     </div>
+     <div class="col-6">
+        <div id="map" class="map"></div>
+     </div>
     </div>
-    </div>
+    
 </div>

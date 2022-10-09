@@ -14,6 +14,7 @@ export class BikerComponent implements OnInit{
         nombre:"Juan Juanero Juarez",
         fecha:"2022-07-22",
         direccion:"34 avenida 7-60 Tikal II , Zona 7, GUATEMALA, CIUDAD DE GUATEMALA",
+        telefono:"34566765",
         tipoPago:"efectivo",
         total:100.00,
         cambio:0,
@@ -73,6 +74,7 @@ export class BikerComponent implements OnInit{
         nombre:"Maria Marlene Marzaro",
         fecha:"2022-07-22",
         direccion:"34 avenida 7-60  , Zona 1, GUATEMALA, CIUDAD DE GUATEMALA",
+        telefono:"34566765",
         tipoPago:"efectivo",
         total:100.00,
         cambio:200,
@@ -132,6 +134,7 @@ export class BikerComponent implements OnInit{
     public mEnSitio: boolean = false;
     public mEntregado: boolean = false;
     public vistaPedido: boolean = true;
+    public orderemergency: any = [];
     
     constructor(){
         /*this.ordersStructureBiker.forEach(order => {
@@ -150,7 +153,7 @@ export class BikerComponent implements OnInit{
             order.indice = index;
             return order;
         })
-        console.log(this.ordersStructureBiker);
+        //console.log(this.ordersStructureBiker);
     }
     showRuta(rutaOrder, indice){
         console.log(indice);
@@ -183,8 +186,12 @@ export class BikerComponent implements OnInit{
         this.showPedido(entregaOrder, indice);
     }
 
-    pinchazo(pedido){
-        console.log(pedido);
+    emergency(){
+       this.ordersStructureBiker.map( (order, index) =>{
+            this.orderemergency.push(order.orden);
+            //return order;
+        })
+        console.log(this.orderemergency);
     }
     ngOnInit(){
         

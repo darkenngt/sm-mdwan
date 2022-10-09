@@ -2,6 +2,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from "ngx-toastr";
+import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
@@ -24,6 +25,12 @@ import { DeliveryComponent } from "./pages/delivery/delivery.component";
 import { SingleOrderComponent } from "./pages/single-order/single-order.component";
 import { BikerComponent  } from "./pages/biker/biker.component";
 import { ItemsModalComponent } from "./pages/itemsmodal/itemsmodal.component";
+import { StoredAssigmentsComponent } from "./pages/storedAssigments/storedAssigments.component";
+import { NavSm } from "./pages/navsm/navsm.component";
+import { DatePipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -35,10 +42,13 @@ import { ItemsModalComponent } from "./pages/itemsmodal/itemsmodal.component";
     DeliveryComponent,
     SingleOrderComponent,
     BikerComponent,
-    ItemsModalComponent
+    ItemsModalComponent,
+    StoredAssigmentsComponent,
+    NavSm
   ],
   imports: [
     BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),
@@ -48,8 +58,12 @@ import { ItemsModalComponent } from "./pages/itemsmodal/itemsmodal.component";
     FooterModule,
     FixedPluginModule,
     FormsModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [DatePipe],
+  
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+}
