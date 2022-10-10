@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
@@ -13,90 +13,48 @@ declare var google: any;
 export class SingleOrderComponent implements OnInit{
 
     public geoPosition: any = [];
+    public storeId = 1 // cambiar por variable de session
+    public BikerAvailable = [];
+    public bikerSelect:number
+    public orderid: number
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
         
             this.route.params.subscribe(params => 
                 //console.log(params.idOrder));
-                this.getDetailOrder(params.idOrder));
+                this.getDetailOrder(params.idOrder));   
+                
+                this.getAvailableBiker(this.storeId)
+                this.route.params.subscribe(params => 
+                    //console.log(params.idOrder));
+                    this.orderid=params.idOrder);
 
     }
-    public ordersStructureSingle: any = {} /*{
-        estado:"asignada",
-        orden:"123457",
-        nombre:"Juan Juanero Juarez",
-        fecha:"2022-07-22",
-        direccion:"34 avenida 7-60 Tikal II , Zona 7, GUATEMALA, CIUDAD DE GUATEMALA",
-        telefono:"34567766",
-        telalt:"34567766",
-        correo:"test@test.com",
-        tipoPago:"efectivo",
-        nomfac:"chimuelo S.A",
-        nit:"3434334-1",
-        direcfact:"Ciudad",
-        indicaciones:"donde no lleagn",
-        tipopago:"visa delivery",
-        autorizacion:"34321",
-        total:100.00,
-        cambio:0,
-        detalle:[
-            {
-                master:"pastel Fresita",
-                total:100.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"pastel grande",
-                    unidad:1,
-                    precio:100.00}
-                ]
-            },{
-                master:"dos de tres",
-                total:64.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"sopa de papa",
-                    unidad:1,
-                    precio:0.00,
-                    complemento:[]
-                    },
-                    {
-                    producto:"ensalada santa fe",
-                    precio:0.00,
-                    unidad:1,
-                    complemento:[
-                        {
-                            itemcomp:"aderezo chipotle",
-                           cantidad:1,
-                           precio:0 
-                        }
-                    ]
-                    },
-                    {
-                        producto:"Horchara",
-                        precio:0.00,
-                        unidad:1,
-                        complemento:[]
-                        }
-                ]
-            },{
-                master:"pan de muerto",
-                total:25.00,
-                cantidad:1,
-                items:[
-                    
-                ]
-            }
-        ]
-    }*/
+    public ordersStructureSingle: any = {} 
 
 
     ngOnInit() {
-        this.getDetailOrder
+       
         this.rendermap
        
+    }
+
+    getAvailableBiker(storeId){
+        this.orderservices.bikerAvailableToOrder(storeId).subscribe((data: any)=>{
+            //console.log(data)
+
+            this.BikerAvailable = data.map((biker)=>{
+                console.log(biker)
+                return{
+                    name:biker.user.first_name+" "+biker.user.last_name,
+                    id:biker.user.id
+                }
+                
+            })
+            console.log(this.BikerAvailable)
+        })
+        
     }
 
     getDetailOrder(IdOrder){
@@ -181,13 +139,23 @@ export class SingleOrderComponent implements OnInit{
                     cambio:data.payment_change,
                     detalle:detalle,
             }
-            console.log(this.ordersStructureSingle)
+            //console.log("array para orden")
+            //console.log(this.ordersStructureSingle)
             
         })
     }
 
+    getAssingAloha(){
+        console.log(this.bikerSelect, this.orderid)
+        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid}
+        this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+           
+         });
+    }
+
     rendermap(position){
-        console.log(position.coords.longitude)
+        //console.log(position.coords.longitude)
         var myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         var mapOptions = {
           zoom: 18,

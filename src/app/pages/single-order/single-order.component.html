@@ -9,14 +9,13 @@
             <br>
             <h6 class="col-md-12">Asignar motorista:</h6>
             <div class="col-md-12 fs-5">
-                <select name="" id="">
-                    <option value="Morista 1">Morista 1</option>
-                    <option value="Morista 2">Morista 2</option>
-                    <option value="Morista 3">Morista 3</option>
+                <select name="" id="biker" [(ngModel)]="bikerSelect">
+                    <option>Seleccione Motorita</option>
+                    <option *ngFor="let biker of BikerAvailable" [value]="biker.id">{{biker.name}}</option>
                 </select>
             </div>
             <div class="col-md-12 fs-5">
-                <button class="btn btn-success">Enviar Aloha</button>
+                <button class="btn btn-success" (click)="getAssingAloha()">Enviar Aloha</button>
             </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">
@@ -96,17 +95,17 @@
                 <tbody *ngIf="ordersStructureSingle.detalle && ordersStructureSingle.detalle.length > 0">
                     <tr *ngFor="let masterSingle of ordersStructureSingle.detalle">
                             <td scope="row">
-                                <div class="fs-6">
+                                <div class="fs-4 fw-bolder bg-primary">
                                     {{masterSingle.master}}
                                 </div>
                                 <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
                                     <div *ngFor="let itemsSingle of masterSingle.items" class="">
-                                        <div>
+                                        <div class="text-info">
                                             - {{itemsSingle.producto}}
                                             <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
-                                                <div *ngFor="let complemento of itemsSingle.complemento">
+                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-success">
                                                     <div>
-                                                        -- {{complemento.itemcomp}}
+                                                        &nbsp; &nbsp; &nbsp;-- {{complemento.itemcomp}}
                                                     </div>
                                                 </div>
                                             </div>

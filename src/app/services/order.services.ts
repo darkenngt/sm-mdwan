@@ -113,4 +113,15 @@ export class OrderServices{
         );
     }
 
+    bikerAvailableToOrder(idOrder){
+        return this.http.get(`${this.apiUrl}/getPilotsToOrder/${idOrder}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    assingBikertoOrder(jsonBody:any){
+        return this.http.post(`${this.apiUrl}/assignPilotToOrder/`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+
 }
