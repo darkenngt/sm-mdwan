@@ -97,7 +97,14 @@ export class OrderServices{
 
     
     deleteUserbikerStore(jsonBody:any){
-        return this.http.post(`${this.apiUrl}/assignPilotToStore/`,JSON.stringify(jsonBody)).pipe(
+        return this.http.delete(`${this.apiUrl}/disablePilotFromStore/${jsonBody.userId}/${jsonBody.storeId}`).pipe(
             catchError(this.handleError))
     }
+    
+    getUserBikerStore(storeId){
+        return this.http.get(`${this.apiUrl}/getAssignedPilotsByStore/${storeId}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
 }

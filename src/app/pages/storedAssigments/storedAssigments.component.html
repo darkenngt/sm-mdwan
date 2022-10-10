@@ -23,7 +23,6 @@
                         <th>código</th>
                         <th>nombre</th>
                         <th>empresa</th>
-                        <th>otro dato</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="UserAssingstore.length > 0">
@@ -31,12 +30,32 @@
                         <td>{{userasstd.codigo}}</td>
                         <td>{{userasstd.nombre}}</td>
                         <td>{{userasstd.empresa}}</td>
-                        <td>{{userasstd.codigo}}</td>
                         <td><button class="btn btn-info" (click)="addUserBiker()">Agregar a tienda</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <br>
+        <div class="border border-success">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>código</th>
+                        <th>nombre</th>
+                        <th>empresa</th>
+                        <th>Fecha Hora Inicio</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="listBikerStore.length > 0">
+                    <tr *ngFor="let LtsInStore of listBikerStore">
+                        <td>{{LtsInStore.codigo}}</td>
+                        <td>{{LtsInStore.nombre}}</td>
+                        <td>{{LtsInStore.empresa}}</td>
+                        <td>{{LtsInStore.fechaAsignacion}}</td>
+                        <td><button class="btn btn-danger" (click)="deleteUserBiker(LtsInStore.user_id,LtsInStore.store_id)">Eliminar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <hr>
-        <pre>Model: {{ model | json }}</pre>
 </div>

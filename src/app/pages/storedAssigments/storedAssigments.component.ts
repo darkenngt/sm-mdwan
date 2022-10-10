@@ -5,12 +5,6 @@ import { DatePipe } from '@angular/common';
 import { OrderServices } from 'app/services/order.services'
 
 
-/*const statesWithFlags: {codigo: string, nombre: string, empresa: string}[] = [
-    {'codigo': '251632890101', 'nombre': 'Marcel Gregorioa Armas','empresa': 'entregas lentas S.A'},
-    {'codigo': '12430', 'nombre': 'Kenny Rolando López Flores', 'empresa': 'Flora S.A'},
-    {'codigo': '2516260750101', 'nombre': 'otro yo', 'empresa': 'Mega Mandados S.A'},
-    {'codigo': '12456', 'nombre': 'Gordonioa Florindo Apretadin', 'empresa': 'Flora S.A'}];*/
-
 @Component({
     selector: 'storedAssigments',
     moduleId: module.id,
@@ -23,26 +17,16 @@ export class StoredAssigmentsComponent implements OnInit{
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
       public model: any;
+      public listBikerStore: any = []
       public statesWithFlags: {codigo: string, nombre: string, empresa: string}[]
-      public UserAssingstore: any = [
-      /*{'codigo': '251632890101', 
-      'nombre': 'Marcel Gregorioa Armas', 
-      'empresa': 'entregas lentas S.A',},
-      {'codigo': '12430', 
-      'nombre': 'Kenny Rolando López Flores', 
-      'empresa': 'Flora S.A',},
-      {'codigo': '2516260750101', 
-      'nombre': 'otro yo', 
-      'empresa': 'Mega Mandados S.A',},
-      {'codigo': '12456', 
-      'nombre': 'Gordonioa Florindo Apretadin', 
-      'empresa': 'Flora S.A',}*/];
+      public UserAssingstore: any = [];
       constructor( public orderservices: OrderServices){
         /*this.UserAssingstore = this.UserAssingstore.map( (data, index) =>{
           data.date = this.todayWithPipe = this.pipe.transform(Date.now(), 'h:mm:ss a')
           data.indice = index;
           return data;
         })*/
+        
       }
   search: OperatorFunction<string, readonly {codigo, nombre, empresa}[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -57,14 +41,14 @@ export class StoredAssigmentsComponent implements OnInit{
   
     ngOnInit(){
       this.initComponent()
+      this.listUserStore()
     }
 
     initComponent(){
-      console.log("entre al código")
-      this.UserAssingstore =[]
+      //console.log("entre al código")
       this.orderservices.getAvailableBickers().subscribe((data: any) =>{
-        console.log("entre a data");
-        console.log(data)
+        //console.log("entre a data");
+        //console.log(data)
         this.statesWithFlags = data.map((biker)=>{
             return {
                 codigo: biker.code===""?biker.dpi:biker.code,
@@ -92,7 +76,7 @@ export class StoredAssigmentsComponent implements OnInit{
       //arr.push(this.todayWithPipe = this.pipe.transform(Date.now(), 'h:mm:ss a'))
       this.UserAssingstore.push(test)
      
-      console.log(test)
+      //console.log(test)
     }
 
     addUserBiker(){
@@ -101,16 +85,50 @@ export class StoredAssigmentsComponent implements OnInit{
         "userId": this.model.id
         
       }
-      console.log("esto va")
+      /*console.log("esto va")
       console.log(addUserAssingstore)
       console.log("entre a delete")
-      console.log(this.model)
+      console.log(this.model)*/
       this.orderservices.addUserbikerStore(addUserAssingstore).subscribe((data: any) =>{
-        console.log("entre a data");
-        console.log(data)
+        this.listUserStore()
       
     });
       this.model = {};
+      this.UserAssingstore = []
 
+    }
+
+    listUserStore(){
+      console.log("lista usuarios");
+      this.orderservices.getUserBikerStore(this.storeSessionId).subscribe((data: any) =>{
+        console.log("esta es la data");
+        console.log(data);
+        //this.listBikerStore.push(data)
+        this.listBikerStore = data.map((bikerStore)=>{
+            return {
+                codigo: bikerStore.user.code===""?bikerStore.user.dpi:bikerStore.user.code,
+                nombre:bikerStore.user.first_name+" "+bikerStore.user.last_name,
+                empresa:bikerStore.user.enterprise.name,
+                user_id:bikerStore.user_id,
+                store_id:this.storeSessionId,
+                fechaAsignacion:bikerStore.initial_date
+            }
+            
+        })
+        console.log(this.listBikerStore)
+    });
+    }
+
+    deleteUserBiker(duser_id, dStore_id){
+      let delUser = {
+        "userId": duser_id,
+        "storeId": dStore_id
+      }
+      console.log("eliminando")
+      console.log(delUser)
+      this.orderservices.deleteUserbikerStore(delUser).subscribe((data: any) =>{
+       this.listUserStore()
+      
+    });
     }
 }
