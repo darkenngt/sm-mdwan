@@ -46,7 +46,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                     fecha:order.creation_date.substring(0, 10),
                     tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
                     total:order.payment_amount,
-                    numeroPedido:order.origin_store_id
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id
                 }
             })
           

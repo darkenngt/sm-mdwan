@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GeolocationService} from '@ng-web-apis/geolocation';
+import { OrderServices } from 'app/services/order.services'
+import { ActivatedRoute } from '@angular/router';
 
 declare var google: any;
 @Component({
@@ -11,13 +13,16 @@ declare var google: any;
 export class SingleOrderComponent implements OnInit{
 
     public geoPosition: any = [];
-    constructor(private geolocation$: GeolocationService){
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
         
-        
+            this.route.params.subscribe(params => 
+                //console.log(params.idOrder));
+                this.getDetailOrder(params.idOrder));
+
     }
-    public ordersStructureSingle: any = [{
+    public ordersStructureSingle: any = [/*{
         estado:"asignada",
         orden:"123457",
         nombre:"Juan Juanero Juarez",
@@ -85,15 +90,54 @@ export class SingleOrderComponent implements OnInit{
                 ]
             }
         ]
-    }];
+    }*/];
 
 
     ngOnInit() {
-   
+        this.getDetailOrder
         this.rendermap
+       
     }
 
+    getDetailOrder(IdOrder){
 
+        this.orderservices.informationOrder(IdOrder).subscribe((data: any) =>{
+            //console.log("esta es la data completa");
+            console.log(data);
+            let detalle = data.MDW_Order_Details.map((detalle)=>{           
+                return{
+                    master:detalle.product.name,
+                    total:detalle.amount,
+                    cantidad:detalle.quantity,
+                    level:detalle.level,
+                    parent:detalle.parent_sku,
+                    sku:detalle.sku,
+                }
+                
+            })
+            this.ordersStructureSingle = {
+                    estado:data.status===1?"procesada":data.status===2?"asignada":data.status===3?"en ruta":data.status===4?"en el sitio":"entregado",
+                    orden:data.origin_store_id,
+                    nombre:data.client.name,
+                    fecha:data.creation_date,
+                    direccion:data.client.address,
+                    telefono:data.client.phone,
+                    telalt:data.client.alternate_phone,
+                    correo:data.client.email,
+                    tipoPago:"efectivo",
+                    nomfac:data.client.name,
+                    nit:"nit",
+                    direcfact:"ciudad",
+                    indicaciones:data.observations,
+                    autorizacion:data.payment_authorization,
+                    total:data.payment_amount,
+                    cambio:data.payment_change,
+                    detalle:detalle,
+            }
+            console.log(this.ordersStructureSingle)
+            
+        })
+    }
 
     rendermap(position){
         console.log(position.coords.longitude)

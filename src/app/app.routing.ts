@@ -58,7 +58,7 @@ export const AppRoutes: Routes = [
       title:"Pedidos delivery"
     }
   },{
-    path: 'single-order',
+    path: 'single-order/:idOrder',
     component:SingleOrderComponent,
     data:{
       title:"Datos pedido"

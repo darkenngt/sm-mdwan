@@ -40,7 +40,7 @@
                             <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
                             <p class="card-text">Total Q {{order.total}}</p>
                             <p class="card-text">Pedido {{order.numeroPedido}}</p>
-                            <a routerLink="/single-order" class="card-link btn bg-light text-dark"
+                            <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark"
                             [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
                         'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
                         'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"

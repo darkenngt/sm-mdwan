@@ -107,4 +107,10 @@ export class OrderServices{
         );
     }
 
+    informationOrder(idOrder){
+        return this.http.get(`${this.apiUrl}/informationOrder/${idOrder}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
 }
