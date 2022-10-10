@@ -22,7 +22,7 @@ export class SingleOrderComponent implements OnInit{
                 this.getDetailOrder(params.idOrder));
 
     }
-    public ordersStructureSingle: any = [/*{
+    public ordersStructureSingle: any = {} /*{
         estado:"asignada",
         orden:"123457",
         nombre:"Juan Juanero Juarez",
@@ -90,7 +90,7 @@ export class SingleOrderComponent implements OnInit{
                 ]
             }
         ]
-    }*/];
+    }*/
 
 
     ngOnInit() {
@@ -112,9 +112,56 @@ export class SingleOrderComponent implements OnInit{
                     level:detalle.level,
                     parent:detalle.parent_sku,
                     sku:detalle.sku,
-                }
-                
+                }                
             })
+            detalle = []
+            data.MDW_Order_Details.forEach(item => {
+                if (item.level === 1 && item.quantity !== -1 ){
+                    let items = []
+                    data.MDW_Order_Details.forEach(item2 => {
+                        if (item2.level === 2 && item2.parent_sku === item.sku){
+                            let complemento = []
+                            data.MDW_Order_Details.forEach(item3 =>{
+                                if (item3.level === 3 && item3.parent_sku === item2.sku){
+                                    complemento.push(
+                                        {
+                                            itemcomp:item3.product.name,
+                                            precio:item3.amount,
+                                            cantidad:item3.quantity,
+                                            level:item3.level,
+                                            parent:item3.parent_sku,
+                                            sku:item3.sku,
+                                        }
+                                    )        
+                                }
+                            })
+                            items.push(
+                                {
+                                    producto:item2.product.name,
+                                    precio:item2.amount,
+                                    unidad:item2.quantity,
+                                    level:item2.level,
+                                    parent:item2.parent_sku,
+                                    sku:item2.sku,
+                                    complemento: complemento
+                                }
+                            )
+                        }
+                    });
+                    detalle.push(
+                        {
+                            master:item.product.name,
+                            total:item.amount,
+                            cantidad:item.quantity,
+                            level:item.level,
+                            parent:item.parent_sku,
+                            sku:item.sku,
+                            items: items       
+                        }
+                    )
+                }
+            });
+
             this.ordersStructureSingle = {
                     estado:data.status===1?"procesada":data.status===2?"asignada":data.status===3?"en ruta":data.status===4?"en el sitio":"entregado",
                     orden:data.origin_store_id,

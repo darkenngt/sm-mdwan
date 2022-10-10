@@ -1,6 +1,6 @@
 <NavSm></NavSm>
 <div class="container">
-    <div *ngFor="let orderSingle of ordersStructureSingle"  class="row">
+    <div  class="row">
         <div class="col-md-4 overflow-auto">
             <h4>Datos del cliente</h4>
             <div class="progress" [ngStyle]="{background: '#00356f'}">
@@ -20,63 +20,63 @@
             </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.orden}}
+                {{ordersStructureSingle.orden}}
             </div>
             <h6 class="col-md-12">Nombre de la orden:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.nombre}}
+                {{ordersStructureSingle.nombre}}
             </div>
             <h6 class="col-md-12">Telefono:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.telefono}}
+                {{ordersStructureSingle.telefono}}
             </div>
             <h6 class="col-md-12">Telefono alternativo:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.telalt}}
+                {{ordersStructureSingle.telalt}}
             </div>
             <h6 class="col-md-12">Correo</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.correo}}
+                {{ordersStructureSingle.correo}}
             </div>
             <h6 class="col-md-12">Dirección entrega:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.direccion}}
+                {{ordersStructureSingle.direccion}}
             </div>
             <hr [ngStyle]="{background: '#00356f'}" class="col-md-12 border-2">
             <h6 class="col-md-12">Datos facturación</h6>
             <h6 class="col-md-12">Nombre:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.nomfac}}
+                {{ordersStructureSingle.nomfac}}
             </div>
             <h6 class="col-md-12">Nit:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.nit}}
+                {{ordersStructureSingle.nit}}
             </div>
             <h6 class="col-md-12">Dirección</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.direcfact}}
+                {{ordersStructureSingle.direcfact}}
             </div>
             <h6 class="col-md-12">Indicaciones del Pedido</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.indicaciones}}
+                {{ordersStructureSingle.indicaciones}}
             </div>
             <hr class="col-md-12 border-2" [ngStyle]="{background: '#00356f'}">
             <h6 class="col-md-12">Datos de pago</h6>
             <h6 class="col-md-12">Tipo de pago:</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.tipoPago}}
+                {{ordersStructureSingle.tipoPago}}
             </div>
             <h6 class="col-md-12">Autorización</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.autorizacion}}
+                {{ordersStructureSingle.autorizacion}}
             </div>
             <h6 class="col-md-12">Total</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.total}}
+                {{ordersStructureSingle.total}}
             </div>
             <h6 class="col-md-12">Fecha</h6>
             <div class="col-md-12 fs-5">
-                {{orderSingle.fecha}}
+                {{ordersStructureSingle.fecha}}
             </div>
         </div>
         <div class="col-md-8 overflow-hidden">
@@ -93,8 +93,8 @@
                     <th scope="col">Total</th>
                 </tr>
                 </thead>
-                <tbody *ngIf="orderSingle.detalle.length > 0">
-                    <tr *ngFor="let masterSingle of orderSingle.detalle">
+                <tbody *ngIf="ordersStructureSingle.detalle && ordersStructureSingle.detalle.length > 0">
+                    <tr *ngFor="let masterSingle of ordersStructureSingle.detalle">
                             <td scope="row">
                                 <div class="fs-6">
                                     {{masterSingle.master}}
