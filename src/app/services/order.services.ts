@@ -91,7 +91,7 @@ export class OrderServices{
     }
 
     addUserbikerStore(jsonBody:any){
-        return this.http.post(`${this.apiUrl}/assignPilotToStore/`,JSON.stringify(jsonBody)).pipe(
+        return this.http.post(`${this.apiUrl}/assignPilotToStore/`,jsonBody).pipe(
             catchError(this.handleError))
     }
 
