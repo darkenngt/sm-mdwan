@@ -28,7 +28,8 @@ export class OrderServices{
         // return an observable with a user-facing error message
         return throwError('Something bad happened. Please try again later.');
       }
-    apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
+      //apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
+    apiUrl = "http://localhost/orders/v1";
     constructor(private http: HttpClient){
         
     }
@@ -82,5 +83,21 @@ export class OrderServices{
         return this.http.post(`${this.apiUrl}/detailsOrderBiker/${Idbiker}`,JSON.stringify(jsonBody)).pipe(
             catchError(this.handleError)
         );
+    }
+
+    getAvailableBickers(){
+        return this.http.get(`${this.apiUrl}/getAvailablePilots`).pipe(
+            catchError(this.handleError))
+    }
+
+    addUserbikerStore(jsonBody:any){
+        return this.http.post(`${this.apiUrl}/assignPilotToStore/`,JSON.stringify(jsonBody)).pipe(
+            catchError(this.handleError))
+    }
+
+    
+    deleteUserbikerStore(jsonBody:any){
+        return this.http.post(`${this.apiUrl}/assignPilotToStore/`,JSON.stringify(jsonBody)).pipe(
+            catchError(this.handleError))
     }
 }

@@ -24,17 +24,15 @@
                         <th>nombre</th>
                         <th>empresa</th>
                         <th>otro dato</th>
-                        <th>Hora fecha iniciao</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="UserAssingstore.length > 0">
-                    <tr *ngFor="let userasstd of UserAssingstore">
+                    <tr *ngFor="let userasstd of UserAssingstore" id="lbiker">
                         <td>{{userasstd.codigo}}</td>
                         <td>{{userasstd.nombre}}</td>
                         <td>{{userasstd.empresa}}</td>
                         <td>{{userasstd.codigo}}</td>
-                        <td>{{userasstd.date}}</td>
-                        <td><button class="btn btn-danger">Finalizar</button></td>
+                        <td><button class="btn btn-info" (click)="addUserBiker()">Agregar a tienda</button></td>
                     </tr>
                 </tbody>
             </table>
