@@ -14,6 +14,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public showDelivery: boolean = true;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
+    public storeId = 1 // camabiar por tienda session
 
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService){
         
@@ -36,8 +37,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
 
     initComponent(){
         this.ordersStructure = [];
-        this.orderservices.getOrders().subscribe((data: any) =>{
-            //console.log(data)
+        this.orderservices.getOrders(this.storeId).subscribe((data: any) =>{
+            console.log(data)
             this.ordersStructure = data.map((order)=>{
                 return {
                     tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",

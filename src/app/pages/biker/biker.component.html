@@ -33,7 +33,7 @@
             </div>
             <div class=" col-6 row">
                 <div *ngIf="orderBiker.mEnRuta" class="">
-                    <button (click)="showRuta(orderBiker.orden, orderBiker.indice)" id="{{'ruta' + orderBiker.orden}}" class="btn btn-warning col-12">inicio</button>
+                    <button (click)="showRuta(orderBiker.orden, orderBiker.indice)" id="{{'ruta' + orderBiker.orden}}" class="btn btn-warning col-12">En ruta</button>
                 </div>
                 <div *ngIf="orderBiker.mEnSitio" class="">
                     <button (click)="showSitio(orderBiker.orden, orderBiker.indice)" id="{{'sitio' + orderBiker.orden}}" class="btn btn-info col-12">En sitio</button>

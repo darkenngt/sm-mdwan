@@ -17,6 +17,7 @@ export class SingleOrderComponent implements OnInit{
     public BikerAvailable = [];
     public bikerSelect:number
     public orderid: number
+    public ordersStructureSingle: any = {}
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
@@ -31,7 +32,7 @@ export class SingleOrderComponent implements OnInit{
                     this.orderid=params.idOrder);
 
     }
-    public ordersStructureSingle: any = {} 
+ 
 
 
     ngOnInit() {
@@ -52,7 +53,7 @@ export class SingleOrderComponent implements OnInit{
                 }
                 
             })
-            console.log(this.BikerAvailable)
+            //console.log(this.BikerAvailable)
         })
         
     }
@@ -61,17 +62,19 @@ export class SingleOrderComponent implements OnInit{
 
         this.orderservices.informationOrder(IdOrder).subscribe((data: any) =>{
             //console.log("esta es la data completa");
-            console.log(data);
+            //console.log(data);
             let detalle = data.MDW_Order_Details.map((detalle)=>{           
                 return{
                     master:detalle.product.name,
-                    total:detalle.amount,
+                    total:detalle.total,
                     cantidad:detalle.quantity,
                     level:detalle.level,
                     parent:detalle.parent_sku,
-                    sku:detalle.sku,
+                    sku:detalle.sku
                 }                
             })
+
+
             detalle = []
             data.MDW_Order_Details.forEach(item => {
                 if (item.level === 1 && item.quantity !== -1 ){
@@ -84,7 +87,7 @@ export class SingleOrderComponent implements OnInit{
                                     complemento.push(
                                         {
                                             itemcomp:item3.product.name,
-                                            precio:item3.amount,
+                                            precio:item3.amount===0?"---":item3.amount,
                                             cantidad:item3.quantity,
                                             level:item3.level,
                                             parent:item3.parent_sku,
@@ -96,7 +99,7 @@ export class SingleOrderComponent implements OnInit{
                             items.push(
                                 {
                                     producto:item2.product.name,
-                                    precio:item2.amount,
+                                    precio:item2.amount===0?"---":item2.amount,
                                     unidad:item2.quantity,
                                     level:item2.level,
                                     parent:item2.parent_sku,
@@ -109,12 +112,13 @@ export class SingleOrderComponent implements OnInit{
                     detalle.push(
                         {
                             master:item.product.name,
-                            total:item.amount,
+                            total:parseFloat(item.amount).toFixed(2),
                             cantidad:item.quantity,
                             level:item.level,
                             parent:item.parent_sku,
                             sku:item.sku,
-                            items: items       
+                            items: items ,
+                            totalprd:(parseFloat(item.quantity)*parseFloat(item.amount)).toFixed(2)  
                         }
                     )
                 }
@@ -135,12 +139,12 @@ export class SingleOrderComponent implements OnInit{
                     direcfact:"ciudad",
                     indicaciones:data.observations,
                     autorizacion:data.payment_authorization,
-                    total:data.payment_amount,
+                    total:parseFloat(data.payment_amount).toFixed(2),
                     cambio:data.payment_change,
                     detalle:detalle,
             }
             //console.log("array para orden")
-            //console.log(this.ordersStructureSingle)
+            console.log(this.ordersStructureSingle)
             
         })
     }
@@ -149,7 +153,7 @@ export class SingleOrderComponent implements OnInit{
         console.log(this.bikerSelect, this.orderid)
         let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid}
         this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
-            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            //console.log(data)// cambiar fecha end a fecha ini en el servicio
            
          });
     }

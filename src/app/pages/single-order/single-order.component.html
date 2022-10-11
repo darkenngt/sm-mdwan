@@ -71,7 +71,7 @@
             </div>
             <h6 class="col-md-12">Total</h6>
             <div class="col-md-12 fs-5">
-                {{ordersStructureSingle.total}}
+                Q {{ordersStructureSingle.total}}
             </div>
             <h6 class="col-md-12">Fecha</h6>
             <div class="col-md-12 fs-5">
@@ -92,18 +92,18 @@
                     <th scope="col">Total</th>
                 </tr>
                 </thead>
-                <tbody *ngIf="ordersStructureSingle.detalle && ordersStructureSingle.detalle.length > 0">
+                <tbody *ngIf="ordersStructureSingle.detalle && ordersStructureSingle.detalle.length > 0" class="text-center">
                     <tr *ngFor="let masterSingle of ordersStructureSingle.detalle">
                             <td scope="row">
-                                <div class="fs-4 fw-bolder bg-primary">
+                                <div class="fs-6 bg-primary">
                                     {{masterSingle.master}}
                                 </div>
                                 <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
                                     <div *ngFor="let itemsSingle of masterSingle.items" class="">
-                                        <div class="text-info">
+                                        <div class="text-dark">
                                             - {{itemsSingle.producto}}
                                             <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
-                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-success">
+                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
                                                     <div>
                                                         &nbsp; &nbsp; &nbsp;-- {{complemento.itemcomp}}
                                                     </div>
@@ -114,9 +114,66 @@
                                 </div>
                                 
                             </td>
-                            <td>{{masterSingle.cantidad}}</td>
-                            <td>{{masterSingle.cantidad}}</td>
-                            <td>Q {{masterSingle.total}}</td>
+                            <td>
+                                <div class="fs-6 bg-primary text-center">
+                                    {{masterSingle.cantidad}}
+                                </div>
+                                
+                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                                        <div class="text-dark">
+                                            {{itemsSingle.unidad}}
+                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                                    <div>
+                                                        {{complemento.cantidad}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </td>
+                            <td>
+                                <div class="fs-6 bg-primary text-center">
+                                    {{masterSingle.total}}
+                                </div>
+                                
+                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                                        <div class="text-dark">
+                                            {{itemsSingle.precio}}
+                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                                    <div>
+                                                       {{complemento.precio}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fs-6 bg-primary text-center">
+                                    Q {{masterSingle.totalprd}}
+                                </div>
+                                
+                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                                        <div class="text-dark">
+                                            {{itemsSingle.precio}}
+                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                                <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                                    <div>
+                                                        {{complemento.precio}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                       </tr>
                 </tbody>
             </table>

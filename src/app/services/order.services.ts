@@ -34,11 +34,8 @@ export class OrderServices{
         
     }
 
-    getOrders(){
-        /*return this.http.post(`${this.apiUrl}/listOrdenes/${tienda}`,JSON.stringify(jsonBody)).pipe(
-            catchError(this.handleError)
-        );*/
-        return this.http.get(`${this.apiUrl}/ordersByStatus/1`).pipe(
+    getOrders(storeId){
+        return this.http.get(`${this.apiUrl}/ordersByStatusAndStore/1/${storeId}`).pipe(
             catchError(this.handleError)
         );
     }
