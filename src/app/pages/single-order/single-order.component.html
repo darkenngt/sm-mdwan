@@ -10,7 +10,7 @@
             <h6 class="col-md-12">Asignar motorista:</h6>
             <div class="col-md-12 fs-5">
                 <select name="" id="biker" [(ngModel)]="bikerSelect" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'">
-                    <option>Seleccione Motorita</option>
+                    <option>Seleccione Motorista</option>
                     <option *ngFor="let biker of BikerAvailable" [value]="biker.id">{{biker.name}}</option>
                 </select>
             </div>

@@ -110,8 +110,8 @@ export class OrderServices{
         );
     }
 
-    bikerAvailableToOrder(idOrder){
-        return this.http.get(`${this.apiUrl}/getPilotsToOrder/${idOrder}`).pipe(
+    bikerAvailableToOrder(storeId){
+        return this.http.get(`${this.apiUrl}/getAvailablePilotsToOrder/${storeId}`).pipe(
             catchError(this.handleError)
         );
     }
