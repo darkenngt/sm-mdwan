@@ -9,13 +9,13 @@
             <br>
             <h6 class="col-md-12">Asignar motorista:</h6>
             <div class="col-md-12 fs-5">
-                <select name="" id="biker" [(ngModel)]="bikerSelect">
+                <select name="" id="biker" [(ngModel)]="bikerSelect" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'">
                     <option>Seleccione Motorita</option>
                     <option *ngFor="let biker of BikerAvailable" [value]="biker.id">{{biker.name}}</option>
                 </select>
             </div>
             <div class="col-md-12 fs-5">
-                <button class="btn btn-success" (click)="getAssingAloha()">Enviar Aloha</button>
+                <button class="btn btn-success" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'" (click)="getAssingAloha()">Enviar Aloha</button>
             </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">

@@ -34,8 +34,8 @@ export class OrderServices{
         
     }
 
-    getOrders(storeId){
-        return this.http.get(`${this.apiUrl}/ordersByStatusAndStore/1/${storeId}`).pipe(
+    getOrders(storeId, typeorder){
+        return this.http.get(`${this.apiUrl}/ordersByStoreAndType/${storeId}/${typeorder}`).pipe(
             catchError(this.handleError)
         );
     }

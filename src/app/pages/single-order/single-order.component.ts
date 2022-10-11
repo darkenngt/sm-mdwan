@@ -80,10 +80,10 @@ export class SingleOrderComponent implements OnInit{
                 if (item.level === 1 && item.quantity !== -1 ){
                     let items = []
                     data.MDW_Order_Details.forEach(item2 => {
-                        if (item2.level === 2 && item2.parent_sku === item.sku){
+                        if (item2.level === 2 && item2.parent_sku === item.sku && item2.parent_id === item.id){
                             let complemento = []
                             data.MDW_Order_Details.forEach(item3 =>{
-                                if (item3.level === 3 && item3.parent_sku === item2.sku){
+                                if (item3.level === 3 && item3.parent_sku === item2.sku && item3.parent_id === item2.id){
                                     complemento.push(
                                         {
                                             itemcomp:item3.product.name,

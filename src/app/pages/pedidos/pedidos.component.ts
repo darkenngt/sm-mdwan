@@ -37,22 +37,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
 
     initComponent(){
         this.ordersStructure = [];
-        this.orderservices.getOrders(this.storeId).subscribe((data: any) =>{
-            console.log(data)
-            this.ordersStructure = data.map((order)=>{
-                return {
-                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
-                    nombre:order.client.name,
-                    fecha:order.creation_date.substring(0, 10),
-                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                    total:order.payment_amount,
-                    numeroPedido:order.origin_store_id,
-                    idOrder:order.id
-                }
-            })
-          
-        });
+       
         this.getDelivery()
     }
 
@@ -70,49 +55,49 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showDelivery = true
         this.showPickup = false;
         this.showEmergencia = false;
+        let typeorder = 1
+        this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            console.log(data)
+            this.ordersStructure = data.map((order)=>{
+                return {
+                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                    nombre:order.client.name,
+                    fecha:order.creation_date.substring(0, 10),
+                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                    total:order.payment_amount,
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id
+                }
+            })
+          
+        });
+        console.log(this.showPickup);
+    }
+
+    getPickup(){
+        this.showDelivery = false
+        this.showPickup = true;
+        this.showEmergencia = false;
+        let typeorder = 2
+        this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            console.log(data)
+            this.ordersStructure = data.map((order)=>{
+                return {
+                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                    nombre:order.client.name,
+                    fecha:order.creation_date.substring(0, 10),
+                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                    total:order.payment_amount,
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id
+                }
+            })
+          
+        });
         /*this.ordersStructure = [{
-            tipo:"delivery",
-            estado:"procesada",
-            nombre:"Juan Juanero Juarez",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"123"
-        },{
-            tipo:"delivery",
-            estado:"en ruta",
-            nombre:"Bety Bertolda Berruga",
-            fecha:"2022-07-22",
-            tipoPago:"tarjeta",
-            total:100.00,
-            numeroPedido:"1234"
-        },{
-            tipo:"delivery",
-            estado:"asignada",
-            nombre:"Pablo clavo un clavito",
-            fecha:"2022-07-22",
-            tipoPago:"tarjera yalo",
-            total:100.00,
-            numeroPedido:"2345"
-        },{
-            tipo:"delivery",
-            estado:"en el sitio",
-            nombre:"Cuchufleto Fregonio",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        },{
-            tipo:"pickup",
             estado:"programado",
-            nombre:"Cuchufleto Fregonio",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        },{
-            tipo:"delivery",
-            estado:"emergencia",
             nombre:"Cuchufleto Fregonio",
             fecha:"2022-07-22",
             tipoPago:"efectivo",
@@ -121,26 +106,28 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         }];*/
         console.log(this.showPickup);
     }
-
-    getPickup(){
-        this.showDelivery = false
-        this.showPickup = true;
-        this.showEmergencia = false;
-        this.ordersStructure = [{
-            estado:"programado",
-            nombre:"Cuchufleto Fregonio",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        }];
-        console.log(this.showPickup);
-    }
     getEmergencia(){
         this.showDelivery = false
         this.showPickup = false;
         this.showEmergencia = true;
-        this.ordersStructure = [{
+        let typeorder = 3
+        this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            console.log(data)
+            this.ordersStructure = data.map((order)=>{
+                return {
+                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                    nombre:order.client.name,
+                    fecha:order.creation_date.substring(0, 10),
+                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                    total:order.payment_amount,
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id
+                }
+            })
+          
+        });
+        /*this.ordersStructure = [{
             estado:"emergencia",
             nombre:"Cuchufleto Fregonio",
             fecha:"2022-07-22",
@@ -161,7 +148,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             tipoPago:"efectivo",
             total:100.00,
             numeroPedido:"4444"
-        }];
+        }];*/
         console.log(this.showPickup);
     }
 
