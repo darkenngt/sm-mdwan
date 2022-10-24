@@ -29,6 +29,7 @@ import { StoredAssigmentsComponent } from "./pages/storedAssigments/storedAssigm
 import { NavSm } from "./pages/navsm/navsm.component";
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import {MatIconModule} from '@angular/material/icon'
 
 
 
@@ -59,6 +60,7 @@ import { HttpClientModule } from '@angular/common/http';
     FixedPluginModule,
     FormsModule,
     NgbModule,
+    MatIconModule
   ],
   providers: [DatePipe],
   

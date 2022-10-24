@@ -120,5 +120,42 @@ export class OrderServices{
         return this.http.post(`${this.apiUrl}/assignPilotToOrder/`,jsonBody).pipe(
             catchError(this.handleError))
     }
+    
+    orderByBiker(storeId,userId){
+        return this.http.get(`${this.apiUrl}/ordersByStoreAndPilot/${storeId}/${userId}`).pipe(
+            catchError(this.handleError)
+        );
+    }
+
+    /**Metodos de motoristas */
+    crtInroute(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/route`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtInsite(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/site`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtInDelivered(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/delivered`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtInRide(jsonBody:any){//pinchazo
+        return this.http.put(`${this.apiUrl}/updateOrder/ride`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtGas(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/gas`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtRobber(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/robber`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+    crtInjury(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateOrder/injury`,jsonBody).pipe(
+            catchError(this.handleError))
+    }
+
 
 }

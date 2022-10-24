@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderServices } from 'app/services/order.services'
+import {GeolocationService} from '@ng-web-apis/geolocation';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
+import { compileComponentFromMetadata } from '@angular/compiler';
 
 @Component({
     selector: 'biker',
@@ -7,136 +12,26 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class BikerComponent implements OnInit{
-    
-    public ordersStructureBiker: any = [{
-        estado:"asignada",
-        orden:"123457",
-        nombre:"Juan Juanero Juarez",
-        fecha:"2022-07-22",
-        direccion:"34 avenida 7-60 Tikal II , Zona 7, GUATEMALA, CIUDAD DE GUATEMALA",
-        telefono:"34566765",
-        tipoPago:"efectivo",
-        total:100.00,
-        cambio:0,
-        detalle:[
-            {
-                master:"pastel Fresita",
-                total:100.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"pastel grande",
-                    unidad:1,
-                    precio:100.00}
-                ]
-            },{
-                master:"dos de tres",
-                total:64.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"sopa de papa",
-                    unidad:1,
-                    precio:0.00,
-                    complemento:[]
-                    },
-                    {
-                    producto:"ensalada santa fe",
-                    precio:0.00,
-                    unidad:1,
-                    complemento:[
-                        {
-                            itemcomp:"aderezo chipotle",
-                           cantidad:1,
-                           precio:0 
-                        }
-                    ]
-                    },
-                    {
-                        producto:"Horchara",
-                        precio:0.00,
-                        unidad:1,
-                        complemento:[]
-                        }
-                ]
-            },{
-                master:"pan de muerto",
-                total:25.00,
-                cantidad:1,
-                items:[
-                    
-                ]
-            }
-        ]
-    },{
-        estado:"asignada",
-        orden:"89754",
-        nombre:"Maria Marlene Marzaro",
-        fecha:"2022-07-22",
-        direccion:"34 avenida 7-60  , Zona 1, GUATEMALA, CIUDAD DE GUATEMALA",
-        telefono:"34566765",
-        tipoPago:"efectivo",
-        total:100.00,
-        cambio:200,
-        detalle:[
-            {
-                master:"pastel Chocolate",
-                total:100.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"Mini Cake",
-                    unidad:1,
-                    precio:100.00}
-                ]
-            },{
-                master:"dos de tres",
-                total:64.00,
-                cantidad:1,
-                items:[
-                    {
-                    producto:"sopa de papa",
-                    unidad:1,
-                    precio:0.00,
-                    complemento:[]
-                    },
-                    {
-                    producto:"ensalada pepitoria",
-                    precio:0.00,
-                    unidad:1,
-                    complemento:[
-                        {
-                           itemcomp:"aderezo limon",
-                           cantidad:1,
-                           precio:0 
-                        }
-                    ]
-                    },
-                    {
-                        producto:"Limonada",
-                        precio:0.00,
-                        unidad:1,
-                        complemento:[]
-                        }
-                ]
-            },{
-                master:"pan frances",
-                total:18.00,
-                cantidad:1,
-                items:[
-                    
-                ]
-            }
-        ]
-    }];
+    public geoBiker: any = {}
+    public storeId = 1 //cambiar
+    public userId = 5
+    public orderid = 1
+    public ordersStructureBiker: any = [];
     public mEnRuta: boolean = true;
     public estadoBotones: any = [];
-    public mEnSitio: boolean = false;
+    public mEnSitio: boolean = false
     public mEntregado: boolean = false;
     public vistaPedido: boolean = true;
     public orderemergency: any = [];
     
-    constructor(){
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
+        this.geolocation$.subscribe(position => 
+            this.geoBiker = position);
+
+            
+        /*this.route.params.subscribe(params => 
+                this.orderid=params.idOrder);  */  
+
         /*this.ordersStructureBiker.forEach(order => {
             this.estadoBotones.push({
                 mEnRuta:true,
@@ -145,17 +40,112 @@ export class BikerComponent implements OnInit{
                 vistaPedido:true
             })
         });*/
-        this.ordersStructureBiker = this.ordersStructureBiker.map( (order, index) =>{
-            order.mEnRuta = true;
-            order.mEnSitio = false;
-            order.mEntregado = false;
-            order.vistaPedido = true;
-            order.indice = index;
-            return order;
-        })
+        
         //console.log(this.ordersStructureBiker);
     }
-    showRuta(rutaOrder, indice){
+    initComponent(){
+        this.ordersStructureBiker = []
+        this.getOrdersBiker()
+        console.log(this.ordersStructureBiker)
+        
+    }
+    ngOnInit(){
+        this.initComponent()
+    }
+    getOrdersBiker(){
+        this.orderservices.orderByBiker(this.storeId,this.userId).subscribe((dataOrder: any) =>{
+            console.log("hola data de biker")
+            console.log(dataOrder)
+            this.ordersStructureBiker = dataOrder.map((orderbiker=>{
+                let detalle = []
+                orderbiker.order.MDW_Order_Details.forEach(detail => {
+                    
+                    if(detail.level === 1 && detail.quantity !== -1 ){
+                        let items = []
+                        orderbiker.order.MDW_Order_Details.forEach(item => {
+                            if (item.level === 2 && item.parent_sku === detail.sku && item.parent_id === detail.id){
+                                let complemento = []
+                                orderbiker.order.MDW_Order_Details.forEach(item2 => {
+                                    if (item2.level === 3 && item2.parent_sku === item.sku && item2.parent_id === item.id) {
+                                        complemento.push({
+                                            itemcomp:item2.product.name,
+                                            cantidad:item2.quantity,
+                                            precio:parseInt(item2.amount).toFixed(2)
+                                        })
+                                    }
+                                });
+                                items.push({
+                                    producto:item.product.name,
+                                    unidad:item.quantity,
+                                    precio:parseInt(item.amount).toFixed(2),
+                                    complemento:complemento
+                                })
+                            }
+                        });
+                        detalle.push({
+                            master:detail.product.name,
+                            total:parseInt(detail.amount).toFixed(2),
+                            cantidad:detail.quantity,
+                            items:items
+                        })
+                    }
+                    
+                });
+                return{
+                    id:orderbiker.order_id,
+                    estado:orderbiker.status,
+                    orden:orderbiker.order.origin_store_id,
+                    nombre:orderbiker.order.client.name,
+                    fecha:orderbiker.order.creation_date.substring(0, 10),
+                    direccion:orderbiker.order.client.address,
+                    telefono:orderbiker.order.client.phone,
+                    alt_tel: orderbiker.order.client.alternate_phone,
+                    tipoPago:orderbiker.order.payment_authorization,
+                    total:parseInt(orderbiker.order.payment_amount).toFixed(2),
+                    cambio:orderbiker.order.payment_change,
+                    detalle:detalle,
+                }
+            }))
+            this.ordersStructureBiker = this.ordersStructureBiker.map( (orderstatus, index) =>{
+                orderstatus.mEnRuta = orderstatus.estado === 2;
+                orderstatus.mEnSitio = orderstatus.estado === 3;
+                orderstatus.mEntregado = orderstatus.estado === 4;
+                orderstatus.vistaPedido = true;
+                orderstatus.indice = index;
+                return orderstatus;
+            })
+            console.log(this.ordersStructureBiker)
+            
+        });
+        
+    }
+    
+    showRuta(idOrder, indice){
+        let from = "top"
+        let align = "right"
+        let message = "Pedido en ruta"
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        console.log(getgeo)
+       
+        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        this.orderservices.crtInroute(jsonBiker).subscribe((data: any) =>{
+            this.toastr.warning(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                "",
+                {
+                  timeOut: 4000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: "alert alert-success alert-with-icon",
+                  positionClass: "toast-" + from + "-" + align
+                }
+              )
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+           
+         });
+        console.log(jsonBiker)
         console.log(indice);
         console.log(this.ordersStructureBiker[indice]);
         console.log(this.ordersStructureBiker);
@@ -164,36 +154,120 @@ export class BikerComponent implements OnInit{
         this.ordersStructureBiker[indice].mEntregado = false;
       
     }
-    showSitio(sitioOrder, indice){
+    showSitio(idOrder, indice){
+        let from = "top"
+        let align = "right"
+        let message = "Motosita asignado"
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        console.log(getgeo)
+       
+        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        this.orderservices.crtInsite(jsonBiker).subscribe((data: any) =>{
+            this.toastr.info(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                "",
+                {
+                  timeOut: 4000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: "alert alert-success alert-with-icon",
+                  positionClass: "toast-" + from + "-" + align
+                }
+              )
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+           
+         });
+        console.log(jsonBiker)
         this.ordersStructureBiker[indice].mEnRuta = false;
         this.ordersStructureBiker[indice].mEnSitio = false;
         this.ordersStructureBiker[indice].mEntregado = true;
-        console.log(sitioOrder);
+
     }
-    showEntrega(entregaOrder, indice){
+    showEntrega(idOrder, indice){
+        let from = "top"
+        let align = "right"
+        let message = "Motosita asignado"
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        console.log(getgeo)
+       
+        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        this.orderservices.crtInDelivered(jsonBiker).subscribe((data: any) =>{
+            this.toastr.success(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                "",
+                {
+                  timeOut: 4000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: "alert alert-success alert-with-icon",
+                  positionClass: "toast-" + from + "-" + align
+                }
+              )
+              this.ordersStructureBiker[indice].vistaPedido = false;
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+           
+         });
+        console.log(jsonBiker)
         this.ordersStructureBiker[indice].mEnRuta = false;
         this.ordersStructureBiker[indice].mEnSitio = false;
         this.ordersStructureBiker[indice].mEntregado = false;
-        console.log(entregaOrder);
+
     }
     showPedido(showOrder, indice){
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = {'lat': geolat, 'long': geolong}
+        let json =
+        {
+            "orderId": this.orderid,
+            "geolocalization": getgeo
+        }
         this.ordersStructureBiker[indice].vistaPedido = false;
         console.log("se cierra pedido");
         console.log(showOrder);
     }
-    finOrden(entregaOrder, indice){
-        this.showEntrega(entregaOrder, indice);
-        this.showPedido(entregaOrder, indice);
-    }
+
 
     emergency(){
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = {'lat': geolat, 'long': geolong}
+        let json =
+        {
+            "orderId": this.orderid,
+            "geolocalization": getgeo
+        }
        this.ordersStructureBiker.map( (order, index) =>{
             this.orderemergency.push(order.orden);
             //return order;
         })
         console.log(this.orderemergency);
     }
-    ngOnInit(){
-        
+
+    prick(){
+        this.ordersStructureBiker.map( (order, index) =>{
+            this.orderemergency.push(order.orden);
+            //return order;
+        })
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        console.log(getgeo)
+       
+        let jsonBiker = {userId:this.userId, storeId:this.storeId}
+        this.orderservices.crtInRide(jsonBiker).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+           
+         });
+        console.log(jsonBiker)
+        console.log("pinche")
+        //console.log(this.orderemergency);
     }
+
+
+  
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from "ngx-toastr";
 
 declare var google: any;
 @Component({
@@ -18,18 +19,22 @@ export class SingleOrderComponent implements OnInit{
     public bikerSelect:number
     public orderid: number
     public ordersStructureSingle: any = {}
-    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute){
+    public geoBiker: any = {}
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
-        
+
+            this.geolocation$.subscribe(position => 
+                this.geoBiker=position);
+
             this.route.params.subscribe(params => 
                 //console.log(params.idOrder));
-                this.getDetailOrder(params.idOrder));   
-                
-                this.getAvailableBiker(this.storeId)
-                this.route.params.subscribe(params => 
-                    //console.log(params.idOrder));
-                    this.orderid=params.idOrder);
+            this.getDetailOrder(params.idOrder));   
+            
+            this.getAvailableBiker(this.storeId)
+            this.route.params.subscribe(params => 
+                //console.log(params.idOrder));
+                this.orderid=params.idOrder);
 
     }
  
@@ -37,23 +42,27 @@ export class SingleOrderComponent implements OnInit{
 
     ngOnInit() {
        
-        this.rendermap
+        //this.rendermap
        
     }
 
     getAvailableBiker(storeId){
         this.orderservices.bikerAvailableToOrder(storeId).subscribe((data: any)=>{
+            console.log("motoristas")
             //console.log(data)
 
             this.BikerAvailable = data.map((biker)=>{
-                console.log(biker)
+                //console.log(biker)
+                //console.log(biker.user.MDW_User_Orders.length)
                 return{
                     name:biker.user.first_name+" "+biker.user.last_name,
-                    id:biker.user.id
+                    id:biker.user.id,
+                    nDelivered:biker.user.MDW_User_Orders.length,
+                    countName:biker.user.MDW_User_Orders.length>0?biker.user.first_name+" "+biker.user.last_name+" "+"("+biker.user.MDW_User_Orders.length+")":biker.user.first_name+" "+biker.user.last_name
                 }
                 
             })
-            //console.log(this.BikerAvailable)
+            console.log(this.BikerAvailable)
         })
         
     }
@@ -80,6 +89,7 @@ export class SingleOrderComponent implements OnInit{
                 if (item.level === 1 && item.quantity !== -1 ){
                     let items = []
                     data.MDW_Order_Details.forEach(item2 => {
+                        //console.log(item2)
                         if (item2.level === 2 && item2.parent_sku === item.sku && item2.parent_id === item.id){
                             let complemento = []
                             data.MDW_Order_Details.forEach(item3 =>{
@@ -128,7 +138,7 @@ export class SingleOrderComponent implements OnInit{
                     estado:data.status===1?"procesada":data.status===2?"asignada":data.status===3?"en ruta":data.status===4?"en el sitio":"entregado",
                     orden:data.origin_store_id,
                     nombre:data.client.name,
-                    fecha:data.creation_date,
+                    fecha:data.creation_date.substring(0, 10),
                     direccion:data.client.address,
                     telefono:data.client.phone,
                     telalt:data.client.alternate_phone,
@@ -144,16 +154,38 @@ export class SingleOrderComponent implements OnInit{
                     detalle:detalle,
             }
             //console.log("array para orden")
-            console.log(this.ordersStructureSingle)
+            //console.log(this.ordersStructureSingle)
             
         })
     }
 
     getAssingAloha(){
+        let from = "top"
+        let align = "right"
+        let message = "Motosita asignado"
+        let btnAloha = document.getElementById('idAloha')
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        console.log(getgeo)
         console.log(this.bikerSelect, this.orderid)
-        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid}
+       
+        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
+        //console.log(jsonBiker)
         this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
-            //console.log(data)// cambiar fecha end a fecha ini en el servicio
+            this.toastr.success(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                "",
+                {
+                  timeOut: 4000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: "alert alert-success alert-with-icon",
+                  positionClass: "toast-" + from + "-" + align
+                }
+              )
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            btnAloha.setAttribute('disabled', '')
            
          });
     }
