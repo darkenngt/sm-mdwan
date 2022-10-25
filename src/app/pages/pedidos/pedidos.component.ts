@@ -14,6 +14,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public showDelivery: boolean = true;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
+    public showProgramada: boolean = false;
     public storeId = 1 // camabiar por tienda session
 
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService){
@@ -55,20 +56,22 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showDelivery = true
         this.showPickup = false;
         this.showEmergencia = false;
+        this.showProgramada = false
         let typeorder = 1
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
             this.ordersStructure = data.map((order)=>{
-                return {
-                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
-                    nombre:order.client.name,
-                    fecha:order.creation_date.substring(0, 10),
-                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                    total:order.payment_amount,
-                    numeroPedido:order.origin_store_id,
-                    idOrder:order.id
-                }
+                    return {
+                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                        nombre:order.client.name,
+                        fecha:order.creation_date.substring(0, 10),
+                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                        total:order.payment_amount,
+                        numeroPedido:order.origin_store_id,
+                        idOrder:order.id
+                    }
+                
             })
           
         });
@@ -79,6 +82,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showDelivery = false
         this.showPickup = true;
         this.showEmergencia = false;
+        this.showProgramada = false
         let typeorder = 2
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
@@ -109,14 +113,15 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     getEmergencia(){
         this.showDelivery = false
         this.showPickup = false;
+        this.showProgramada = false
         this.showEmergencia = true;
-        let typeorder = 3
+        let typeorder = 4
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
             this.ordersStructure = data.map((order)=>{
                 return {
                     tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":"entregado",
                     nombre:order.client.name,
                     fecha:order.creation_date.substring(0, 10),
                     tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
@@ -150,6 +155,33 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             numeroPedido:"4444"
         }];*/
         console.log(this.showPickup);
+    }
+
+    getprogramadas(){
+        this.showProgramada = true
+        this.showDelivery = false
+        this.showPickup = false;
+        this.showEmergencia = false;
+        let typeorder = 3
+        console.log(this.showProgramada)
+        this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            console.log("ordenes programadas")
+            console.log(data)
+            this.ordersStructure = data.map((order)=>{
+                    return {
+                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
+                        nombre:order.client.name,
+                        fecha:order.creation_date.substring(0, 10),
+                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                        total:order.payment_amount,
+                        numeroPedido:order.origin_store_id,
+                        idOrder:order.id
+                    }
+                
+            })
+          
+        });
     }
 
 

@@ -23,6 +23,8 @@ export class BikerComponent implements OnInit{
     public mEntregado: boolean = false;
     public vistaPedido: boolean = true;
     public orderemergency: any = [];
+    public from = "top"
+    public align = "right"
     
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.geolocation$.subscribe(position => 
@@ -245,27 +247,95 @@ export class BikerComponent implements OnInit{
             this.orderemergency.push(order.orden);
             //return order;
         })
-        console.log(this.orderemergency);
+        //console.log(this.orderemergency);
     }
 
     prick(){
-        this.ordersStructureBiker.map( (order, index) =>{
-            this.orderemergency.push(order.orden);
-            //return order;
-        })
         let geolat = this.geoBiker.coords.latitude
         let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        console.log(getgeo)
+        //console.log(getgeo)
        
-        let jsonBiker = {userId:this.userId, storeId:this.storeId}
+        let jsonBiker = {userId:this.userId, storeId:this.storeId, getgeo}
         this.orderservices.crtInRide(jsonBiker).subscribe((data: any) =>{
             console.log(data)// cambiar fecha end a fecha ini en el servicio
+            if (typeof data == 'object' && Object.keys(data).length === 0) {
+                console.log("no se hace nada")
+                let message = "No hay ordenes para emergencia"
+                this.toastr.info(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-info alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+            }else{
+                let message = "Ordenes en Emergecia"
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warning alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+                console.log("se refresca")
+                this.getOrdersBiker()
+            }
            
          });
-        console.log(jsonBiker)
         console.log("pinche")
-        //console.log(this.orderemergency);
+    }
+
+    singas(){
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        //console.log(getgeo)
+       
+        let jsonBiker = {userId:this.userId, storeId:this.storeId, getgeo}
+        this.orderservices.crtGas(jsonBiker).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            if (typeof data == 'object' && Object.keys(data).length === 0) {
+                console.log("no se hace nada")
+                let message = "No hay ordenes para emergencia"
+                this.toastr.info(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-info alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+            }else{
+                let message = "Ordenes en Emergecia"
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warning alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+                console.log("se refresca")
+                this.getOrdersBiker()
+            }
+           
+         });
+        console.log("pinche")
     }
 
 

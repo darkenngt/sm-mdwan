@@ -7,7 +7,8 @@ import { throwError, Observable, of } from 'rxjs';
 
 const httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1ycGVyZXpAc2FubWFydGluYmFrZXJ5LmNvbSIsInVzZXJfdHlwZSI6MywiZGF0ZV90aW1lIjoiMjAyMi0xMC0yNVQwNzowMjowMC4xOTJaIn0.KLDWCwU4PXt9Uy9DqFABH9KmL4F0GnmSxPmqI0F-BeM'
     })
   }
 
@@ -35,7 +36,7 @@ export class OrderServices{
     }
 
     getOrders(storeId, typeorder){
-        return this.http.get(`${this.apiUrl}/ordersByStoreAndType/${storeId}/${typeorder}`).pipe(
+        return this.http.get(`${this.apiUrl}/ordersByStoreAndType/${storeId}/${typeorder}`,httpOptions).pipe(
             catchError(this.handleError)
         );
     }

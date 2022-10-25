@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService} from 'app/services/auth.services'
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
+import { Md5 } from 'ts-md5'
 /*interface Login{
     user: string;
     password: string;
@@ -33,13 +34,22 @@ export class LoginComponent implements OnInit{
         console.log(this.var1);
     }
     getValue(){
-        this.authService.login(this.userName,this.password)
         //console.log(this.userAuthentication.user)
+        const md5 = new Md5()
+        this.authService.login(this.userName,md5.appendStr(this.password).end())
+        let jsonLogin = `{ user:${this.userName}, password:${this.password} }`
+        let varJson = JSON.stringify(jsonLogin)
+        console.log("json sin stringify")
+        console.log(jsonLogin)
+        console.log("json con stringify")
+        console.log(varJson)
+        console.log("json con md5")
+        console.log(md5.appendStr(varJson).end())
         console.log(this.userName);
-        console.log(this.password);
+        console.log(md5.appendStr(this.password).end());
         $("#btn_sub").removeClass("btn-primary");
         $("#btn_sub").addClass("btn-danger");
-        this.router.navigate(['biker']);
+        //this.router.navigate(['biker']);
 
     }
 }

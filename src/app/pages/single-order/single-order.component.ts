@@ -135,7 +135,7 @@ export class SingleOrderComponent implements OnInit{
             });
 
             this.ordersStructureSingle = {
-                    estado:data.status===1?"procesada":data.status===2?"asignada":data.status===3?"en ruta":data.status===4?"en el sitio":"entregado",
+                    estado:data.status===1?"procesada":data.status===2?"asignada":data.status===3?"en ruta":data.status===4?"en el sitio":data.status===6?"emergencia":"entregado",
                     orden:data.origin_store_id,
                     nombre:data.client.name,
                     fecha:data.creation_date.substring(0, 10),
