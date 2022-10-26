@@ -36,9 +36,14 @@ export class LoginComponent implements OnInit{
     getValue(){
         //console.log(this.userAuthentication.user)
         const md5 = new Md5()
-        this.authService.login(this.userName,md5.appendStr(this.password).end())
-        let jsonLogin = `{ user:${this.userName}, password:${this.password} }`
+         
+        let jsonLogin = { username:this.userName, password:this.password }
         let varJson = JSON.stringify(jsonLogin)
+        this.authService.postlogin(varJson).subscribe((data: any) =>{
+            localStorage.setItem('userInformation',JSON.stringify(data.userInformation))
+            localStorage.setItem('accestoken',JSON.stringify(data.accessToken))
+            console.log(data)
+        })
         console.log("json sin stringify")
         console.log(jsonLogin)
         console.log("json con stringify")
@@ -49,7 +54,7 @@ export class LoginComponent implements OnInit{
         console.log(md5.appendStr(this.password).end());
         $("#btn_sub").removeClass("btn-primary");
         $("#btn_sub").addClass("btn-danger");
-        //this.router.navigate(['biker']);
+        this.router.navigate(['biker']);
 
     }
 }
