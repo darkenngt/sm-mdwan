@@ -26,10 +26,6 @@ export const AppRoutes: Routes = [
       path: '',
       loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(x => x.AdminLayoutModule)
   }]},*/
- {
-    path: '**',
-    redirectTo: 'login'
-  },
   {
     path: 'login',
     component:LoginComponent,
@@ -87,5 +83,9 @@ export const AppRoutes: Routes = [
     data:{
       title:"navsm"
     }
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'login'
+  },
 ]

@@ -33,7 +33,7 @@
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
                         'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
                         'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                00:23:18
+                                
                             </div>
                             
                             </div>
@@ -110,7 +110,9 @@
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
                         'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
                         'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                00:23:18
+                        <ctimer-countdown-timer
+                        [finishDateString]="'2022-10-31 20:30:00'"
+                        ></ctimer-countdown-timer>
                             </div>
                             
                             </div>

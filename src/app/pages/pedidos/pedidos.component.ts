@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy  } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
 import {GeolocationService} from '@ng-web-apis/geolocation';
+
 
 
 @Component({
@@ -9,15 +10,21 @@ import {GeolocationService} from '@ng-web-apis/geolocation';
     templateUrl: 'pedidos.component.html'
 })
 
+
 export class PedidosComponent implements OnInit, AfterViewInit{
+    
     public ordersStructure: any = [];
     public showDelivery: boolean = true;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
     public storeId = 1 // camabiar por tienda session
+    
+    
 
-    constructor(public orderservices: OrderServices, private geolocation$: GeolocationService){
+     
+    
+    constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
         
     }
     
@@ -33,6 +40,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         //setTimeout(function(){
             this.getPosition();
             this.initComponent()
+            
                  // },10000);
     }
 
@@ -40,6 +48,9 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.ordersStructure = [];
        
         this.getDelivery()
+        
+        
+    // crea un nuevo objeto `Date`
     }
 
     getPosition() {
@@ -51,7 +62,9 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     ngAfterViewInit() {
         //this.delay(50000)
         //location.reload()
-      }
+    }
+    
+
     getDelivery(){
         this.showDelivery = true
         this.showPickup = false;
@@ -100,14 +113,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             })
           
         });
-        /*this.ordersStructure = [{
-            estado:"programado",
-            nombre:"Cuchufleto Fregonio",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        }];*/
+
         console.log(this.showPickup);
     }
     getEmergencia(){
@@ -116,6 +122,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showProgramada = false
         this.showEmergencia = true;
         let typeorder = 4
+        
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
             this.ordersStructure = data.map((order)=>{
@@ -132,28 +139,6 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             })
           
         });
-        /*this.ordersStructure = [{
-            estado:"emergencia",
-            nombre:"Cuchufleto Fregonio",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        },{
-            estado:"emergencia",
-            nombre:"Petronila Petrona",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        },{
-            estado:"emergencia",
-            nombre:"yyyy Petrona",
-            fecha:"2022-07-22",
-            tipoPago:"efectivo",
-            total:100.00,
-            numeroPedido:"4444"
-        }];*/
         console.log(this.showPickup);
     }
 

@@ -30,6 +30,7 @@ import { NavSm } from "./pages/navsm/navsm.component";
 import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon'
+import { CountdownTimerSm} from './lib/countdown.component'
 
 
 
@@ -45,7 +46,8 @@ import {MatIconModule} from '@angular/material/icon'
     BikerComponent,
     ItemsModalComponent,
     StoredAssigmentsComponent,
-    NavSm
+    NavSm,
+    CountdownTimerSm
   ],
   imports: [
     BrowserAnimationsModule,
@@ -67,5 +69,5 @@ import {MatIconModule} from '@angular/material/icon'
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-
+  
 }

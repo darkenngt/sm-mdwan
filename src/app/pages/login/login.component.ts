@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit{
         console.log(this.var1);
     }
     getValue(){
+        localStorage.clear();
         //console.log(this.userAuthentication.user)
         const md5 = new Md5()
          

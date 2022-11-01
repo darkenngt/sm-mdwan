@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': '1eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1ycGVyZXpAc2FubWFydGluYmFrZXJ5LmNvbSIsInVzZXJfdHlwZSI6MywiZGF0ZV90aW1lIjoiMjAyMi0xMC0yNVQwNzowMjowMC4xOTJaIn0.KLDWCwU4PXt9Uy9DqFABH9KmL4F0GnmSxPmqI0F-BeM'
+      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1ycGVyZXpAc2FubWFydGluYmFrZXJ5LmNvbSIsInVzZXJfdHlwZSI6MywiZGF0ZV90aW1lIjoiMjAyMi0xMC0yNVQwNzowMjowMC4xOTJaIn0.KLDWCwU4PXt9Uy9DqFABH9KmL4F0GnmSxPmqI0F-BeM'
       //'Authorization': localStorage.getItem('accestoken')
     })
   }
