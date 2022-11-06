@@ -20,7 +20,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
     public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
-    
+    public deliveryDate: Date = new Date();
     
 
      

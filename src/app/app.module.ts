@@ -31,6 +31,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon'
 import { CountdownTimerSm} from './lib/countdown.component'
+import { CountDownComponent } from "./pages/count-down/count-down.component";
 
 
 
@@ -47,7 +48,8 @@ import { CountdownTimerSm} from './lib/countdown.component'
     ItemsModalComponent,
     StoredAssigmentsComponent,
     NavSm,
-    CountdownTimerSm
+    CountdownTimerSm,
+    CountDownComponent
   ],
   imports: [
     BrowserAnimationsModule,

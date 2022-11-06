@@ -151,7 +151,8 @@
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
                         'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
                         'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                00:23:18
+                                {{deliveryDate}}
+                                
                             </div>
                             
                             </div>
@@ -168,6 +169,7 @@
                             >ver orden</a>
                         </div>
                     </div>
+                    <app-count-down> </app-count-down>
                 </div>
             </div>
         </div>
