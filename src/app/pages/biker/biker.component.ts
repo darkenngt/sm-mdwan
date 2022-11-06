@@ -25,6 +25,7 @@ export class BikerComponent implements OnInit{
     public orderemergency: any = [];
     public from = "top"
     public align = "right"
+    public warningSms = "no pudo realizar la acción"
     
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.geolocation$.subscribe(position => 
@@ -129,31 +130,49 @@ export class BikerComponent implements OnInit{
         let geolat = this.geoBiker.coords.latitude
         let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        console.log(getgeo)
-       
-        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        console.log(idOrder)
+       console.log("btn en ruta")
+        let jsonBiker = {orderId: idOrder, "geolocalization": getgeo}
+        console.log(jsonBiker)
         this.orderservices.crtInroute(jsonBiker).subscribe((data: any) =>{
-            this.toastr.warning(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
-                "",
-                {
-                  timeOut: 4000,
-                  closeButton: true,
-                  enableHtml: true,
-                  toastClass: "alert alert-success alert-with-icon",
-                  positionClass: "toast-" + from + "-" + align
-                }
-              )
-            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            console.log(data)
+            if (typeof data == 'object' && Object.keys(data).length === 0) {
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-succes alert-with-icon",
+                      positionClass: "toast-" + from + "-" + align
+                    }
+                  )
+                console.log(data)// cambiar fecha end a fecha ini en el servicio
+                console.log(jsonBiker)
+                console.log(indice);
+                console.log(this.ordersStructureBiker[indice]);
+                console.log(this.ordersStructureBiker);
+                this.ordersStructureBiker[indice].mEnRuta = false;
+                this.ordersStructureBiker[indice].mEnSitio = true;
+                this.ordersStructureBiker[indice].mEntregado = false;
+            }else{
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+this.warningSms+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warninf alert-with-icon",
+                      positionClass: "toast-" + from + "-" + align
+                    }
+                  )
+            }
+            
            
          });
-        console.log(jsonBiker)
-        console.log(indice);
-        console.log(this.ordersStructureBiker[indice]);
-        console.log(this.ordersStructureBiker);
-        this.ordersStructureBiker[indice].mEnRuta = false;
-        this.ordersStructureBiker[indice].mEnSitio = true;
-        this.ordersStructureBiker[indice].mEntregado = false;
+        
       
     }
     showSitio(idOrder, indice){
@@ -165,7 +184,7 @@ export class BikerComponent implements OnInit{
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
-        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        let jsonBiker = {order_id: idOrder, "geolocalization": JSON.stringify(getgeo)}
         this.orderservices.crtInsite(jsonBiker).subscribe((data: any) =>{
             this.toastr.info(
                 '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
@@ -196,7 +215,7 @@ export class BikerComponent implements OnInit{
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
-        let jsonBiker = {orderId: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        let jsonBiker = {orderId: idOrder, "geolocalization": getgeo}
         this.orderservices.crtInDelivered(jsonBiker).subscribe((data: any) =>{
             this.toastr.success(
                 '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',

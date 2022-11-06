@@ -9,11 +9,11 @@ import {Router} from '@angular/router';
 const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1ycGVyZXpAc2FubWFydGluYmFrZXJ5LmNvbSIsInVzZXJfdHlwZSI6MywiZGF0ZV90aW1lIjoiMjAyMi0xMC0yNVQwNzowMjowMC4xOTJaIn0.KLDWCwU4PXt9Uy9DqFABH9KmL4F0GnmSxPmqI0F-BeM'
-      //'Authorization': localStorage.getItem('accestoken')
+      //'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1ycGVyZXpAc2FubWFydGluYmFrZXJ5LmNvbSIsInVzZXJfdHlwZSI6MywiZGF0ZV90aW1lIjoiMjAyMi0xMC0yNVQwNzowMjowMC4xOTJaIn0.KLDWCwU4PXt9Uy9DqFABH9KmL4F0GnmSxPmqI0F-BeM'
+      'Authorization': localStorage.getItem('accestoken')
     })
   }
-
+  console.log(httpOptions)
 @Injectable({
     providedIn: 'root'
   })
@@ -46,7 +46,7 @@ export class OrderServices{
         return this.http.get(`${this.apiUrl}/ordersByStoreAndType/${storeId}/${typeorder}`,httpOptions).pipe(
             //catchError(this.handleError)
             catchError(err =>{
-                this.router.navigate(['login'])
+                //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again later.');
                 
@@ -238,6 +238,7 @@ export class OrderServices{
 
     /**Metodos de motoristas */
     crtInroute(jsonBody:any){
+        console.log(jsonBody)
         return this.http.put(`${this.apiUrl}/updateOrder/route`,jsonBody,httpOptions).pipe(
             catchError(this.handleError))
     }

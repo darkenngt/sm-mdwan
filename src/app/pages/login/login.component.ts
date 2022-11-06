@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit{
     }
     ngOnInit(){
         this.showVariables();
-        localStorage.clear();
+        //localStorage.clear();
 
     }
     showVariables(): void{
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit{
         //console.log(this.var1);
     }
     getValue(){
-        localStorage.clear();
+        //localStorage.clear();
         //console.log(this.userAuthentication.user)
         const md5 = new Md5()
          let message = "Usuario"
@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit{
         this.authService.postlogin(varJson).subscribe((data: any) =>{
             localStorage.setItem('userInformation',JSON.stringify(data.userInformation))
             localStorage.setItem('accestoken',JSON.stringify(data.accessToken))
-            console.log(data.userInformation)
+            console.log(data.accessToken)
             let typeUser: Number = data.userInformation.user_type;
 
             if (data != "Forbidden") {
