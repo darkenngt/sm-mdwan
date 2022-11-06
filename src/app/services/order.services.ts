@@ -240,7 +240,14 @@ export class OrderServices{
     crtInroute(jsonBody:any){
         console.log(jsonBody)
         return this.http.put(`${this.apiUrl}/updateOrder/route`,jsonBody,httpOptions).pipe(
-            catchError(this.handleError))
+            catchError(err =>{
+                //this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError(404);
+                
+            
+            })
+            )
     }
     crtInsite(jsonBody:any){
         return this.http.put(`${this.apiUrl}/updateOrder/site`,jsonBody,httpOptions).pipe(

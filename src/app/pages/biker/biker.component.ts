@@ -12,9 +12,11 @@ import { compileComponentFromMetadata } from '@angular/compiler';
 })
 
 export class BikerComponent implements OnInit{
+    public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
+    public userType = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     public geoBiker: any = {}
-    public storeId = 1 //cambiar
-    public userId = 5
+    public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+    public userId = this.userInfo === null?0:this.userInfo.id
     public orderid = 1
     public ordersStructureBiker: any = [];
     public mEnRuta: boolean = true;
@@ -130,11 +132,12 @@ export class BikerComponent implements OnInit{
         let geolat = this.geoBiker.coords.latitude
         let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        console.log(idOrder)
+        //console.log(idOrder)
        console.log("btn en ruta")
-        let jsonBiker = {orderId: idOrder, "geolocalization": getgeo}
-        console.log(jsonBiker)
+        let jsonBiker = {orderId: 678, "geolocalization": getgeo}
+        //console.log(jsonBiker)
         this.orderservices.crtInroute(jsonBiker).subscribe((data: any) =>{
+            console.log("entra al subscribe")
             console.log(data)
             if (typeof data == 'object' && Object.keys(data).length === 0) {
                 this.toastr.warning(
@@ -157,6 +160,7 @@ export class BikerComponent implements OnInit{
                 this.ordersStructureBiker[indice].mEnSitio = true;
                 this.ordersStructureBiker[indice].mEntregado = false;
             }else{
+                console.log("entre al else")
                 this.toastr.warning(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+this.warningSms+'</span>',
                     "",

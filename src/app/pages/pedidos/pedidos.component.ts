@@ -12,13 +12,14 @@ import {GeolocationService} from '@ng-web-apis/geolocation';
 
 
 export class PedidosComponent implements OnInit, AfterViewInit{
-    
+    public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
+    public userType = this.userInfo === null?0:this.userInfo.id
     public ordersStructure: any = [];
     public showDelivery: boolean = true;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
-    public storeId = 1 // camabiar por tienda session
+    public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     
     
 
@@ -36,6 +37,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     }
 
     ngOnInit(){
+        console.log("pag pedi")
+        console.log(this.userType)
         //this.initComponent()
         //setTimeout(function(){
             this.getPosition();

@@ -24,13 +24,13 @@ export class LoginComponent implements OnInit{
     public align = "right"
     constructor(public authService: AuthService, public router: Router, private toastr: ToastrService){
         this.var1 = 15;
+        localStorage.clear();
         //this.userAuthentication.user = '';
         //this.userAuthentication.password = '';
         //console.log(this.var1);
     }
     ngOnInit(){
         this.showVariables();
-        //localStorage.clear();
 
     }
     showVariables(): void{
@@ -51,16 +51,15 @@ export class LoginComponent implements OnInit{
         this.authService.postlogin(varJson).subscribe((data: any) =>{
             localStorage.setItem('userInformation',JSON.stringify(data.userInformation))
             localStorage.setItem('accestoken',JSON.stringify(data.accessToken))
-            console.log(data.accessToken)
+            //console.log(data)
             let typeUser: Number = data.userInformation.user_type;
+            let nameuser: any = data.userInformation.first_name
 
-            if (data != "Forbidden") {
-                console.log("viene data")
                 switch (typeUser) { 
                     case 1:
                         console.log("Usuario administrador");
                         this.toastr.success(
-                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+data.userInformation.user_type.first_name+" "+smsEnd+'</span>',
+                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
                             {
                             timeOut: 4000,
@@ -74,7 +73,7 @@ export class LoginComponent implements OnInit{
                     case 2:
                         console.log("Usuario order manager");
                         this.toastr.success(
-                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+data.userInformation.user_type.first_name+" "+smsEnd+'</span>',
+                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
                             {
                             timeOut: 4000,
@@ -84,11 +83,12 @@ export class LoginComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
+                        this.router.navigate(['pedidos']);
                         break;
                     case 3:
                         console.log("Usuario biker");
                         this.toastr.success(
-                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+data.userInformation.first_name+" "+smsEnd+'</span>',
+                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
                             {
                             timeOut: 4000,
@@ -115,21 +115,26 @@ export class LoginComponent implements OnInit{
                         )
                         break;
                 }
-            }else{
-                console.log("no viene data")
+
+                
+            
+        },
+        (err)=>{
+            console.log("esto es un error")
+            console.log("no viene data")
                 this.toastr.error(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smsError+'</span>',
                     "",
                     {
-                    timeOut: 4000,
+                    timeOut: 4500,
                     closeButton: true,
                     enableHtml: true,
                     toastClass: "alert alert-error alert-with-icon",
                     positionClass: "toast-" + this.from + "-" + this.align
                     }
                 )
-            }
-        })
+        }
+        )
         /*console.log("json sin stringify")
         console.log(jsonLogin)
         console.log("json con stringify")

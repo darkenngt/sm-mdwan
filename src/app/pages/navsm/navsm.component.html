@@ -15,9 +15,10 @@
           <li class="nav-item" *ngIf="userType ===3">
             <a class="nav-link" routerLink="/biker">Biker</a>
           </li>
-          <li class="nav-item" *ngIf="userType ===2">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+          <li class="nav-item" *ngIf="userType >0">
+            <a class="nav-link" routerLink="/login">Logout</a>
           </li>
+          
         </ul>
       </div>
     </div>
