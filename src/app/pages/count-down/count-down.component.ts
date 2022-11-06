@@ -11,7 +11,9 @@ export class CountDownComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
   
     public dateNow = new Date();
-    public dDay = new Date('Jan 01 2021 00:00:00');
+    //public dDay = new Date('Jan 01 2021 00:00:00');
+    public dDay = new Date (this.dateNow)
+
     milliSecondsInASecond = 1000;
     hoursInADay = 24;
     minutesInAnHour = 60;
@@ -22,6 +24,10 @@ export class CountDownComponent implements OnInit, OnDestroy {
     public minutesToDday;
     public hoursToDday;
     public daysToDday;
+
+    constructor(){
+        this.dDay.setMinutes(this.dateNow.getMinutes() + 30 )
+    }
 
 
     private getTimeDifference () {
