@@ -1,0 +1,61 @@
+<NavSm></NavSm>
+<div class="container">
+    <div class="text-center display-4">
+        Asignación de Coordinadores a tienda
+    </div>
+        
+        <ng-template #rt let-r="result" let-t="term" >
+        <!--<img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px">-->
+        <ngb-highlight [result]="r.nombre" [term]="t" (click)="add(r)"></ngb-highlight>
+        </ng-template>
+        
+        <div class="mb-3 row">
+        <label for="typeahead-template" class="col-md-12 col-sm-auto col-form-label fs-5">Buscar motorista:</label>
+        <div class="col">
+            <input id="typeahead-template" type="text" class="form-control col-md-12" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter"/>
+        </div>
+        </div>
+        <div class="border border-primary">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>código</th>
+                        <th>nombre</th>
+                        <th>empresa</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="UserAssingstore.length > 0">
+                    <tr *ngFor="let userasstd of UserAssingstore" id="lbiker">
+                        <td>{{userasstd.codigo}}</td>
+                        <td>{{userasstd.nombre}}</td>
+                        <td>{{userasstd.empresa}}</td>
+                        <td><button class="btn btn-info" (click)="addUserBiker()">Agregar a tienda</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="border border-success">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>código</th>
+                        <th>nombre</th>
+                        <th>empresa</th>
+                        <th>Fecha Hora Inicio</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="listBikerStore.length > 0">
+                    <tr *ngFor="let LtsInStore of listBikerStore">
+                        <td>{{LtsInStore.codigo}}</td>
+                        <td>{{LtsInStore.nombre}}</td>
+                        <td>{{LtsInStore.empresa}}</td>
+                        <td>{{LtsInStore.fechaAsignacion}}</td>
+                        <td><button class="btn btn-danger" (click)="deleteUserBiker(LtsInStore.user_id,LtsInStore.store_id)">Eliminar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+</div>

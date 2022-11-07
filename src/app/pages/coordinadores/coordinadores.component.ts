@@ -6,12 +6,12 @@ import { OrderServices } from 'app/services/order.services'
 
 
 @Component({
-    selector: 'storedAssigments',
+    selector: 'coordinadores',
     moduleId: module.id,
-    templateUrl: 'storedAssigments.component.html'
+    templateUrl: 'coordinadores.component.html'
 })
 
-export class StoredAssigmentsComponent implements OnInit{
+export class CoordinadoresComponent implements OnInit{
   public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
   storeSessionId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
   today: Date = new Date();
@@ -47,7 +47,7 @@ export class StoredAssigmentsComponent implements OnInit{
 
     initComponent(){
       console.log("entre al código")
-      this.orderservices.getAvailableBickers().subscribe((data: any) =>{
+      this.orderservices.getAvailableCoord().subscribe((data: any) =>{
         //console.log("entre a data");
         console.log(data)
         this.statesWithFlags = data.map((biker)=>{

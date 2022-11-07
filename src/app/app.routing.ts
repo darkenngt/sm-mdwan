@@ -12,6 +12,7 @@ import { BikerComponent } from './pages/biker/biker.component';
 import { ItemsModalComponent } from './pages/itemsmodal/itemsmodal.component';
 import { StoredAssigmentsComponent } from './pages/storedAssigments/storedAssigments.component';
 import { NavSm } from './pages/navsm/navsm.component';
+import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
 
 export const AppRoutes: Routes = [
   {
@@ -76,6 +77,12 @@ export const AppRoutes: Routes = [
     component:StoredAssigmentsComponent,
     data:{
       title:" asignacion motoristas"
+    }
+  },{
+    path: 'coordinacion',
+    component:CoordinadoresComponent,
+    data:{
+      title: "Coordinadores"
     }
   },{
     path: 'navsm',

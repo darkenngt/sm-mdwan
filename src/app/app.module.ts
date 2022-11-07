@@ -32,6 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon'
 import { CountdownTimerSm} from './lib/countdown.component'
 import { CountDownComponent } from "./pages/count-down/count-down.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
 
 
 
@@ -49,10 +51,12 @@ import { CountDownComponent } from "./pages/count-down/count-down.component";
     StoredAssigmentsComponent,
     NavSm,
     CountdownTimerSm,
-    CountDownComponent
+    CountDownComponent,
+    CoordinadoresComponent
   ],
   imports: [
     BrowserAnimationsModule,
+    BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes,{
       useHash: true

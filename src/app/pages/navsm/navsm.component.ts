@@ -15,6 +15,6 @@ initComponent(){
     
 }
     ngOnInit(){
-        console.log("soy "+this.userType)
+        //console.log("soy "+this.userType)
     }
 }

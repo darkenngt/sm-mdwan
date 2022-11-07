@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
+import { Subject, Subscription } from 'rxjs';
+import { takeUntil } from "rxjs/operators"
 import { compileComponentFromMetadata } from '@angular/compiler';
 
 @Component({
@@ -15,8 +17,8 @@ export class BikerComponent implements OnInit{
     public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
     public userType = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     public geoBiker: any = {}
-    public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
-    public userId = this.userInfo === null?0:this.userInfo.id
+    public storeId = 0
+    public userId = 0
     public orderid = 1
     public ordersStructureBiker: any = [];
     public mEnRuta: boolean = true;
@@ -28,8 +30,11 @@ export class BikerComponent implements OnInit{
     public from = "top"
     public align = "right"
     public warningSms = "no pudo realizar la acción"
+    public smsError = "No se pudo realizar la acción Contacte al administrador"
     
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
+        this.storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+        this.userId = this.userInfo === null?0:this.userInfo.id
         this.geolocation$.subscribe(position => 
             this.geoBiker = position);
 
@@ -48,18 +53,24 @@ export class BikerComponent implements OnInit{
         
         //console.log(this.ordersStructureBiker);
     }
-    initComponent(){
-        this.ordersStructureBiker = []
-        this.getOrdersBiker()
+    ngOnInit(): void{
+        console.log("voy a recargar")
+        this.listOrdersBiker()
+        //this.ordersStructureBiker = []
+
+        
         console.log(this.ordersStructureBiker)
+    }
+
+    initComponent(){
+        
         
     }
-    ngOnInit(){
-        this.initComponent()
-    }
-    getOrdersBiker(){
-        this.orderservices.orderByBiker(this.storeId,this.userId).subscribe((dataOrder: any) =>{
-            console.log("hola data de biker")
+   
+    listOrdersBiker(){
+        this.orderservices.orderByBiker(this.storeId,this.userId)
+        .subscribe((dataOrder: any) =>{
+            //console.log("hola data de biker")
             console.log(dataOrder)
             this.ordersStructureBiker = dataOrder.map((orderbiker=>{
                 let detalle = []
@@ -119,7 +130,7 @@ export class BikerComponent implements OnInit{
                 orderstatus.indice = index;
                 return orderstatus;
             })
-            console.log(this.ordersStructureBiker)
+            //console.log(this.ordersStructureBiker)
             
         });
         
@@ -134,13 +145,12 @@ export class BikerComponent implements OnInit{
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(idOrder)
        console.log("btn en ruta")
-        let jsonBiker = {orderId: 678, "geolocalization": getgeo}
+        let jsonBiker = {orderId: idOrder, "geolocalization": getgeo}
         //console.log(jsonBiker)
         this.orderservices.crtInroute(jsonBiker).subscribe((data: any) =>{
-            console.log("entra al subscribe")
-            console.log(data)
-            if (typeof data == 'object' && Object.keys(data).length === 0) {
-                this.toastr.warning(
+            console.log("entra al subscrie")
+            console.log(data.ERROR)
+                  this.toastr.warning(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
                     "",
                     {
@@ -159,23 +169,23 @@ export class BikerComponent implements OnInit{
                 this.ordersStructureBiker[indice].mEnRuta = false;
                 this.ordersStructureBiker[indice].mEnSitio = true;
                 this.ordersStructureBiker[indice].mEntregado = false;
-            }else{
-                console.log("entre al else")
-                this.toastr.warning(
-                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+this.warningSms+'</span>',
+         },
+         (err)=>{
+            console.log("esto es un error")
+            console.log("no viene data")
+                this.toastr.error(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+this.smsError+'</span>',
                     "",
                     {
-                      timeOut: 4000,
-                      closeButton: true,
-                      enableHtml: true,
-                      toastClass: "alert alert-warninf alert-with-icon",
-                      positionClass: "toast-" + from + "-" + align
+                    timeOut: 4500,
+                    closeButton: true,
+                    enableHtml: true,
+                    toastClass: "alert alert-error alert-with-icon",
+                    positionClass: "toast-" + this.from + "-" + this.align
                     }
-                  )
-            }
-            
-           
-         });
+                )
+        }
+         );
         
       
     }
@@ -310,7 +320,7 @@ export class BikerComponent implements OnInit{
                     }
                   )
                 console.log("se refresca")
-                this.getOrdersBiker()
+                this.listOrdersBiker()
             }
            
          });
@@ -326,9 +336,11 @@ export class BikerComponent implements OnInit{
         let jsonBiker = {userId:this.userId, storeId:this.storeId, getgeo}
         this.orderservices.crtGas(jsonBiker).subscribe((data: any) =>{
             console.log(data)// cambiar fecha end a fecha ini en el servicio
+            let message = "Ordenes agregadas a emergencia"
+            let messageError = "No hay ordenes para emergencia"
             if (typeof data == 'object' && Object.keys(data).length === 0) {
                 console.log("no se hace nada")
-                let message = "No hay ordenes para emergencia"
+                
                 this.toastr.info(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
                     "",
@@ -343,7 +355,7 @@ export class BikerComponent implements OnInit{
             }else{
                 let message = "Ordenes en Emergecia"
                 this.toastr.warning(
-                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+messageError+'</span>',
                     "",
                     {
                       timeOut: 4000,
@@ -354,11 +366,103 @@ export class BikerComponent implements OnInit{
                     }
                   )
                 console.log("se refresca")
-                this.getOrdersBiker()
+                this.listOrdersBiker()
             }
            
          });
-        console.log("pinche")
+        console.log("sin gas")
+    }
+
+    robber(){
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        //console.log(getgeo)
+       
+        let jsonBiker = {userId:this.userId, storeId:this.storeId, getgeo}
+        this.orderservices.crtRobber(jsonBiker).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            let message = "Ordenes agregadas a emergencia"
+            let messageError = "No hay ordenes para emergencia"
+            if (typeof data == 'object' && Object.keys(data).length === 0) {
+                console.log("no se hace nada")
+                
+                this.toastr.info(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-info alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+            }else{
+                let message = "Ordenes en Emergecia"
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+messageError+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warning alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+                console.log("se refresca")
+                this.listOrdersBiker()
+            }
+           
+         });
+        console.log("asalto")
+    }
+
+    injury(){
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        //console.log(getgeo)
+       
+        let jsonBiker = {userId:this.userId, storeId:this.storeId, getgeo}
+        this.orderservices.crtInjury(jsonBiker).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+            let message = "Ordenes agregadas a emergencia"
+            let messageError = "No hay ordenes para emergencia"
+            if (typeof data == 'object' && Object.keys(data).length === 0) {
+                console.log("no se hace nada")
+                
+                this.toastr.info(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-info alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+            }else{
+                let message = "Ordenes en Emergecia"
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+messageError+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warning alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+                console.log("se refresca")
+                this.listOrdersBiker()
+            }
+           
+         });
+        console.log("accidente")
     }
 
 

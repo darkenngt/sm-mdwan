@@ -54,10 +54,9 @@ export class LoginComponent implements OnInit{
             //console.log(data)
             let typeUser: Number = data.userInformation.user_type;
             let nameuser: any = data.userInformation.first_name
-
-                switch (typeUser) { 
-                    case 1:
-                        console.log("Usuario administrador");
+            if (typeUser === 1) {
+                console.log("Usuario administrador");
+                this.router.navigate(['coordinacion']);
                         this.toastr.success(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
@@ -69,24 +68,10 @@ export class LoginComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
-                        break;
-                    case 2:
-                        console.log("Usuario order manager");
-                        this.toastr.success(
-                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
-                            "",
-                            {
-                            timeOut: 4000,
-                            closeButton: true,
-                            enableHtml: true,
-                            toastClass: "alert alert-success alert-with-icon",
-                            positionClass: "toast-" + this.from + "-" + this.align
-                            }
-                        )
+            }
+            if (typeUser === 2) {
+                console.log("Usuario order manager");
                         this.router.navigate(['pedidos']);
-                        break;
-                    case 3:
-                        console.log("Usuario biker");
                         this.toastr.success(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
@@ -98,10 +83,25 @@ export class LoginComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
-                        this.router.navigate(['biker']);
-                        break;
-                    default: 
-                        console.log("No existe el usuario");
+            }
+            if (typeUser === 3) {
+                console.log("Usuario biker");
+                this.router.navigateByUrl('/pedidos', {skipLocationChange: true}).then(()=>
+                this.router.navigate(['/biker']));
+                        this.toastr.success(
+                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
+                            "",
+                            {
+                            timeOut: 4000,
+                            closeButton: true,
+                            enableHtml: true,
+                            toastClass: "alert alert-success alert-with-icon",
+                            positionClass: "toast-" + this.from + "-" + this.align
+                            }
+                        )
+            }
+            if (typeUser <= 0) {
+                console.log("No existe el usuario");
                         this.toastr.error(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smsError+'</span>',
                             "",
@@ -113,11 +113,7 @@ export class LoginComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
-                        break;
-                }
-
-                
-            
+            }
         },
         (err)=>{
             console.log("esto es un error")
