@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input} from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 
 @Component({
@@ -9,6 +9,8 @@ import { Subscription, interval } from 'rxjs';
 export class CountDownComponent implements OnInit, OnDestroy {
 
     private subscription: Subscription;
+    @Input() deliveryDate: any;
+    @Input() holaMundo: any
   
     public dateNow = new Date();
     //public dDay = new Date('Jan 01 2021 00:00:00');
@@ -26,13 +28,22 @@ export class CountDownComponent implements OnInit, OnDestroy {
     public daysToDday;
 
     constructor(){
-        this.dDay.setMinutes(this.dateNow.getMinutes() + 30 )
+        
     }
 
 
     private getTimeDifference () {
-        this.timeDifference = this.dDay.getTime() - new  Date().getTime();
-        this.allocateTimeUnits(this.timeDifference);
+        if (this.dDay.getTime() > new Date().getTime()){
+            this.timeDifference = this.dDay.getTime() - new  Date().getTime();
+            this.allocateTimeUnits(this.timeDifference);
+        }
+        else{
+            this.secondsToDday = 0
+            this.minutesToDday = 0
+            this.hoursToDday = 0
+            this.daysToDday = 0
+        }
+        
     }
 
   private allocateTimeUnits (timeDifference) {
@@ -43,6 +54,9 @@ export class CountDownComponent implements OnInit, OnDestroy {
   }
 
     ngOnInit() {
+        console.log(this.deliveryDate)
+        console.log(this.holaMundo)
+        this.dDay = this.deliveryDate
        this.subscription = interval(1000)
            .subscribe(x => { this.getTimeDifference(); });
     }
