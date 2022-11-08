@@ -15,8 +15,11 @@
           <li class="nav-item" *ngIf="userType ===2">
             <a class="nav-link active" aria-current="page" routerLink="/pedidos">Ordenes</a>
           </li>
+          <li class="nav-item" *ngIf="userType ===1">
+            <a class="nav-link" routerLink="/register">Crea Usuario</a>
+          </li>
           <li class="nav-item" *ngIf="userType ===3">
-            <a class="nav-link" routerLink="/biker">Biker</a>
+            <a class="nav-link" routerLink="/biker">Asignadas</a>
           </li>
           <li class="nav-item align-end" *ngIf="userType >0">
             

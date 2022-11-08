@@ -131,17 +131,9 @@ export class LoginComponent implements OnInit{
                 )
         }
         )
-        /*console.log("json sin stringify")
-        console.log(jsonLogin)
-        console.log("json con stringify")
-        console.log(varJson)
-        console.log("json con md5")
-        console.log(md5.appendStr(varJson).end())
-        console.log(this.userName);*/
         console.log(md5.appendStr(this.password).end());
         $("#btn_sub").removeClass("btn-primary");
         $("#btn_sub").addClass("btn-danger");
-        //this.router.navigate(['biker']);
 
     }
 }

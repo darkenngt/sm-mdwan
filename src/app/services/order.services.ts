@@ -50,6 +50,15 @@ export class OrderServices{
               })
         }
     }
+    
+    postCreateUser(jsonBody:any){
+        console.log(jsonBody)
+        return this.http.post(`${this.apiUrl}/createUser/`,jsonBody,this.httpOptionApi).pipe(
+         
+            catchError(this.handleError)
+        );
+    }
+
     postlogin(jsonBody:any){
         console.log(jsonBody)
         return this.http.post(`${this.apiUrl}/signin/`,jsonBody,this.httpOptionApi).pipe(

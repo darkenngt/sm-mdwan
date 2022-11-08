@@ -13,7 +13,7 @@ import { OrderServices } from 'app/services/order.services'
 
 export class CoordinadoresComponent implements OnInit{
   public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
-  storeSessionId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+ // storeSessionId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
   today: Date = new Date();
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
@@ -56,7 +56,7 @@ export class CoordinadoresComponent implements OnInit{
                 nombre:biker.first_name+" "+biker.last_name,
                 empresa:biker.enterprise.name,
                 id:biker.id,
-                store_id:this.storeSessionId
+                store_id:1,//this.storeSessionId
             }
         })
       
@@ -82,7 +82,7 @@ export class CoordinadoresComponent implements OnInit{
 
     addUserBiker(){
       let addUserAssingstore = {
-        "storeId": this.storeSessionId,
+        "storeId": 1,//this.storeSessionId,
         "userId": this.model.id
         
       }
@@ -101,7 +101,7 @@ export class CoordinadoresComponent implements OnInit{
 
     listUserStore(){
       console.log("lista usuarios");
-      this.orderservices.getUserBikerStore(this.storeSessionId).subscribe((data: any) =>{
+      this.orderservices.getUserBikerStore(1/*this.storeSessionId*/).subscribe((data: any) =>{
         //console.log("esta es la data");
         //console.log(data);
         //this.listBikerStore.push(data)
@@ -111,7 +111,7 @@ export class CoordinadoresComponent implements OnInit{
                 nombre:bikerStore.user.first_name+" "+bikerStore.user.last_name,
                 empresa:bikerStore.user.enterprise.name,
                 user_id:bikerStore.user_id,
-                store_id:this.storeSessionId,
+                store_id: 1,//this.storeSessionId,
                 fechaAsignacion:bikerStore.initial_date
             }
             
