@@ -17,7 +17,7 @@
       <div class="tab-content " id="pills-tabContent">
         <div  class="stab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <div *ngIf="this.showDelivery" class="row">
-                <div class="col-md-3" *ngFor="let order of ordersStructure">
+                <div class="col-md-3" *ngFor="let order of delOrdersStructure">
                     <div class="card" style="width: 15rem;">
                         <div class="card-header" 
                         [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
@@ -55,7 +55,7 @@
         </div>
         <div  class="tab-pane fade row" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
             <div *ngIf="this.showPickup" class="row">
-                <div class="col-md-3" *ngFor="let order of ordersStructure">
+                <div class="col-md-3" *ngFor="let order of PickordersStructure">
                     <div class="card" style="width: 15rem;">
                         <div class="card-header" 
                         [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
@@ -94,7 +94,7 @@
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
             
             <div *ngIf="this.showEmergencia" class="row">
-                <div class="col-md-3" *ngFor="let order of ordersStructure">
+                <div class="col-md-3" *ngFor="let order of emerOrdersStructure">
                     <div class="card" style="width: 15rem;">
                         <div class="card-header" 
                         [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
@@ -110,9 +110,9 @@
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
                         'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
                         'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                        <ctimer-countdown-timer
+                        <!--<ctimer-countdown-timer
                         [finishDateString]="'2022-10-31 20:30:00'"
-                        ></ctimer-countdown-timer>
+                        ></ctimer-countdown-timer>-->
                             </div>
                             
                             </div>
@@ -135,7 +135,7 @@
         <div class="tab-pane fade" id="pills-progra" role="tabpanel" aria-labelledby="pills-progra-tab">
             
             <div *ngIf="this.showProgramada" class="row">
-                <div class="col-md-3" *ngFor="let order of ordersStructure">
+                <div class="col-md-3" *ngFor="let order of proOrdersStructure">
                     <div class="card" style="width: 15rem;">
                         <div class="card-header" 
                         [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?

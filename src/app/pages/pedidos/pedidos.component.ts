@@ -14,7 +14,10 @@ import {GeolocationService} from '@ng-web-apis/geolocation';
 export class PedidosComponent implements OnInit, AfterViewInit{
     public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
     public userType = this.userInfo === null?0:this.userInfo.id
-    public ordersStructure: any = [];
+    public delOrdersStructure: any = [];
+    public PickordersStructure: any = [];
+    public proOrdersStructure: any = [];
+    public emerOrdersStructure: any = [];
     public showDelivery: boolean = true;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
@@ -48,7 +51,10 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     }
 
     initComponent(){
-        this.ordersStructure = [];
+        this.delOrdersStructure = [];
+        this.PickordersStructure = [];
+        this.proOrdersStructure = [];
+        this.emerOrdersStructure = []
        
         this.getDelivery()
         
@@ -76,7 +82,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         let typeorder = 1
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
-            this.ordersStructure = data.map((order)=>{
+            this.delOrdersStructure = data.map((order)=>{
                     return {
                         tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
                         estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
@@ -89,7 +95,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                     }
                 
             })
-            console.log(this.ordersStructure)
+            console.log(this.delOrdersStructure)
         });
         console.log(this.showPickup);
     }
@@ -102,7 +108,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         let typeorder = 2
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
-            this.ordersStructure = data.map((order)=>{
+            this.PickordersStructure = data.map((order)=>{
                 return {
                     tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
                     estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
@@ -128,17 +134,20 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
-            this.ordersStructure = data.map((order)=>{
-                return {
-                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":"entregado",
-                    nombre:order.client.name,
-                    fecha:order.creation_date.substring(0, 10),
-                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                    total:order.payment_amount,
-                    numeroPedido:order.origin_store_id,
-                    idOrder:order.id
+            this.emerOrdersStructure = data.map((order)=>{
+                if (order.status != 5) {
+                    return {
+                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":"entregado",
+                        nombre:order.client.name,
+                        fecha:order.creation_date.substring(0, 10),
+                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                        total:order.payment_amount,
+                        numeroPedido:order.origin_store_id,
+                        idOrder:order.id
+                    }
                 }
+               
             })
           
         });
@@ -155,7 +164,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log("ordenes programadas")
             console.log(data)
-            this.ordersStructure = data.map((order)=>{
+            this.proOrdersStructure = data.map((order)=>{
                     console.log(order.delivery_day)
                     let deliveryDate = new Date()
                     if (order.delivery_day){
@@ -186,7 +195,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                     }
                 
             })
-            console.log(this.ordersStructure)
+            console.log(this.proOrdersStructure)
           
         });
     }
