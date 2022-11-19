@@ -23,6 +23,7 @@
                         <th>código</th>
                         <th>nombre</th>
                         <th>empresa</th>
+                        <th>tienda</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="UserAssingstore.length > 0">
@@ -30,7 +31,13 @@
                         <td>{{userasstd.codigo}}</td>
                         <td>{{userasstd.nombre}}</td>
                         <td>{{userasstd.empresa}}</td>
-                        <td><button class="btn btn-info" (click)="addUserBiker()">Agregar a tienda</button></td>
+                        <td>                             
+                            <select class=""  name="" id="tienda" [(ngModel)]="idTienda">
+                                <option>Seleccione Motorista</option>
+                                <option *ngFor="let tdsm  of allstore" [value]="tdsm.id">{{tdsm.name}} </option>
+                            </select>
+                        </td>
+                        <td><button class="btn btn-info" (click)="addUserCoor()">Agregar a tienda</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -46,13 +53,13 @@
                         <th>Fecha Hora Inicio</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="listBikerStore.length > 0">
-                    <tr *ngFor="let LtsInStore of listBikerStore">
+                <tbody *ngIf="listCoorStore.length > 0">
+                    <tr *ngFor="let LtsInStore of listCoorStore">
                         <td>{{LtsInStore.codigo}}</td>
                         <td>{{LtsInStore.nombre}}</td>
                         <td>{{LtsInStore.empresa}}</td>
                         <td>{{LtsInStore.fechaAsignacion}}</td>
-                        <td><button class="btn btn-danger" (click)="deleteUserBiker(LtsInStore.user_id,LtsInStore.store_id)">Eliminar</button></td>
+                        <td><button class="btn btn-danger" (click)="deleteUserCoor(LtsInStore.user_id,LtsInStore.store_id)">Eliminar</button></td>
                     </tr>
                 </tbody>
             </table>

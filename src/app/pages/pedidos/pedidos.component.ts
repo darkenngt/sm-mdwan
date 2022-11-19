@@ -23,10 +23,6 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
     public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
-    public deliveryDate: Date = new Date();
-    
-
-     
     
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
         
@@ -73,7 +69,6 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         //location.reload()
     }
     
-
     getDelivery(){
         this.showDelivery = true
         this.showPickup = false;
@@ -81,23 +76,23 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showProgramada = false
         let typeorder = 1
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            let filtDelevy = []
             console.log(data)
-            this.delOrdersStructure = data.map((order)=>{
-                    return {
-                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
-                        nombre:order.client.name,
-                        fecha:order.creation_date.substring(0, 10),
-                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                        total:order.payment_amount,
-                        numeroPedido:order.origin_store_id,
-                        idOrder:order.id
-                    }
-                
-            })
+            data.forEach(order => {
+                return {
+                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                    nombre:order.client.name,
+                    fecha:order.creation_date.substring(0, 10),
+                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                    total:order.payment_amount,
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id
+                }
+            });
+            this.delOrdersStructure = filtDelevy
             console.log(this.delOrdersStructure)
         });
-        console.log(this.showPickup);
     }
 
     getPickup(){
@@ -107,22 +102,28 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showProgramada = false
         let typeorder = 2
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            let filtPickup = []
             console.log(data)
-            this.PickordersStructure = data.map((order)=>{
-                return {
-                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
-                    nombre:order.client.name,
-                    fecha:order.creation_date.substring(0, 10),
-                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                    total:order.payment_amount,
-                    numeroPedido:order.origin_store_id,
-                    idOrder:order.id
+            data.forEach(order => {
+                if (order.status !== 0 && order.status !== 5) {
+                    filtPickup.push(
+                        {
+                            tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                            estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                            nombre:order.client.name,
+                            fecha:order.creation_date.substring(0, 10),
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            total:order.payment_amount,
+                            numeroPedido:order.origin_store_id,
+                            idOrder:order.id
+                        }
+                    )
+                    
                 }
-            })
-          
+            });
+            this.PickordersStructure = filtPickup
         });
-
+        
         console.log(this.showPickup);
     }
     getEmergencia(){
@@ -134,24 +135,29 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             console.log(data)
-            this.emerOrdersStructure = data.map((order)=>{
-                if (order.status != 5) {
-                    return {
-                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":"entregado",
-                        nombre:order.client.name,
-                        fecha:order.creation_date.substring(0, 10),
-                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                        total:order.payment_amount,
-                        numeroPedido:order.origin_store_id,
-                        idOrder:order.id
-                    }
+            let filterEmerOrdersStructure = []
+            data.forEach(order => {
+                if (order.status !== 0 && order.status !== 5) {
+                    filterEmerOrdersStructure.push(
+                        {
+                            tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                            estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                            nameEstado:order.status===6?"pinzachazo":"",
+                            nombre:order.client.name,
+                            fecha:order.creation_date.substring(0, 10),
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            total:order.payment_amount,
+                            numeroPedido:order.origin_store_id,
+                            idOrder:order.id
+                        }
+                    )
+                    
                 }
-               
-            })
-          
+            });
+            this.emerOrdersStructure = filterEmerOrdersStructure
+            console.log(this.emerOrdersStructure);
         });
-        console.log(this.showPickup);
+        
     }
 
     getprogramadas(){
@@ -162,39 +168,22 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         let typeorder = 3
         console.log(this.showProgramada)
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
-            console.log("ordenes programadas")
+            let filtProga = []
             console.log(data)
-            this.proOrdersStructure = data.map((order)=>{
-                    console.log(order.delivery_day)
-                    let deliveryDate = new Date()
-                    if (order.delivery_day){
-                        let divDate = order.delivery_day.split('-')
-                        console.log(divDate)
-                        let divYear = divDate[2].split (' ')
-                        console.log(divYear)
-                        let divHour = divYear[1].split(':')
-                        console.log(divHour)
-                        let deliveryMonth = parseInt(divDate[0]) - 1
-                        let deliveryDay = parseInt(divDate[1])
-                        let deliveryYear = parseInt(divYear[0])
-                        let deliveryHour = parseInt(divHour[0])
-                        let deliveryMinute = parseInt(divHour[1])
-                        deliveryDate = new Date(deliveryYear, deliveryMonth, deliveryDay, deliveryHour, deliveryMinute)
-                        console.log(deliveryDate)
-                    }
-                    return {
-                        tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                        estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":"entregado",
-                        nombre:order.client.name,
-                        fecha:order.creation_date.substring(0, 10),
-                        tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                        total:order.payment_amount,
-                        numeroPedido:order.origin_store_id,
-                        idOrder:order.id,
-                        deliveryDate: deliveryDate
-                    }
+            data.forEach(order => {
+                return {
+                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                    nombre:order.client.name,
+                    fecha:order.creation_date.substring(0, 10),
+                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                    total:order.payment_amount,
+                    numeroPedido:order.origin_store_id,
+                    idOrder:order.id,
+                }
                 
-            })
+            });
+            this.proOrdersStructure = filtProga
             console.log(this.proOrdersStructure)
           
         });

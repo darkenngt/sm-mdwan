@@ -46,9 +46,10 @@ export class StoredAssigmentsComponent implements OnInit{
     }
 
     initComponent(){
+      let typeUser = 3
       console.log("entre al código")
-      this.orderservices.getAvailableBickers().subscribe((data: any) =>{
-        //console.log("entre a data");
+      this.orderservices.getAvailableBikers(typeUser).subscribe((data: any) =>{
+        console.log("entre a data");
         console.log(data)
         this.statesWithFlags = data.map((biker)=>{
             return {

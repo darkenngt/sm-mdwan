@@ -163,8 +163,8 @@ export class OrderServices{
         );
     }
 
-    getAvailableBickers(){
-        return this.http.get(`${this.apiUrl}/getAvailablePilots`,this.httpOptionApi).pipe(
+    getAvailableBikers(typeUser:any){
+        return this.http.get(`${this.apiUrl}/getAvailablePilots/${typeUser}`,this.httpOptionApi).pipe(
             catchError(err =>{
                 //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
@@ -175,8 +175,8 @@ export class OrderServices{
             )
     }
 
-    getAvailableCoord(){
-        return this.http.get(`${this.apiUrl}/getAvailableCoord`,this.httpOptionApi).pipe(
+    getAvailableCoord(typeUser:any){
+        return this.http.get(`${this.apiUrl}/getAvailablePilots/${typeUser}`,this.httpOptionApi).pipe(
             catchError(err =>{
                 //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
@@ -214,6 +214,18 @@ export class OrderServices{
     
     getUserBikerStore(storeId){
         return this.http.get(`${this.apiUrl}/getAssignedPilotsByStore/${storeId}`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again later.');
+                
+            
+            })
+        );
+    }
+
+    getUserAllStore(usetType){
+        return this.http.get(`${this.apiUrl}/getAssignedUsersToStore/${usetType}`,this.httpOptionApi).pipe(
             catchError(err =>{
                 this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
@@ -273,6 +285,16 @@ export class OrderServices{
         );
     }
 
+    getAllStore(){
+        return this.http.get(`${this.apiUrl}/getAllStores/`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                //this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
     /**Metodos de motoristas */
     crtInroute(jsonBody:any){
         console.log(jsonBody)
@@ -289,7 +311,7 @@ export class OrderServices{
     crtInsite(jsonBody:any){
         return this.http.put(`${this.apiUrl}/updateOrder/site`,jsonBody,this.httpOptionApi).pipe(
             catchError(err =>{
-                this.router.navigate(['login'])
+                //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again later.');
                 

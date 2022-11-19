@@ -95,7 +95,7 @@
             
             <div *ngIf="this.showEmergencia" class="row">
                 <div class="col-md-3" *ngFor="let order of emerOrdersStructure">
-                    <div class="card" style="width: 15rem;">
+                    <div  class="card" style="width: 15rem;">
                         <div class="card-header" 
                         [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
                         'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?

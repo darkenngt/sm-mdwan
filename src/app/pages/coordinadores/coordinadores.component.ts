@@ -18,10 +18,13 @@ export class CoordinadoresComponent implements OnInit{
   pipe = new DatePipe('en-US');
   todayWithPipe = null;
       public model: any;
-      public listBikerStore: any = []
+      public idTienda: number;
+      public listCoorStore: any = []
       public statesWithFlags: {codigo: string, nombre: string, empresa: string}[]
       public UserAssingstore: any = [];
+      public allstore: any = [];
       constructor( public orderservices: OrderServices){
+        this.initComponent()
         /*this.UserAssingstore = this.UserAssingstore.map( (data, index) =>{
           data.date = this.todayWithPipe = this.pipe.transform(Date.now(), 'h:mm:ss a')
           data.indice = index;
@@ -41,14 +44,18 @@ export class CoordinadoresComponent implements OnInit{
     options: string[] = ['One', 'Two', 'Three'];*/
   
     ngOnInit(){
-      this.initComponent()
+      
       this.listUserStore()
+      
     }
 
     initComponent(){
+      this.allstore = []
+      this.getallstore()
       console.log("entre al código")
-      this.orderservices.getAvailableCoord().subscribe((data: any) =>{
-        //console.log("entre a data");
+      let typeUser = 2
+      this.orderservices.getAvailableCoord(typeUser).subscribe((data: any) =>{
+        console.log("entre a data");
         console.log(data)
         this.statesWithFlags = data.map((biker)=>{
             return {
@@ -61,9 +68,19 @@ export class CoordinadoresComponent implements OnInit{
         })
       
     });
-  
     //this.getDelivery()
+    }
 
+    getallstore(){
+      this.orderservices.getAllStore().subscribe((data: any) =>{
+        console.log(data)
+        this.allstore = data.map((stores)=>{
+          return{
+            id:stores.id,
+            name:stores.name
+          }
+        })
+      })
     }
 
     add(test){
@@ -80,47 +97,46 @@ export class CoordinadoresComponent implements OnInit{
       //console.log(test)
     }
 
-    addUserBiker(){
+    addUserCoor(){
       let addUserAssingstore = {
-        "storeId": 1,//this.storeSessionId,
+        "storeId": this.idTienda,
         "userId": this.model.id
-        
       }
-      /*console.log("esto va")
+      console.log("esto va")
       console.log(addUserAssingstore)
-      console.log("entre a delete")
-      console.log(this.model)*/
+      //console.log(this.model)
       this.orderservices.addUserbikerStore(addUserAssingstore).subscribe((data: any) =>{
         this.listUserStore()
       
     });
       this.model = {};
       this.UserAssingstore = []
+      this.idTienda = 0
 
     }
 
     listUserStore(){
       console.log("lista usuarios");
-      this.orderservices.getUserBikerStore(1/*this.storeSessionId*/).subscribe((data: any) =>{
-        //console.log("esta es la data");
-        //console.log(data);
-        //this.listBikerStore.push(data)
-        this.listBikerStore = data.map((bikerStore)=>{
+      let typeUser = 2
+      this.orderservices.getUserAllStore(typeUser).subscribe((data: any) =>{
+        console.log("esta es la data");
+        console.log(data);
+        //this.listCoorStore.push(data)
+        this.listCoorStore = data.map((bikerStore)=>{
             return {
                 codigo: bikerStore.user.code===""?bikerStore.user.dpi:bikerStore.user.code,
                 nombre:bikerStore.user.first_name+" "+bikerStore.user.last_name,
                 empresa:bikerStore.user.enterprise.name,
                 user_id:bikerStore.user_id,
-                store_id: 1,//this.storeSessionId,
+                store_id: bikerStore.store_id,
                 fechaAsignacion:bikerStore.initial_date
-            }
-            
+            }           
         })
-        //console.log(this.listBikerStore)
+        //console.log(this.listCoorStore)
     });
     }
 
-    deleteUserBiker(duser_id, dStore_id){
+    deleteUserCoor(duser_id, dStore_id){
       let delUser = {
         "userId": duser_id,
         "storeId": dStore_id
@@ -128,6 +144,7 @@ export class CoordinadoresComponent implements OnInit{
       console.log("eliminando")
       console.log(delUser)
       this.orderservices.deleteUserbikerStore(delUser).subscribe((data: any) =>{
+        console.log(data)
        this.listUserStore()
       
     });

@@ -104,7 +104,21 @@ export class RegisterComponent implements OnInit{
             console.log(jsonUser)
             this.OrderServices.postCreateUser(jsonUser).subscribe((data: any) =>{
                 console.log(data)
-               
+                if (data) {
+                    if (data.errorType) {
+                        console.log(data)
+                    this.toastr.warning(
+                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+data.errorType+" "+data.errorField+'</span>',
+                        "",
+                        {
+                        timeOut: 4000,
+                        closeButton: true,
+                        enableHtml: true,
+                        toastClass: "alert alert-warning alert-with-icon",
+                        positionClass: "toast-" + this.from + "-" + this.align
+                        }
+                    )
+                    }else{
                         this.toastr.success(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+succesu+'</span>',
                             "",
@@ -117,20 +131,8 @@ export class RegisterComponent implements OnInit{
                             }
                         )
                         this.router.navigate(['register']);
-            },(err)=>{
-                console.log("esto es un error")
-                console.log("no viene data")
-                    this.toastr.error(
-                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+errorsmsu+'</span>',
-                        "",
-                        {
-                        timeOut: 4500,
-                        closeButton: true,
-                        enableHtml: true,
-                        toastClass: "alert alert-error alert-with-icon",
-                        positionClass: "toast-" + this.from + "-" + this.align
-                        }
-                    )
+                    }
+                }
             })
         }
             

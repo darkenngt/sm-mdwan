@@ -198,7 +198,7 @@ export class BikerComponent implements OnInit{
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
-        let jsonBiker = {order_id: idOrder, "geolocalization": JSON.stringify(getgeo)}
+        let jsonBiker = {orderId: idOrder, "geolocalization": getgeo}
         this.orderservices.crtInsite(jsonBiker).subscribe((data: any) =>{
             this.toastr.info(
                 '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
@@ -212,12 +212,29 @@ export class BikerComponent implements OnInit{
                 }
               )
             console.log(data)// cambiar fecha end a fecha ini en el servicio
-           
-         });
-        console.log(jsonBiker)
+            console.log(jsonBiker)
         this.ordersStructureBiker[indice].mEnRuta = false;
         this.ordersStructureBiker[indice].mEnSitio = false;
         this.ordersStructureBiker[indice].mEntregado = true;
+           
+         },
+         (err)=>{
+            console.log("esto es un error")
+            console.log("no viene data")
+                this.toastr.error(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+this.smsError+'</span>',
+                    "",
+                    {
+                    timeOut: 4500,
+                    closeButton: true,
+                    enableHtml: true,
+                    toastClass: "alert alert-error alert-with-icon",
+                    positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                )
+        }
+         );
+        
 
     }
     showEntrega(idOrder, indice){
