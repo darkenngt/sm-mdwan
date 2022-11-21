@@ -142,7 +142,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                         {
                             tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
                             estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
-                            nameEstado:order.status===6?"pinzachazo":"",
+                            nameEstado:order.status===6?"pinzachazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",

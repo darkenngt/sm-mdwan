@@ -104,7 +104,8 @@
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
                         'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
                         'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                {{order.estado}}
+                                {{order.estado}} <br>
+                                {{order.nameEstado}} 
                             </div>
                             <div class="end-0 text-black fw-bold"
                             [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
