@@ -79,19 +79,24 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             let filtDelevy = []
             console.log(data)
             data.forEach(order => {
-                return {
-                    tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
-                    estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
-                    nombre:order.client.name,
-                    fecha:order.creation_date.substring(0, 10),
-                    tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
-                    total:order.payment_amount,
-                    numeroPedido:order.origin_store_id,
-                    idOrder:order.id
+                if (order.status !== 0 && order.status !== 5) {
+                    filtDelevy.push(
+                        {
+                            tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                            estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                            nombre:order.client.name,
+                            fecha:order.creation_date.substring(0, 10),
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            total:order.payment_amount,
+                            numeroPedido:order.origin_store_id,
+                            idOrder:order.id
+                        }
+                    )
                 }
+                
             });
             this.delOrdersStructure = filtDelevy
-            console.log(this.delOrdersStructure)
+            console.log(filtDelevy)
         });
     }
 
@@ -134,15 +139,16 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         let typeorder = 4
         
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
-            console.log(data)
+            console.log(data.sort((a, b) => a.id > b.id))
+            let dataSotE = data.sort((a, b) => a.id > b.id)
             let filterEmerOrdersStructure = []
-            data.forEach(order => {
+            dataSotE.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
                     filterEmerOrdersStructure.push(
                         {
                             tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
                             estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
-                            nameEstado:order.status===6?"pinzachazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
+                            nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
