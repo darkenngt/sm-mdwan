@@ -6,7 +6,8 @@
         
         <ng-template #rt let-r="result" let-t="term" >
         <!--<img [src]="'https://upload.wikimedia.org/wikipedia/commons/thumb/' + r['flag']" class="me-1" style="width: 16px">-->
-        <ngb-highlight [result]="r.nombre" [term]="t" (click)="add(r)"></ngb-highlight>
+        <span class="material-icons">motorcycle</span>
+        <ngb-highlight [result]="r.nombre" [term]="t" (click)="add(trim(r))"></ngb-highlight>
         </ng-template>
         
         <div class="mb-3 row">

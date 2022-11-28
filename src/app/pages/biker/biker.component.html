@@ -76,11 +76,9 @@
                                 <tr>
                                     <th scope="col">Item</th>
                                     <th scope="col">Cantidad</th>
-                                    <th scope="col">Precio</th>
-                                    <th scope="col">Total</th>
                                 </tr>
                                 </thead>
-                                <tbody *ngIf="orderBiker.detalle && orderBiker.detalle.length > 0" class="text-center">
+                                <tbody *ngIf="orderBiker.detalle && orderBiker.detalle.length > 0" class="text-left">
                                     <tr *ngFor="let masterSingle of orderBiker.detalle">
                                             <td scope="row">
                                                 <div class="fs-6">
@@ -115,46 +113,6 @@
                                                                 <div *ngFor="let complemento of itemsSingle.complemento" class="">
                                                                     <div>
                                                                         {{complemento.cantidad}}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </td>
-                                            <td>
-                                                <div class="fs-6 text-center">
-                                                    {{masterSingle.total}}
-                                                </div>
-                                                
-                                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
-                                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
-                                                        <div class="">
-                                                            {{itemsSingle.precio}}
-                                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
-                                                                <div *ngFor="let complemento of itemsSingle.complemento" class="">
-                                                                    <div>
-                                                                       {{complemento.precio}}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="fs-6 text-center">
-                                                     {{masterSingle.total}}
-                                                </div>
-                                                
-                                                <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
-                                                    <div *ngFor="let itemsSingle of masterSingle.items" class="">
-                                                        <div class="">
-                                                            {{itemsSingle.precio}}
-                                                            <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
-                                                                <div *ngFor="let complemento of itemsSingle.complemento" class="">
-                                                                    <div>
-                                                                        {{complemento.precio}}
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -20,7 +20,6 @@ import { RegisterComponent } from './pages/register/register.component';
 
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 
-import { FormsModule } from '@angular/forms';
 import { DeliveryComponent } from "./pages/delivery/delivery.component";
 import { SingleOrderComponent } from "./pages/single-order/single-order.component";
 import { BikerComponent  } from "./pages/biker/biker.component";
@@ -34,7 +33,10 @@ import { CountdownTimerSm} from './lib/countdown.component'
 import { CountDownComponent } from "./pages/count-down/count-down.component";
 import { BrowserModule } from '@angular/platform-browser';
 import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
-
+import {MatAutocompleteModule} from '@angular/material/autocomplete'
+import {FormsModule, ReactiveFormsModule, } from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -67,8 +69,12 @@ import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.comp
     FooterModule,
     FixedPluginModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
     NgbModule,
-    MatIconModule
+    MatIconModule,
+    MatAutocompleteModule,
+    MatInputModule
   ],
   providers: [DatePipe],
   

@@ -13,10 +13,6 @@ import { OrderServices } from 'app/services/order.services'
 })
 
 export class StoredAssigmentsComponent implements OnInit{
-  myControl = new FormControl('');
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
-
   public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
   storeSessionId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
   today: Date = new Date();
@@ -27,6 +23,12 @@ export class StoredAssigmentsComponent implements OnInit{
       public statesWithFlags: {codigo: string, nombre: string, empresa: string}[]
       public UserAssingstore: any = [];
       constructor( public orderservices: OrderServices){
+        /*this.UserAssingstore = this.UserAssingstore.map( (data, index) =>{
+          data.date = this.todayWithPipe = this.pipe.transform(Date.now(), 'h:mm:ss a')
+          data.indice = index;
+          return data;
+        })*/
+        
       }
   search: OperatorFunction<string, readonly {codigo, nombre, empresa}[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -36,20 +38,12 @@ export class StoredAssigmentsComponent implements OnInit{
     );
 
   formatter = (x: {codigo: string}) => x.codigo;
+    /*myControl = new FormControl('');
+    options: string[] = ['One', 'Two', 'Three'];*/
   
     ngOnInit(){
       this.initComponent()
       this.listUserStore()
-      this.filteredOptions = this.myControl.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value || '')),
-      );
-    }
-
-    private _filter(value: string): string[] {
-      const filterValue = value.toLowerCase();
-  
-      return this.options.filter(option => option.toLowerCase().includes(filterValue));
     }
 
     initComponent(){
@@ -76,6 +70,7 @@ export class StoredAssigmentsComponent implements OnInit{
 
     add(test){
       console.log(this.UserAssingstore)
+      console.log(test)
       const arr = Array.from(test);
       /*arr =  arr.map( (data, index) =>{
           data.date = this.todayWithPipe = this.pipe.transform(Date.now(), 'h:mm:ss a')
