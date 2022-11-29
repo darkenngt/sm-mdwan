@@ -92,7 +92,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
-                            idOrder:order.id
+                            idOrder:order.id,
+                            deliveryDate: new Date(order.creation_date)
                         }
                     )
                 }
@@ -123,7 +124,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
-                            idOrder:order.id
+                            idOrder:order.id,
+                            deliveryDate: new Date(order.creation_date)
                         }
                     )
                     
@@ -157,7 +159,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
-                            idOrder:order.id
+                            idOrder:order.id,
+                            deliveryDate: new Date(order.creation_date)
                         }
                     )
                     
@@ -167,6 +170,25 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             console.log(this.emerOrdersStructure);
         });
         
+    }
+
+    getDeliveryDate(delivery_day){
+        console.log(delivery_day)
+        let deliveryDate = new Date()
+        let divDate = delivery_day.split('-')
+        console.log(divDate)
+        let divYear = divDate[2].split (' ')
+        console.log(divYear)
+        let divHour = divYear[1].split(':')
+        console.log(divHour)
+        let deliveryMonth = parseInt(divDate[0]) - 1
+        let deliveryDay = parseInt(divDate[1])
+        let deliveryYear = parseInt(divYear[0])
+        let deliveryHour = parseInt(divHour[0])
+        let deliveryMinute = parseInt(divHour[1])=== 1 ? 30: 0
+        deliveryDate = new Date(deliveryYear, deliveryMonth, deliveryDay, deliveryHour, deliveryMinute)
+        console.log(deliveryDate)
+        return deliveryDate
     }
 
     getprogramadas(){
@@ -191,7 +213,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
-                            idOrder:order.id
+                            idOrder:order.id,
+                            deliveryDate: this.getDeliveryDate(order.delivery_day)
                         }
                     )
             }

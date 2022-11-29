@@ -11,6 +11,7 @@ export class CountDownComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     @Input() deliveryDate: any;
     @Input() holaMundo: any
+    @Input() orderType: any;
   
     public dateNow = new Date();
     //public dDay = new Date('Jan 01 2021 00:00:00');
@@ -33,17 +34,18 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
 
     private getTimeDifference () {
-        if (this.dDay.getTime() > new Date().getTime()){
+        this.secondsToDday = 0
+        this.minutesToDday = 0
+        this.hoursToDday = 0
+        this.daysToDday = 0
+        if (this.dDay.getTime() > new Date().getTime() && this.orderType === 3){
             this.timeDifference = this.dDay.getTime() - new  Date().getTime();
             this.allocateTimeUnits(this.timeDifference);
         }
-        else{
-            this.secondsToDday = 0
-            this.minutesToDday = 0
-            this.hoursToDday = 0
-            this.daysToDday = 0
+        if (this.dDay.getTime() < new Date().getTime() && this.orderType !== 3){
+            this.timeDifference = new Date().getTime() - this.dDay.getTime()
+            this.allocateTimeUnits(this.timeDifference);
         }
-        
     }
 
   private allocateTimeUnits (timeDifference) {
@@ -55,7 +57,7 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.deliveryDate)
-        console.log(this.holaMundo)
+        console.log(this.orderType)
         this.dDay = this.deliveryDate
        this.subscription = interval(1000)
            .subscribe(x => { this.getTimeDifference(); });
