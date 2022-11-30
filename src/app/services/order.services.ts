@@ -383,7 +383,7 @@ export class OrderServices{
     ////aloha
     sendAloha(orderId){
         console.log(this.httpOptionApi)
-            return this.http.post(`${this.apiUrl}/setOrderToAlohaById/${orderId}`,this.httpOptionApi).pipe(
+            return this.http.post(`${this.apiUrl}/setOrderToAlohaById/${orderId}`,{},this.httpOptionApi).pipe(
             catchError(err =>{
                 //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
