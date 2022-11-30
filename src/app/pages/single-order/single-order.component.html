@@ -11,13 +11,13 @@
             <div class="col-md-12 fs-6">
                 <span class="material-icons">motorcycle</span>
                 
-                <select class=""  name="" id="biker" [(ngModel)]="bikerSelect" [disabled]="((ordersStructureSingle.estado != 'procesada') && (ordersStructureSingle.estado != 'emergencia'))">
+                <select class=""  name="" id="biker" [(ngModel)]="bikerSelect" (ngModelChange)="getAssingAloha()" [disabled]="((ordersStructureSingle.estado != 'procesada') && (ordersStructureSingle.estado != 'emergencia'))">
                     <option>Seleccione Motorista</option>
                     <option *ngFor="let biker of BikerAvailable" [ngClass]="biker.nDelivered > 0?'text-danger fw-bold':''" [value]="biker.id">{{biker.countName}} </option>
                 </select>
             </div>
             <div class="col-md-12 fs-5">
-                <button id="idAloha" class="btn btn-success" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'" (click)="getAssingAloha()">Enviar Aloha</button>
+                <button id="idAloha" class="btn btn-success" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'" (click)="sendToAloha()">Enviar Aloha</button>
             </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">

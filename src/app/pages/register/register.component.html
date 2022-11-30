@@ -10,7 +10,7 @@
             <div class="col-md-5 pr-1">
               <div class="form-group">
                 <label>Empresa</label>
-                <select class="form-control"   aria-label="Default select example" name="empresa" ngModel required #empresa="ngModel">
+                <select class="form-select"   aria-label="Default select example" name="empresa" ngModel required #empresa="ngModel">
                     <option selected>Seleccionar Empresa</option>
                     <option value="1">San Martín</option>
                     <option value="2">Empresa 1</option>
@@ -40,37 +40,26 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-3 pr-1">
+            <div class="col-md-4 pr-1">
               <div class="form-group">
                 <label>Codigo</label>
                 <input type="text" class="form-control" placeholder="Ingrese código"  name="codigo" value="" ngModel required #codigo="ngModel">
               </div>
             </div>
-            <div class="col-md-3 pr-1">
+            <div class="col-md-4 pr-1">
               <div class="form-group">
                 <label>Dpi</label>
                 <input type="text" class="form-control" placeholder="Ingrese dpi"  name="dpi" value="" ngModel required #dpi="ngModel">
               </div>
             </div>
-            <div class="col-md-3 px-1">
+            <div class="col-md-4 px-1">
               <div class="form-group">
                 <label>Tipo usuario</label>
-                <select class="form-control" aria-label="Default select example" name="tipo" ngModel required #tipo="ngModel">
+                <select class="form-select" aria-label="Default select example" name="tipo" ngModel required #tipo="ngModel">
                     <option selected>Seleccionar tipo</option>
                     <option value="1">Administrador</option>
                     <option value="2">Coordinador</option>
                     <option value="3">Biker</option>
-                  </select>
-              </div>
-            </div>
-            <div class="col-md-3 pl-1">
-              <div class="form-group">
-                <label>Tienda</label>
-                <select class="form-control" aria-label="Default select example" name="tienda" ngModel required #tienda="ngModel">
-                    <option selected>tienda</option>
-                    <option value="1">Petapa</option>
-                    <option value="2">San Cristobal Mix</option>
-                    <option value="3">Miraflores</option>
                   </select>
               </div>
             </div>

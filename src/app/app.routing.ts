@@ -13,6 +13,7 @@ import { ItemsModalComponent } from './pages/itemsmodal/itemsmodal.component';
 import { StoredAssigmentsComponent } from './pages/storedAssigments/storedAssigments.component';
 import { NavSm } from './pages/navsm/navsm.component';
 import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
+import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 
 export const AppRoutes: Routes = [
   {
@@ -89,6 +90,13 @@ export const AppRoutes: Routes = [
     component:NavSm,
     data:{
       title:"navsm"
+    }
+  },
+  {
+    path: 'enterprise',
+    component:EnterpriseComponent,
+    data:{
+      title:"Enterprise"
     }
   },
   {

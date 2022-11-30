@@ -17,7 +17,12 @@ const httpOptions = {
   })
 
 export class OrderServices{
-    httpOptionApi = {};
+    httpOptionApi = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.getItem('accestoken')
+          })
+    };
     login(user, password){
         let userinfo = {user:user,password:password}
     
@@ -373,6 +378,36 @@ export class OrderServices{
             
             })
             )
+    }
+
+    ////aloha
+    sendAloha(orderId){
+        console.log(this.httpOptionApi)
+            return this.http.post(`${this.apiUrl}/setOrderToAlohaById/${orderId}`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                //this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
+    testAloha(orderId){
+        return this.http.get(`${this.apiUrl}/getRawAndMiddlewareOrder/${orderId}`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
+    creaToEnterprise(jsonBody:any){
+        return this.http.post(`${this.apiUrl}/createEnterprise/`,jsonBody,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
     }
 
 

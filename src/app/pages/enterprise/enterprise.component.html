@@ -1,0 +1,28 @@
+<NavSm></NavSm>
+<h4 class="text-center">Registro de Empresas</h4>
+<div class="container">
+    <form class="row" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="col-md-7 pl-1">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nombre empresa</label>
+              <input type="text" class="form-control"  placeholder="ingrese nombre empresa" name="empresa" ngModel required #empresa="ngModel" required>
+            </div>
+          </div>
+          <div class="col-md-2 pl-1">
+            <div class="form-group">
+                <label>Country</label>
+                <select class="form-select"   aria-label="Default select example" name="country" ngModel required #country="ngModel" required>
+                    <option selected>Seleccionar Empresa</option>
+                    <option value="GTM">Guatemala</option>
+                    <option value="SLV">El Salvador</option>
+                    <option value="USA">Estados Undios</option>
+                  </select>
+            </div>
+          </div>
+        <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round">Agregar Empresa</button>
+            </div>
+          </div>
+    </form>
+</div>

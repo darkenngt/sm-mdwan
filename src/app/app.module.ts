@@ -37,6 +37,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete'
 import {FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import {MatInputModule} from '@angular/material/input';
     NavSm,
     CountdownTimerSm,
     CountDownComponent,
-    CoordinadoresComponent
+    CoordinadoresComponent,
+    EnterpriseComponent
   ],
   imports: [
     BrowserAnimationsModule,

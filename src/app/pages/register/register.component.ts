@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit{
         let apellidos:string = f.value.apellidos
         let codigo:string = f.value.codigo
         let tipo:number = f.value.tipo
-        let tienda:string = f.value.tienda    
+        let tienda:string = "1"   
         let dpi:string = f.value.dpi   
 
         if (f.valid === false) {
@@ -130,7 +130,8 @@ export class RegisterComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
-                        this.router.navigate(['register']);
+                        location.reload()
+                        
                     }
                 }
             })

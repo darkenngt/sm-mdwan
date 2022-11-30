@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
         const md5 = new Md5()
          let message = "Usuario"
          let smsEnd = "Ingreso exitoso"
-         let smsError = "Usurio o contraseña incorrecta"
+         let smsError = "Usuario o contraseña incorrecta"
          
         let jsonLogin = { username:this.userName, password:this.password }
         let varJson = JSON.stringify(jsonLogin)

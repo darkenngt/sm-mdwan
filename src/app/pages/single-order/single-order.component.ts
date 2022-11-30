@@ -167,12 +167,14 @@ export class SingleOrderComponent implements OnInit{
         let geolat = this.geoBiker.coords.latitude
         let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        console.log(getgeo)
+        //console.log(getgeo)
         console.log(this.bikerSelect, this.orderid)
        
         let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
         //console.log(jsonBiker)
-        this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
+        /*this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
+            //this.sendToAloha(this.orderid)
+            this.testToAloha(this.orderid)
             this.toastr.success(
                 '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
                 "",
@@ -187,7 +189,7 @@ export class SingleOrderComponent implements OnInit{
             console.log(data)// cambiar fecha end a fecha ini en el servicio
             btnAloha.setAttribute('disabled', '')
            
-         });
+         });*/
     }
 
     rendermap(position){
@@ -210,6 +212,18 @@ export class SingleOrderComponent implements OnInit{
 
         // To add the marker to the map, call setMap();
         marker.setMap(map);
+    }
+
+    sendToAloha(){
+        this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
+            console.log(data)
+        })
+    }
+
+    testToAloha(){
+        this.orderservices.testAloha(this.orderid).subscribe((data: any)=>{
+            console.log(data)
+        })
     }
 
 }
