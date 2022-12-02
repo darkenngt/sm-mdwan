@@ -32,7 +32,7 @@ export class BikerComponent implements OnInit{
     public warningSms = "no pudo realizar la acción"
     public smsError = "No se pudo realizar la acción Contacte al administrador"
     private subscription: Subscription;
-    private firstCall: boolean = false;
+    public firstCall: boolean = true;
     
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
@@ -41,33 +41,15 @@ export class BikerComponent implements OnInit{
             this.geoBiker = position);
     }
     ngOnInit(): void{
-        console.log("metodo")
         
-        if (!this.firstCall){
-            console.log("entre if")
+        if (this.firstCall){
             this.listOrdersBiker()
-            this.firstCall = true
+        }
+        this.firstCall = true
             this.subscription = interval(15000)
             .subscribe(x =>{
                 this.listOrdersBiker()
-                console.log(this.ordersStructureBiker+"1")
-                console.log(this.firstCall)
-            })
-            console.log(this.ordersStructureBiker+"2")
-            console.log(this.firstCall)
-            
-        }
-        else{
-            console.log("entre else")
-            this.firstCall = true
-            this.subscription = interval(15000)
-            .subscribe(x =>{
-                this.listOrdersBiker()
-                console.log(this.ordersStructureBiker)
-                console.log(this.firstCall)
-            })
-        }
-        
+            })       
         
     }
 
@@ -77,7 +59,7 @@ export class BikerComponent implements OnInit{
 
     initComponent(){
         
-        this.ngOnInit
+        
     }
    
     listOrdersBiker(){
