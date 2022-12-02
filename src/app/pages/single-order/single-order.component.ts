@@ -12,7 +12,8 @@ declare var google: any;
 })
 
 export class SingleOrderComponent implements OnInit{
-
+    public from = "top"
+    public align = "right"
     public geoPosition: any = [];
     public storeId = 1 // cambiar por variable de session
     public BikerAvailable = [];
@@ -151,6 +152,7 @@ export class SingleOrderComponent implements OnInit{
                     autorizacion:data.payment_authorization,
                     total:parseFloat(data.payment_amount).toFixed(2),
                     cambio:data.payment_change,
+                    sendAloha:data.send_aloha,
                     detalle:detalle,
             }
             //console.log("array para orden")
@@ -159,37 +161,57 @@ export class SingleOrderComponent implements OnInit{
         })
     }
 
+    settimer(){
+        location.reload()
+    }
+
     getAssingAloha(){
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let btnAloha = document.getElementById('idAloha')
+        
         let geolat = this.geoBiker.coords.latitude
         let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        let mensaje = "Acción cancelada";
+        let opcion = confirm("Deseas asignar o reasignar motorista");
         //console.log(getgeo)
         console.log(this.bikerSelect, this.orderid)
        
         let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
         //console.log(jsonBiker)
-        /*this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
-            //this.sendToAloha(this.orderid)
-            this.testToAloha(this.orderid)
-            this.toastr.success(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+        if (opcion === true) {
+            this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
+                this.toastr.success(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-success alert-with-icon",
+                      positionClass: "toast-" + from + "-" + align
+                    }
+                  )
+                console.log(data)// cambiar fecha end a fecha ini en el servicio
+                setInterval(this.settimer, 1500)
+               
+             });
+        } else {
+            this.toastr.warning(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+mensaje+'</span>',
                 "",
                 {
                   timeOut: 4000,
                   closeButton: true,
                   enableHtml: true,
-                  toastClass: "alert alert-success alert-with-icon",
+                  toastClass: "alert alert-warning alert-with-icon",
                   positionClass: "toast-" + from + "-" + align
                 }
               )
-            console.log(data)// cambiar fecha end a fecha ini en el servicio
-            btnAloha.setAttribute('disabled', '')
-           
-         });*/
+              setInterval(this.settimer, 1500)
+        }
+        
     }
 
     rendermap(position){
@@ -215,9 +237,60 @@ export class SingleOrderComponent implements OnInit{
     }
 
     sendToAloha(){
-        this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
-            console.log(data)
-        })
+        let from = "top"
+        let align = "right"
+        let message = "Orden enviada"
+        let smscancel = "se cancelo el envio"
+        let errorsms = "Error comuniquese con un administrador"
+        let btnAloha = document.getElementById('idAloha')
+        let opcion = confirm("Deseas enviar la orden a Aloha");
+        if (opcion === true) {
+            this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
+                console.log(data)
+                btnAloha.setAttribute('disabled', '')
+                this.toastr.success(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-success alert-with-icon",
+                      positionClass: "toast-" + from + "-" + align
+                    }
+                  )
+                setInterval(this.settimer, 1500)
+            },(err)=>{
+                console.log("esto es un error")
+                console.log("no viene data")
+                    this.toastr.error(
+                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+errorsms+'</span>',
+                        "",
+                        {
+                        timeOut: 4500,
+                        closeButton: true,
+                        enableHtml: true,
+                        toastClass: "alert alert-error alert-with-icon",
+                        positionClass: "toast-" + this.from + "-" + this.align
+                        }
+                    )
+            }
+            )
+        }else{
+            this.toastr.warning(
+                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smscancel+'</span>',
+                "",
+                {
+                  timeOut: 4000,
+                  closeButton: true,
+                  enableHtml: true,
+                  toastClass: "alert alert-warning alert-with-icon",
+                  positionClass: "toast-" + from + "-" + align
+                }
+              )
+              setInterval(this.settimer, 1500)
+        }
+        
     }
 
     testToAloha(){

@@ -14,6 +14,7 @@ import { StoredAssigmentsComponent } from './pages/storedAssigments/storedAssigm
 import { NavSm } from './pages/navsm/navsm.component';
 import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
+import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
 
 export const AppRoutes: Routes = [
   {
@@ -97,6 +98,12 @@ export const AppRoutes: Routes = [
     component:EnterpriseComponent,
     data:{
       title:"Enterprise"
+    }
+  },{
+    path: 'updatepassword',
+    component:UpdatePasswordComponent,
+    data:{
+      title:"Update Password"
     }
   },
   {

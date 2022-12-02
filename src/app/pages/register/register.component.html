@@ -10,12 +10,10 @@
             <div class="col-md-5 pr-1">
               <div class="form-group">
                 <label>Empresa</label>
-                <select class="form-select"   aria-label="Default select example" name="empresa" ngModel required #empresa="ngModel">
-                    <option selected>Seleccionar Empresa</option>
-                    <option value="1">San Martín</option>
-                    <option value="2">Empresa 1</option>
-                    <option value="3">Empresa 2</option>
-                  </select>
+                <select class="form-select" aria-label="Default select example col-md-5 pl-1" id="empresa" name="empresa" ngModel required #empresa="ngModel">
+                  <option>Seleccione empresa</option>
+                  <option *ngFor="let entp  of enterprises" [value]="entp.id">{{entp.name}} </option>
+              </select>
               </div>
             </div>
             <div class="col-md-7 pl-1">

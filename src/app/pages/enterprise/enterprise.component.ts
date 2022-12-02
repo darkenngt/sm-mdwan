@@ -21,7 +21,9 @@ export class EnterpriseComponent implements OnInit{
 
     ngOnInit(){
     }
-
+    settimer(){
+        location.reload()
+    }
     onSubmit(f: NgForm) {
         let nameEntreprise: string = f.value.empresa
         let countryE: string = f.value.country
@@ -43,8 +45,39 @@ export class EnterpriseComponent implements OnInit{
         }else{
             let citye: string = countryE==="GTM"?"Guatemala":countryE==="SLV"?"El Salvador":countryE==="USA"?"Estado Unidos":""
             let jsonEnterprise = {name:nameEntreprise, country:countryE, city:citye}
+            let succesu = "Empresa registrada con exito"
             console.log(jsonEnterprise)
-            this.OrderServices.creaToEnterprise(JSON.stringify(jsonEnterprise)).subscribe((data)=>{
+            this.OrderServices.creaToEnterprise(JSON.stringify(jsonEnterprise)).subscribe((data: any)=>{
+                if (data) {
+                    if (data.errorType) {
+                        console.log(data)
+                    this.toastr.warning(
+                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+data.errorType+" "+data.message+'</span>',
+                        "",
+                        {
+                        timeOut: 4000,
+                        closeButton: true,
+                        enableHtml: true,
+                        toastClass: "alert alert-warning alert-with-icon",
+                        positionClass: "toast-" + this.from + "-" + this.align
+                        }
+                    )
+                    }else{
+                        this.toastr.success(
+                            '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+succesu+'</span>',
+                            "",
+                            {
+                            timeOut: 4000,
+                            closeButton: true,
+                            enableHtml: true,
+                            toastClass: "alert alert-success alert-with-icon",
+                            positionClass: "toast-" + this.from + "-" + this.align
+                            }
+                        )
+                        setInterval(this.settimer, 2000)
+                        
+                    }
+                }
                 console.log(data)
             })
         }

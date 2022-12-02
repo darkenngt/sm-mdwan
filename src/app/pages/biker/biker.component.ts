@@ -41,16 +41,30 @@ export class BikerComponent implements OnInit{
             this.geoBiker = position);
     }
     ngOnInit(): void{
+        console.log("metodo")
+        
         if (!this.firstCall){
+            console.log("entre if")
             this.listOrdersBiker()
-            console.log(this.ordersStructureBiker)
+            this.firstCall = true
+            this.subscription = interval(15000)
+            .subscribe(x =>{
+                this.listOrdersBiker()
+                console.log(this.ordersStructureBiker+"1")
+                console.log(this.firstCall)
+            })
+            console.log(this.ordersStructureBiker+"2")
+            console.log(this.firstCall)
+            
         }
         else{
+            console.log("entre else")
             this.firstCall = true
             this.subscription = interval(15000)
             .subscribe(x =>{
                 this.listOrdersBiker()
                 console.log(this.ordersStructureBiker)
+                console.log(this.firstCall)
             })
         }
         
@@ -63,7 +77,7 @@ export class BikerComponent implements OnInit{
 
     initComponent(){
         
-        
+        this.ngOnInit
     }
    
     listOrdersBiker(){

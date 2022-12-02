@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy  } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
 import {GeolocationService} from '@ng-web-apis/geolocation';
+import { Subscription, interval, Subject } from 'rxjs';
 
 
 
@@ -23,6 +24,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
     public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+    private subscription: Subscription;
+    private firstCall: boolean = false;
     
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
         
@@ -35,23 +38,43 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         })
     }
 
-    ngOnInit(){
-        console.log("pag pedi")
-        console.log(this.userType)
-        //this.initComponent()
-        //setTimeout(function(){
-            this.getPosition();
-            this.initComponent()
+    ngOnInit(): void{
+        console.log("metodo")
+        
+        if (!this.firstCall){
+            console.log("entre if")
+            this.getDelivery()
+            this.firstCall = true
+            this.subscription = interval(15000)
+            .subscribe(x =>{
+                this.getDelivery()
+                console.log(this.delOrdersStructure+"1")
+                console.log(this.firstCall)
+            })
+            console.log(this.delOrdersStructure+"2")
+            console.log(this.firstCall)
             
-                 // },10000);
+        }
+        else{
+            console.log("entre else")
+            this.firstCall = true
+            this.subscription = interval(15000)
+            .subscribe(x =>{
+                this.getDelivery()
+                console.log(this.delOrdersStructure)
+                console.log(this.firstCall)
+            })
+        }
+        
+        
     }
+    
 
     initComponent(){
         this.delOrdersStructure = [];
         this.PickordersStructure = [];
         this.proOrdersStructure = [];
         this.emerOrdersStructure = []
-       
         this.getDelivery()
         
         
@@ -102,6 +125,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             this.delOrdersStructure = filtDelevy.reverse()
             console.log(filtDelevy)
         });
+        window.onload = this.getEmergencia
     }
 
     getPickup(){

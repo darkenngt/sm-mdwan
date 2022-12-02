@@ -45,8 +45,8 @@ export class OrderServices{
         // return an observable with a user-facing error message
         return throwError('Something bad happened. Please try again later.');
       }
-        //apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
-        apiUrl = "http://localhost/orders/v1";
+        apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
+        //apiUrl = "http://localhost/orders/v1";
     constructor(private http: HttpClient, public router: Router){
         this.httpOptionApi={
             headers: new HttpHeaders({
@@ -382,7 +382,6 @@ export class OrderServices{
 
     ////aloha
     sendAloha(orderId){
-        console.log(this.httpOptionApi)
             return this.http.post(`${this.apiUrl}/setOrderToAlohaById/${orderId}`,{},this.httpOptionApi).pipe(
             catchError(err =>{
                 //this.router.navigate(['login'])
@@ -410,5 +409,30 @@ export class OrderServices{
         );
     }
 
+    allUsermdw(){
+        return this.http.get(`${this.apiUrl}/getAllUsers/`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
 
+    updatePassword(jsonBody:any){
+        return this.http.put(`${this.apiUrl}/updateUserPass`,jsonBody,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
+    getAllEnterprise(){
+        return this.http.get(`${this.apiUrl}/getAllEnterprises`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
 }

@@ -12,20 +12,43 @@ import {Router} from '@angular/router';
 })
 
 export class RegisterComponent implements OnInit{
+    public model: any;
+    public idEmpresa: number;
+    public enterprises: any = []
     textp1 = ''; //initialised the text variable
     textp2 = ''
     public from = "top"
     public align = "right"
     constructor(private toastr: ToastrService, public OrderServices: OrderServices, public router: Router){
-
+        this.initComponent()
     }
     ngOnInit(){
+        this.getEnterprise()
     }
-
+    initComponent(){
+        this.enterprises = []
+    }
+    
     onKeyUp(x) { // appending the updated value to the variable
         //this.text += x.target.value + ' | ';
       }
 
+      settimer(){
+        location.reload()
+        }
+
+        getEnterprise(){
+                this.OrderServices.getAllEnterprise().subscribe((data: any) =>{
+                    console.log(data)
+                  this.enterprises = data.map((stores)=>{
+                    return{
+                      id:stores.id,
+                      name:stores.name
+                    }
+                  })
+                })
+        }
+        
       onSubmit(f: NgForm) {
         //console.log(f.value);  // { first: '', last: '' }
         const md5 = new Md5()
@@ -130,7 +153,7 @@ export class RegisterComponent implements OnInit{
                             positionClass: "toast-" + this.from + "-" + this.align
                             }
                         )
-                        location.reload()
+                        setInterval(this.settimer, 2000)
                         
                     }
                 }
