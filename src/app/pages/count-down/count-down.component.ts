@@ -57,6 +57,7 @@ export class CountDownComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.deliveryDate)
+        console.log(new Date())
         console.log(this.orderType)
         this.dDay = this.deliveryDate
        this.subscription = interval(1000)

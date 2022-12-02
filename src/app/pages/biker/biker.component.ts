@@ -3,9 +3,9 @@ import { OrderServices } from 'app/services/order.services'
 import {GeolocationService} from '@ng-web-apis/geolocation';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
-import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from "rxjs/operators"
 import { compileComponentFromMetadata } from '@angular/compiler';
+import { Subscription, interval, Subject } from 'rxjs';
 
 @Component({
     selector: 'biker',
@@ -31,35 +31,34 @@ export class BikerComponent implements OnInit{
     public align = "right"
     public warningSms = "no pudo realizar la acción"
     public smsError = "No se pudo realizar la acción Contacte al administrador"
+    private subscription: Subscription;
+    private firstCall: boolean = false;
     
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
         this.userId = this.userInfo === null?0:this.userInfo.id
         this.geolocation$.subscribe(position => 
             this.geoBiker = position);
-
-            
-        /*this.route.params.subscribe(params => 
-                this.orderid=params.idOrder);  */  
-
-        /*this.ordersStructureBiker.forEach(order => {
-            this.estadoBotones.push({
-                mEnRuta:true,
-                mEnSitio:false,
-                mEntregado:false,
-                vistaPedido:true
-            })
-        });*/
-        
-        //console.log(this.ordersStructureBiker);
     }
     ngOnInit(): void{
-        console.log("voy a recargar")
-        this.listOrdersBiker()
-        //this.ordersStructureBiker = []
-
+        if (!this.firstCall){
+            this.listOrdersBiker()
+            console.log(this.ordersStructureBiker)
+        }
+        else{
+            this.firstCall = true
+            this.subscription = interval(15000)
+            .subscribe(x =>{
+                this.listOrdersBiker()
+                console.log(this.ordersStructureBiker)
+            })
+        }
         
-        console.log(this.ordersStructureBiker)
+        
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     initComponent(){
