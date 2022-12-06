@@ -106,6 +106,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             dataSotD.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
                     console.log(order.id)
+                    let currentDate = new Date(order.creation_date)
+                    new Date()
                     filtDelevy.push(
                         {
                             tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
@@ -116,7 +118,9 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
-                            deliveryDate: new Date(order.creation_date)
+                            //deliveryDate: new Date(order.creation_date),
+                            deliveryDate: new Date(new Date(order.creation_date).setHours(new Date(order.creation_date).getHours() + 6)),
+                            creationDate: order.creation_date
                         }
                     )
                 }
@@ -149,7 +153,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
-                            deliveryDate: new Date(order.creation_date)
+                            deliveryDate: new Date(new Date(order.creation_date).setHours(new Date(order.creation_date).getHours() + 6)),
                         }
                     )
                     
@@ -184,7 +188,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
-                            deliveryDate: new Date(order.creation_date)
+                            deliveryDate: new Date(new Date(order.creation_date).setHours(new Date(order.creation_date).getHours() + 6)),
                         }
                     )
                     
