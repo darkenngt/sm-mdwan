@@ -40,6 +40,8 @@ import {MatInputModule} from '@angular/material/input';
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
 import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
+//import { DataTablesModule } from "angular-datatables";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -81,7 +83,9 @@ import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados
     NgbModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatInputModule
+    MatInputModule,
+    //DataTablesModule,
+    FontAwesomeModule
   ],
   providers: [DatePipe],
   
