@@ -9,6 +9,9 @@ import {Router} from '@angular/router';
 })
 
 export class DetalleEstadosComponent implements OnInit{
+   public dtOptions: any = {};
+
+
     public BikerAvailable = [];
     public model: any;
     public idTienda: number;
@@ -19,6 +22,7 @@ export class DetalleEstadosComponent implements OnInit{
     public anio_Act = this.fecht_Act.getFullYear()
     
     constructor(public orderservices: OrderServices ){
+        
         this.initComponent()
         
     }
@@ -28,15 +32,28 @@ export class DetalleEstadosComponent implements OnInit{
         this.getallstore()
     }
 
-    ngOnInit(){
-        console.log( this.fecht_Act );
-        console.log( this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "00"+":"+"00"+":"+"01" );
-        console.log( Math.floor(new Date(this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "00"+":"+"00"+":"+"01").getTime() / 1000) );
-        console.log( this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "23"+":"+"59"+":"+"59" );
-        console.log( Math.floor(new Date(this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "23"+":"+"59"+":"+"59").getTime() / 1000) );
 
-    }
-
+    ngOnInit(): void {
+        this.dtOptions = {
+          // Declare the use of the extension in the dom parameter
+          dom: 'Bfrtip',
+          // Configure the buttons
+          buttons: [
+            'columnsToggle',
+            'colvis',
+            'copy',
+            'print',
+            'excel',
+            {
+              text: 'Some button',
+              key: '1',
+              action: function (e, dt, node, config) {
+                alert('Button activated');
+              }
+            }
+          ]
+        };
+      }
     
 
     allOrdersStarus(){

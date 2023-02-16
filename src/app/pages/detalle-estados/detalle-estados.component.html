@@ -16,10 +16,8 @@
         <div class="col-12" *ngIf="BikerAvailable.length > 0">
             <div class="col-12" *ngFor="let databiker of BikerAvailable">
                 <strong class="col-12">{{databiker.name}}</strong>
-                <div class="col-12">
-                    <input class="form-control" type="text" ng-model="search" placeholder="Buscar"/>
-                </div>
-                <table class="table table-striped .table-hover tablasm">
+                <br>
+                <table datatable [dtOptions]="dtOptions" class="table table-striped .table-hover tablasm">
                     <thead>
                         <tr class="bg-info">
                             <th>Orden</th>
