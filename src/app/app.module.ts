@@ -38,7 +38,9 @@ import {FormsModule, ReactiveFormsModule, } from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
-import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component'
+import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
+import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
+
 
 
 @NgModule({
@@ -58,7 +60,8 @@ import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.co
     CountDownComponent,
     CoordinadoresComponent,
     EnterpriseComponent,
-    UpdatePasswordComponent
+    UpdatePasswordComponent,
+    DetalleEstadosComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,6 +1,7 @@
 <NavSm></NavSm>
 <div class="container">
     <div  class="row">
+        <button class="material-icons">delete</button>
         <div class="col-md-4 overflow-auto">
             <h4>Datos del cliente</h4>
             <div class="progress" [ngStyle]="{background: '#00356f'}">
@@ -17,7 +18,7 @@
                 </select>
             </div>
             <div class="col-md-12 fs-5">
-                <button id="idAloha" class="btn btn-success" [disabled]="ordersStructureSingle.estado != 'procesada' && ordersStructureSingle.estado != 'emergencia'" (click)="sendToAloha()" *ngIf="ordersStructureSingle.sendAloha != 1">Enviar Aloha</button>
+                <button id="idAloha" class="btn btn-success"  (click)="sendToAloha()" *ngIf="ordersStructureSingle.sendAloha != 1">Enviar Aloha</button>
             </div>
             <h6 class="col-md-12">Orden:</h6>
             <div class="col-md-12 fs-5">

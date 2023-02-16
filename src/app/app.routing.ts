@@ -15,6 +15,7 @@ import { NavSm } from './pages/navsm/navsm.component';
 import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.component';
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
+import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
 
 export const AppRoutes: Routes = [
   {
@@ -40,7 +41,7 @@ export const AppRoutes: Routes = [
     path: 'register',
     component:RegisterComponent,
     data:{
-       title:"Registro de usuarios"
+       title:"Detalle de ordenes"
     }
   },
   {
@@ -104,6 +105,12 @@ export const AppRoutes: Routes = [
     component:UpdatePasswordComponent,
     data:{
       title:"Update Password"
+    }
+  },{
+    path: 'detalleestatus',
+    component:DetalleEstadosComponent,
+    data:{
+      title:"Detalle de pedidos"
     }
   },
   {

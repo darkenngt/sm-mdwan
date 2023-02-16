@@ -99,10 +99,10 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showProgramada = false
         let typeorder = 1
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            console.log(data)
             let filtDelevy = []
             console.log(data.sort((a, b) => a.id < b.id))
             let dataSotD = data.sort((a, b) => a.id - b.id)
-            console.log(data)
             dataSotD.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
                     console.log(order.id)
@@ -129,7 +129,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
             this.delOrdersStructure = filtDelevy.reverse()
             console.log(filtDelevy)
         });
-        window.onload = this.getEmergencia
+        //window.onload = this.getEmergencia
     }
 
     getPickup(){

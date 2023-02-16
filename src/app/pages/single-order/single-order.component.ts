@@ -50,7 +50,7 @@ export class SingleOrderComponent implements OnInit{
     getAvailableBiker(storeId){
         this.orderservices.bikerAvailableToOrder(storeId).subscribe((data: any)=>{
             console.log("motoristas")
-            //console.log(data)
+            console.log(data)
 
             this.BikerAvailable = data.map((biker)=>{
                 //console.log(biker)
@@ -144,9 +144,9 @@ export class SingleOrderComponent implements OnInit{
                     telefono:data.client.phone,
                     telalt:data.client.alternate_phone,
                     correo:data.client.email,
-                    tipoPago:"efectivo",
+                    tipoPago:data.payment_type ===1?"Efectivo":data.payment_type===13?"Pago con tarjeta":data.payment_type===17?"Visa delivery":"",
                     nomfac:data.client.name,
-                    nit:"nit",
+                    nit:data.nit,
                     direcfact:"ciudad",
                     indicaciones:data.observations,
                     autorizacion:data.payment_authorization,

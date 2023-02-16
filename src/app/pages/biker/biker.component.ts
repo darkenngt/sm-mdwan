@@ -115,6 +115,8 @@ export class BikerComponent implements OnInit{
                     total:parseInt(orderbiker.order.payment_amount).toFixed(2),
                     cambio:orderbiker.order.payment_change,
                     detalle:detalle,
+                    tipo_orden:orderbiker.order.order_type,
+                    deliveryDate: new Date(orderbiker.initial_date)
                 }
             }))
             this.ordersStructureBiker = this.ordersStructureBiker.map( (orderstatus, index) =>{
