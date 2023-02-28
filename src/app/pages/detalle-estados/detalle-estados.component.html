@@ -7,17 +7,15 @@
     <div class="col-md-12 fs-6">
         <span class="material-icons">store</span>
         
-        <select class=""  name="" id="tienda" [(ngModel)]="idTienda" (ngModelChange)="getAvailableBiker()">
+        <select class=""  name="" id="tienda" [(ngModel)]="idTienda" (ngModelChange)="getallorderdetalle()">
             <option>Seleccione tienda</option>
             <option *ngFor="let tdsm  of allstore" [value]="tdsm.id">{{tdsm.name}} </option>
         </select>
     </div>
     <!--<div class="row">-->
-        <div class="col-12" *ngIf="BikerAvailable.length > 0">
-            <div class="col-12" *ngFor="let databiker of BikerAvailable">
-                <strong class="col-12">{{databiker.name}}</strong>
+        <div class="col-12" *ngIf="OrderAvailable.length > 0">
                 <br>
-                <table datatable [dtOptions]="dtOptions" class="table table-striped .table-hover tablasm">
+                <table datatable  class="table table-striped .table-hover tablasm">
                     <thead>
                         <tr class="bg-info">
                             <th>Orden</th>
@@ -29,21 +27,20 @@
                             <th>Detalle orden</th>
                         </tr>
                     </thead>
-                    <tbody *ngIf="databiker.orders.length > 0">
-                        <tr *ngFor="let dataPedido of databiker.orders">
-                            <td>{{dataPedido.order_id}}</td>
-                            <td>{{dataPedido.user_id}}</td>
-                            <td>{{dataPedido.id}}</td>
-                            <td>{{dataPedido.initial_date}}</td>
+                    <tbody *ngIf="OrderAvailable.length > 0">
+                        <tr *ngFor="let dataPedido of OrderAvailable">
+                            <td>{{dataPedido.norder}}</td>
+                            <td>{{dataPedido.name}}</td>
+                            <td>{{dataPedido.monto}}</td>
+                            <td>{{dataPedido.hini}}</td>
                             <td>{{dataPedido.status}}</td>
-                            <td>{{dataPedido.end_date}}</td>
-                            <td><a [routerLink]="['/single-order/', dataPedido.order_id]" class="btn bg-info text-dark" (click)="router.navigate(['/PedidoDelivery']);"
+                            <td>{{dataPedido.hend}}</td>
+                            <td><a [routerLink]="['/single-order/', dataPedido.id]" class="btn bg-info text-dark" (click)="router.navigate(['/PedidoDelivery']);"
                                 >ver orden</a></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
 
     <!--</div>-->
 </div>

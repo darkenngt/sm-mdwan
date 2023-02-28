@@ -126,7 +126,7 @@ export class CoordinadoresComponent implements OnInit{
                 fechaAsignacion:bikerStore.initial_date
             }           
         })
-        //console.log(this.listCoorStore)
+        console.log(this.listCoorStore)
     });
     }
 
