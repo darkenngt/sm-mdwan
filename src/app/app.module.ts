@@ -42,6 +42,7 @@ import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.co
 import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
 import { DataTablesModule } from "angular-datatables";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { OrderlistComponent } from './pages/orderlist/orderlist.component'
 
 
 
@@ -63,7 +64,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CoordinadoresComponent,
     EnterpriseComponent,
     UpdatePasswordComponent,
-    DetalleEstadosComponent
+    DetalleEstadosComponent,
+    OrderlistComponent
   ],
   imports: [
     BrowserAnimationsModule,

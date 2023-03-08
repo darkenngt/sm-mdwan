@@ -116,6 +116,7 @@ export class CoordinadoresComponent implements OnInit{
       let typeUser = 2
       this.orderservices.getUserAllStore(typeUser).subscribe((data: any) =>{
         //this.listCoorStore.push(data)
+        //console.log(data);
         this.listCoorStore = data.map((bikerStore)=>{
             return {
                 codigo: bikerStore.user.code===""?bikerStore.user.dpi:bikerStore.user.code,
@@ -123,6 +124,7 @@ export class CoordinadoresComponent implements OnInit{
                 empresa:bikerStore.user.enterprise.name,
                 user_id:bikerStore.user_id,
                 store_id: bikerStore.store_id,
+                store_name: bikerStore.store.name,
                 fechaAsignacion:bikerStore.initial_date
             }           
         })

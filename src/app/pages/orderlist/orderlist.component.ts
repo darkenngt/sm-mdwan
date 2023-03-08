@@ -6,13 +6,13 @@ import { Subscription, interval, Subject } from 'rxjs';
 
 
 @Component({
-    selector: 'PedidosMd',
+    selector: 'Orderlist',
     moduleId: module.id,
-    templateUrl: 'pedidos.component.html'
+    templateUrl: 'orderlist.component.html'
 })
 
 
-export class PedidosComponent implements OnInit, AfterViewInit{
+export class OrderlistComponent implements OnInit, AfterViewInit{
     public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
     public userType = this.userInfo === null?0:this.userInfo.id
     public delOrdersStructure: any = [];
@@ -98,7 +98,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showEmergencia = false;
         this.showProgramada = false
         let typeorder = 1
-        this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+        this.orderservices.ordersList(this.storeId).subscribe((data: any) =>{
             let filtDelevy = []
             console.log(data.sort((a, b) => a.id < b.id))
             let dataSotD = data.sort((a, b) => a.id - b.id)

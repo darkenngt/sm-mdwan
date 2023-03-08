@@ -50,6 +50,7 @@
                         <th>código</th>
                         <th>nombre</th>
                         <th>empresa</th>
+                        <th>tienda</th>
                         <th>Fecha Hora Inicio</th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@
                         <td>{{LtsInStore.codigo}}</td>
                         <td>{{LtsInStore.nombre}}</td>
                         <td>{{LtsInStore.empresa}}</td>
+                        <td>{{LtsInStore.store_name}}</td>
                         <td>{{LtsInStore.fechaAsignacion}}</td>
                         <td><button class="btn btn-danger" (click)="deleteUserCoor(LtsInStore.user_id,LtsInStore.store_id)">Eliminar</button></td>
                     </tr>

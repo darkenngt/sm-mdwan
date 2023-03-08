@@ -16,6 +16,7 @@ import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.comp
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
 import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
+import { OrderlistComponent } from './pages/orderlist/orderlist.component';
 
 export const AppRoutes: Routes = [
   {
@@ -111,6 +112,12 @@ export const AppRoutes: Routes = [
     component:DetalleEstadosComponent,
     data:{
       title:"Detalle de pedidos"
+    }
+  },{
+    path: 'orderlist',
+    component:OrderlistComponent,
+    data:{
+      title:"lista pedidos"
     }
   },
   {
