@@ -3,6 +3,9 @@ import {GeolocationService} from '@ng-web-apis/geolocation';
 import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
+import {Router} from '@angular/router';
+import * as _ from 'lodash';
+import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
 declare var google: any;
 @Component({
@@ -15,13 +18,16 @@ export class SingleOrderComponent implements OnInit{
     public from = "top"
     public align = "right"
     public geoPosition: any = [];
-    public storeId = 1 // cambiar por variable de session
+    public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
+    public userType = this.userInfo === null?0:this.userInfo.id
+    public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     public BikerAvailable = [];
     public bikerSelect:number
     public orderid: number
     public ordersStructureSingle: any = {}
     public geoBiker: any = {}
-    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
+    dataItem: any[]
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
 
@@ -42,17 +48,24 @@ export class SingleOrderComponent implements OnInit{
 
 
     ngOnInit() {
-       
+        
+        //this.dataItem = JSON.parse(this.ordersStructureSingle);
+        
+        /*for (const groupName in groups) {
+            console.log(`${groups[groupName].length} elementos tienen el valor ${groupName}`);
+          }*/
         //this.rendermap
+        //console.log(this.storeId)
        
     }
 
     getAvailableBiker(storeId){
         this.orderservices.bikerAvailableToOrder(storeId).subscribe((data: any)=>{
-            console.log("motoristas")
-            console.log(data)
+            //console.log("motoristas")
+            //console.log(data)
 
             this.BikerAvailable = data.map((biker)=>{
+                //console.log("soy biker")
                 //console.log(biker)
                 //console.log(biker.user.MDW_User_Orders.length)
                 return{
@@ -63,7 +76,7 @@ export class SingleOrderComponent implements OnInit{
                 }
                 
             })
-            console.log(this.BikerAvailable)
+            //console.log(this.BikerAvailable)
         })
         
     }
@@ -71,9 +84,9 @@ export class SingleOrderComponent implements OnInit{
     getDetailOrder(IdOrder){
 
         this.orderservices.informationOrder(IdOrder).subscribe((data: any) =>{
-            //console.log("esta es la data completa");
-            //console.log(data);
-            let detalle = data.MDW_Order_Details.map((detalle)=>{           
+            /*console.log("esta es la data completa");
+            console.log(data);*/
+           let detalle = data.MDW_Order_Details.map((detalle)=>{           
                 return{
                     master:detalle.product.name,
                     total:detalle.total,
@@ -83,12 +96,26 @@ export class SingleOrderComponent implements OnInit{
                     sku:detalle.sku
                 }                
             })
+            // Usamos reduce para contar las repeticiones de cada objeto
+            let detalleConRepeticiones = detalle.reduce((acumulado, detalle) => {
+                if (!acumulado[detalle.sku]) {
+                    acumulado[detalle.sku] = { ...detalle, repeticiones: 1 };
+                } else {
+                    acumulado[detalle.sku].repeticiones++;
+                }
+                return acumulado;
+            }, {});
 
+            // Convertimos el objeto resultado a un array de objetos
+            let resultado = Object.values(detalleConRepeticiones);
+            /*console.log("detalle unido")
+            console.log(resultado)*/
 
             detalle = []
             data.MDW_Order_Details.forEach(item => {
                 if (item.level === 1 && item.quantity !== -1 ){
                     let items = []
+                    let itemsG = []
                     data.MDW_Order_Details.forEach(item2 => {
                         //console.log(item2)
                         if (item2.level === 2 && item2.parent_sku === item.sku && item2.parent_id === item.id){
@@ -120,6 +147,7 @@ export class SingleOrderComponent implements OnInit{
                             )
                         }
                     });
+                    console.log(itemsG)
                     detalle.push(
                         {
                             master:item.product.name,
@@ -153,16 +181,16 @@ export class SingleOrderComponent implements OnInit{
                     total:parseFloat(data.payment_amount).toFixed(2),
                     cambio:data.payment_change,
                     sendAloha:data.send_aloha,
-                    detalle:detalle,
+                    detalle:detalle
             }
-            //console.log("array para orden")
-            //console.log(this.ordersStructureSingle)
-            
+            console.log("array para orden")
+            console.log(this.ordersStructureSingle.detalle)
         })
     }
 
     settimer(){
-        location.reload()
+        //location.reload()
+        //this.router.navigate(['pedidos']);
     }
 
     getAssingAloha(){
@@ -176,7 +204,7 @@ export class SingleOrderComponent implements OnInit{
         let mensaje = "Acción cancelada";
         let opcion = confirm("Deseas asignar o reasignar motorista");
         //console.log(getgeo)
-        console.log(this.bikerSelect, this.orderid)
+        //console.log(this.bikerSelect, this.orderid)
        
         let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
         //console.log(jsonBiker)
@@ -193,7 +221,7 @@ export class SingleOrderComponent implements OnInit{
                       positionClass: "toast-" + from + "-" + align
                     }
                   )
-                console.log(data)// cambiar fecha end a fecha ini en el servicio
+                //console.log(data)// cambiar fecha end a fecha ini en el servicio
                 setInterval(this.settimer, 1500)
                
              });
@@ -246,7 +274,7 @@ export class SingleOrderComponent implements OnInit{
         let opcion = confirm("Deseas enviar la orden a Aloha");
         if (opcion === true) {
             this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
-                console.log(data)
+                //console.log(data)
                 btnAloha.setAttribute('disabled', '')
                 this.toastr.success(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',

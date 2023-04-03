@@ -19,12 +19,13 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     public PickordersStructure: any = [];
     public proOrdersStructure: any = [];
     public emerOrdersStructure: any = [];
-    public showDelivery: boolean = true;
+    public showDelivery: boolean = false;
     public showPickup: boolean = false;
     public showEmergencia: boolean = false;
     public showProgramada: boolean = false;
     public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
-    private subscription: Subscription;
+    private subscriptionDeliver: Subscription;
+    private subscriptionProgramer: Subscription;
     private firstCall: boolean = false;
     
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
@@ -38,35 +39,11 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         })
     }
 
-    ngOnInit(): void{
-        console.log("metodo")
+    ngOnInit(){
+        //console.log("metodo")
+        this.WebSocketDelivery()
         
-        if (!this.firstCall){
-            console.log("entre if")
-            this.getDelivery()
-            this.firstCall = true
-            this.subscription = interval(15000)
-            .subscribe(x =>{
-                this.getDelivery()
-                console.log(this.delOrdersStructure+"1")
-                console.log(this.firstCall)
-            })
-            console.log(this.delOrdersStructure+"2")
-            console.log(this.firstCall)
-            
-        }
-        else{
-            console.log("entre else")
-            this.firstCall = true
-            this.subscription = interval(15000)
-            .subscribe(x =>{
-                this.getDelivery()
-                console.log(this.delOrdersStructure)
-                console.log(this.firstCall)
-            })
-        }
-        
-        
+        //this.delOrdersStructure
     }
     
 
@@ -81,10 +58,41 @@ export class PedidosComponent implements OnInit, AfterViewInit{
     // crea un nuevo objeto `Date`
     }
 
+    WebSocketDelivery(): void {
+        if (!this.firstCall){
+            console.log("entre if")
+            this.getDelivery()
+            this.firstCall = true
+            this.subscriptionDeliver = interval(15000)
+            .subscribe(x =>{
+                this.getDelivery()
+                //console.log(this.delOrdersStructure+"1")
+                //console.log(this.firstCall)
+            })
+            //console.log(this.delOrdersStructure+"2")
+            //console.log(this.firstCall)
+            
+        }
+        else{
+            console.log("entre else")
+            this.firstCall = true
+            this.subscriptionDeliver = interval(15000)
+            .subscribe(x =>{
+                this.getDelivery()
+                //console.log(this.delOrdersStructure)
+                //console.log(this.firstCall)
+            })
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptionDeliver.unsubscribe();
+      }
+
     getPosition() {
-        console.log("Entre a geo")
+       /* console.log("Entre a geo")
         this.geolocation$.subscribe(position => 
-            console.log(position.coords.latitude+" "+position.coords.longitude))
+            console.log(position.coords.latitude+" "+position.coords.longitude))*/
     }
     
     ngAfterViewInit() {
@@ -99,13 +107,11 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showProgramada = false
         let typeorder = 1
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
+            //console.log(data)
+            console.log("delivery")
             let filtDelevy = []
-            console.log(data.sort((a, b) => a.id < b.id))
-            let dataSotD = data.sort((a, b) => a.id - b.id)
-            console.log(data)
-            dataSotD.forEach(order => {
+            let dataSotD = data.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
-                    console.log(order.id)
                     let currentDate = new Date(order.creation_date)
                     new Date()
                     filtDelevy.push(
@@ -127,7 +133,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                 
             });
             this.delOrdersStructure = filtDelevy.reverse()
-            console.log(filtDelevy)
+            //console.log(filtDelevy)
         });
         //window.onload = this.getEmergencia
     }
@@ -225,10 +231,11 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         this.showPickup = false;
         this.showEmergencia = false;
         let typeorder = 3
-        console.log(this.showProgramada)
+        //console.log(this.showProgramada)
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             let filtProga = []
-            console.log(data)
+            //console.log(data)
+            console.log("programadas")
             data.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
                     filtProga.push(
@@ -249,7 +256,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                 
             });
             this.proOrdersStructure = filtProga.reverse()
-            console.log(this.proOrdersStructure)
+            //console.log(this.proOrdersStructure)
           
         });
     }

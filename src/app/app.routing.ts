@@ -16,7 +16,9 @@ import { CoordinadoresComponent } from './pages/coordinadores/coordinadores.comp
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
 import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
+import { ListOrders } from './pages/list-orders/list-orders.component';
 import { OrderlistComponent } from './pages/orderlist/orderlist.component';
+import { ProgramadaComponent } from './pages/programadas/programadas.component';
 
 export const AppRoutes: Routes = [
   {
@@ -114,10 +116,22 @@ export const AppRoutes: Routes = [
       title:"Detalle de pedidos"
     }
   },{
-    path: 'orderlist',
+    path: 'ListaOrdenes',
+    component:ListOrders,
+    data:{
+      title:"Detalle de pedidos fechas"
+    }
+  },{
+    path: 'OrderLIst',
     component:OrderlistComponent,
     data:{
-      title:"lista pedidos"
+      title:"vista pedidos dif"
+    }
+  },{
+    path: 'Programadas',
+    component:ProgramadaComponent,
+    data:{
+      title:"Programadas"
     }
   },
   {

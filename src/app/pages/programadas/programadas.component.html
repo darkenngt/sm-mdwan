@@ -1,0 +1,44 @@
+<div class="container">
+    <div *ngIf="this.ordernesProgramadas && this.ordernesProgramadas.length" class="row">
+        <div class="col-md-3" *ngFor="let order of ordernesProgramadas">
+            <div class="card" style="width: 15rem;">
+                <div class="card-header" 
+                [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
+                'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?
+                'bg-info':order.estado === 'entregado'?'bg-success':order.estado === 'emergencia'?'bg-danger':order.estado === 'programado'?'bg-dark':''">
+                    <div class="start-0 text-black fw-bold"
+                    [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                        {{order.estado}}
+                    </div>
+                    <div class="end-0 text-black fw-bold"
+                    [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                    <app-count-down 
+                        [deliveryDate] = "order.deliveryDate"
+                        [orderType] = 3
+                    ></app-count-down>
+                        
+                    </div>
+                    
+                    </div>
+                <div class="card-body">
+                    <h6 class="card-subtitle">{{order.nombre}}</h6>
+                    <p class="card-text">Fecha {{order.fecha}}</p>
+                    <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
+                    <p class="card-text">Total Q {{order.total}}</p>
+                    <p class="card-text">Pedido {{order.numeroPedido}}</p>
+                    <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark" (click)="router.navigate(['/PedidoDelivery']);"
+                    [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
+                'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
+                'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"
+                    >ver orden</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

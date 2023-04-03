@@ -54,15 +54,15 @@ export class CoordinadoresComponent implements OnInit{
       this.getallstore()
       let typeUser = 2
       this.orderservices.getAvailableCoord(typeUser).subscribe((data: any) =>{
-        console.log("entre a data");
-        console.log(data)
-        this.statesWithFlags = data.map((biker)=>{
-          console.log(biker)
+        //console.log("entre a data");
+        //console.log(data)
+        this.statesWithFlags = data.map((coor)=>{
+          //console.log(coor)
             return {
-                codigo: biker.code===""?biker.dpi:biker.code,
-                nombre:biker.first_name+" "+biker.last_name,
-                empresa:biker.enterprise.name,
-                id:biker.id,
+                codigo: coor.code===""?coor.dpi:coor.code,
+                nombre:coor.first_name+" "+coor.last_name,
+                empresa:coor.enterprise.name,
+                id:coor.id,
                 store_id:1,//this.storeSessionId
             }
         })
@@ -116,19 +116,18 @@ export class CoordinadoresComponent implements OnInit{
       let typeUser = 2
       this.orderservices.getUserAllStore(typeUser).subscribe((data: any) =>{
         //this.listCoorStore.push(data)
-        //console.log(data);
-        this.listCoorStore = data.map((bikerStore)=>{
+        console.log(data)
+        this.listCoorStore = data.map((CoorStore)=>{
             return {
-                codigo: bikerStore.user.code===""?bikerStore.user.dpi:bikerStore.user.code,
-                nombre:bikerStore.user.first_name+" "+bikerStore.user.last_name,
-                empresa:bikerStore.user.enterprise.name,
-                user_id:bikerStore.user_id,
-                store_id: bikerStore.store_id,
-                store_name: bikerStore.store.name,
-                fechaAsignacion:bikerStore.initial_date
+                codigo: CoorStore.user.code===""?CoorStore.user.dpi:CoorStore.user.code,
+                nombre:CoorStore.user.first_name+" "+CoorStore.user.last_name,
+                empresa:CoorStore.user.enterprise.name,
+                user_id:CoorStore.user_id,
+                store_name: CoorStore.store.name,
+                fechaAsignacion:CoorStore.initial_date
             }           
         })
-        console.log(this.listCoorStore)
+        //console.log(this.listCoorStore)
     });
     }
 

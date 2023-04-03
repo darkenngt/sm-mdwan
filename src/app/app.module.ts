@@ -40,10 +40,11 @@ import {MatInputModule} from '@angular/material/input';
 import { EnterpriseComponent } from './pages/enterprise/enterprise.component';
 import { UpdatePasswordComponent } from './pages/updatePasword/updatePassword.component';
 import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados.component';
-import { DataTablesModule } from "angular-datatables";
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OrderlistComponent } from './pages/orderlist/orderlist.component'
-
+import { ListOrders } from './pages/list-orders/list-orders.component';
+import { OrderlistComponent} from './pages/orderlist/orderlist.component'
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { ProgramadaComponent } from "./pages/programadas/programadas.component";
 
 
 @NgModule({
@@ -65,7 +66,9 @@ import { OrderlistComponent } from './pages/orderlist/orderlist.component'
     EnterpriseComponent,
     UpdatePasswordComponent,
     DetalleEstadosComponent,
-    OrderlistComponent
+    ListOrders,
+    OrderlistComponent,
+    ProgramadaComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -86,8 +89,8 @@ import { OrderlistComponent } from './pages/orderlist/orderlist.component'
     MatIconModule,
     MatAutocompleteModule,
     MatInputModule,
-    DataTablesModule,
-    FontAwesomeModule
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [DatePipe],
   

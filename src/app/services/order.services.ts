@@ -71,21 +71,8 @@ export class OrderServices{
             catchError(this.handleError)
         );
     }
-    getOrders(storeId, typeorder){
+    getOrders(storeId, typeorder):Observable<any>{
         return this.http.get(`${this.apiUrl}/ordersByStoreAndType/${storeId}/${typeorder}`,this.httpOptionApi).pipe(
-            //catchError(this.handleError)
-            catchError(err =>{
-                //this.router.navigate(['login'])
-                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
-                return throwError('Something bad happened. Please try again later.');
-                
-            
-            })
-        );
-    }
-
-    ordersList(storeId){
-        return this.http.get(`${this.apiUrl}/ordersByStoreWithoutType/${storeId}`,this.httpOptionApi).pipe(
             //catchError(this.handleError)
             catchError(err =>{
                 //this.router.navigate(['login'])
@@ -449,11 +436,34 @@ export class OrderServices{
         );
     }
 
-    getAllOrdersStatus(storeId){
-        return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}`,this.httpOptionApi).pipe(
+    getAllOrdersStatus(){
+        return this.http.get(`${this.apiUrl}/getAllMiddlewareOrders`,this.httpOptionApi).pipe(
             catchError(err =>{
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
+    
+    getDetalleLista(storeId,dateInit,dateEnd){
+        return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}/${dateInit}/${dateEnd}`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }
+
+    ordersList(storeId){
+        return this.http.get(`${this.apiUrl}/ordersByStoreWithoutType/${storeId}`,this.httpOptionApi).pipe(
+            //catchError(this.handleError)
+            catchError(err =>{
+                //this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again later.');
+                
+            
             })
         );
     }

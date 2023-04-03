@@ -9,10 +9,7 @@ import {Router} from '@angular/router';
 })
 
 export class DetalleEstadosComponent implements OnInit{
-   public dtOptions: any = {};
-
-
-    public OrderAvailable = [];
+    public BikerAvailable = [];
     public model: any;
     public idTienda: number;
     public allstore: any = [];
@@ -22,7 +19,6 @@ export class DetalleEstadosComponent implements OnInit{
     public anio_Act = this.fecht_Act.getFullYear()
     
     constructor(public orderservices: OrderServices ){
-        
         this.initComponent()
         
     }
@@ -32,33 +28,25 @@ export class DetalleEstadosComponent implements OnInit{
         this.getallstore()
     }
 
+    ngOnInit(){
+        console.log( this.fecht_Act );
+        console.log( this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "00"+":"+"00"+":"+"01" );
+        console.log( Math.floor(new Date(this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "00"+":"+"00"+":"+"01").getTime() / 1000) );
+        console.log( this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "23"+":"+"59"+":"+"59" );
+        console.log( Math.floor(new Date(this.anio_Act+"."+this.mes_Act+"."+this.dia_Act+" "+ "23"+":"+"59"+":"+"59").getTime() / 1000) );
 
-    ngOnInit(): void {
-        this.dtOptions = {
-          // Declare the use of the extension in the dom parameter
-          dom: 'Bfrtip',
-          // Configure the buttons
-          buttons: [
-            'columnsToggle',
-            'colvis',
-            'copy',
-            'print',
-            'excel',
-            {
-              text: 'Some button',
-              key: '1',
-              action: function (e, dt, node, config) {
-                alert('Button activated');
-              }
-            }
-          ]
-        };
-      }
+    }
+
     
+
+    allOrdersStarus(){
+        this.orderservices.getAllOrdersStatus().subscribe((data: any) =>{
+        });
+    }
 
     getallstore(){
         this.orderservices.getAllStore().subscribe((data: any) =>{
-            //console.log(data)
+            console.log(data)
           this.allstore = data.map((stores)=>{
             return{
               id:stores.id,
@@ -68,37 +56,17 @@ export class DetalleEstadosComponent implements OnInit{
         })
     }
 
-    getallorderdetalle(){
-        this.orderservices.getAllOrdersStatus(this.idTienda).subscribe((data: any) =>{
-            console.log(data);
-            this.OrderAvailable = data.map((orst)=>{
-                //console.log(biker)
-                //console.log(biker.user.MDW_User_Orders)
-                return{
-                    name:orst.client.name,
-                    norder:orst.origin_store_id,
-                    id:orst.id,
-                    monto:orst.payment_amount,
-                    hini:orst.creation_date,
-                    status:orst.status===1?"procesada":orst.status===2?"asignada":orst.status===3?"en ruta":orst.status===4?"en el sitio":orst.status===6?"emergencia":orst.status===7?"emergencia":orst.status===8?"emergencia":orst.status===9?"emergencia":"entregado",
-                    hend:orst.creation_date
-                }
-                
-            })
-        })
-    }
-
     getAvailableBiker(){
-        //console.log(this.idTienda)
+        console.log(this.idTienda)
         this.orderservices.bikerAvailableToOrder(this.idTienda).subscribe((data: any)=>{
-            //console.log("motoristas")
+            console.log("motoristas")
             //console.log(data)
             /*let detalle = data.user.MDW_User_Orders.map((detalle)=>{           
                 return{
                     orderId:detalle.id,
                     dateEnd:detalle.initial_date,
                     status:detalle.status,
-                    dataEnd:detalle.end_date
+                    dataEnd:detalle.end_date,
                     parent:detalle.parent_sku,
                     sku:detalle.sku
                 }                
@@ -106,8 +74,20 @@ export class DetalleEstadosComponent implements OnInit{
 
 
             detalle = []*/
-            
-            //console.log(this.BikerAvailable)
+            this.BikerAvailable = data.map((biker)=>{
+                //console.log(biker)
+                console.log(biker.user.MDW_User_Orders)
+                return{
+                    name:biker.user.first_name+" "+biker.user.last_name,
+                    id:biker.user.id,
+                    nDelivered:biker.user.MDW_User_Orders.length,
+                    countName:biker.user.MDW_User_Orders.length>0?biker.user.first_name+" "+biker.user.last_name+" "+"("+biker.user.MDW_User_Orders.length+")":biker.user.first_name+" "+biker.user.last_name,
+                    orders:biker.user.MDW_User_Orders,
+
+                }
+                
+            })
+            console.log(this.BikerAvailable)
         })
     }
 
