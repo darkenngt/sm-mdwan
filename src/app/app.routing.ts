@@ -19,6 +19,7 @@ import { DetalleEstadosComponent } from './pages/detalle-estados/detalle-estados
 import { ListOrders } from './pages/list-orders/list-orders.component';
 import { OrderlistComponent } from './pages/orderlist/orderlist.component';
 import { ProgramadaComponent } from './pages/programadas/programadas.component';
+import { completedOrders } from './pages/complete-orders/complete-orders.component';
 
 export const AppRoutes: Routes = [
   {
@@ -132,6 +133,12 @@ export const AppRoutes: Routes = [
     component:ProgramadaComponent,
     data:{
       title:"Programadas"
+    }
+  },{
+    path: 'complete',
+    component:completedOrders,
+    data:{
+      title:"completas"
     }
   },
   {

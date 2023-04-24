@@ -13,7 +13,7 @@
             <a class="nav-link active" aria-current="page" routerLink="/coordinacion">Coordinadores</a>
           </li>
           <li class="nav-item" *ngIf="userType ===2">
-            <a class="nav-link active" aria-current="page" routerLink="/pedidos">Ordenes</a>
+            <a class="nav-link active" aria-current="page" routerLink="/OrderLIst">Ordenes</a>
           </li>
           <li class="nav-item" *ngIf="userType ===1">
             <a class="nav-link" routerLink="/register">Crea Usuario</a>
@@ -26,6 +26,9 @@
           </li>
           <li class="nav-item" *ngIf="userType ===1">
             <a class="nav-link" routerLink="/updatepassword">Actualizar contraseñas</a>
+          </li>
+          <li class="nav-item" *ngIf="userType ===2">
+            <a class="nav-link" routerLink="/complete">Completas</a>
           </li>
           <!--<li class="nav-item" *ngIf="userType ===1">
             <a class="nav-link" routerLink="/detalleestatus">Detalle pedidos</a>

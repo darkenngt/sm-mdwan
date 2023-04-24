@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit{
             }
             if (typeUser === 2) {
                 console.log("Usuario order manager");
-                        this.router.navigate(['pedidos']);
+                        this.router.navigate(['OrderLIst']);
                         this.toastr.success(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
@@ -86,8 +86,9 @@ export class LoginComponent implements OnInit{
             }
             if (typeUser === 3) {
                 console.log("Usuario biker");
-                this.router.navigateByUrl('/pedidos', {skipLocationChange: true}).then(()=>
-                this.router.navigate(['/biker']));
+                //this.router.navigateByUrl('/pedidos', {skipLocationChange: true}).then(()=>
+                //this.router.navigate(['/biker']));
+                this.router.navigate(['biker']);
                         this.toastr.success(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+" "+nameuser+" "+smsEnd+'</span>',
                             "",
@@ -100,7 +101,7 @@ export class LoginComponent implements OnInit{
                             }
                         )
             }
-            if (typeUser <= 0) {
+            if (typeUser.valueOf() <= 0) {
                 console.log("No existe el usuario");
                         this.toastr.error(
                             '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smsError+'</span>',

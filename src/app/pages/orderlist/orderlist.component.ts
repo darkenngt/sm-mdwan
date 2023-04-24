@@ -265,7 +265,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                                 estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
                                 nombre:order.client.name,
                                 fecha:order.creation_date.substring(0, 10),
-                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                                 total:order.payment_amount,
                                 numeroPedido:order.origin_store_id,
                                 idOrder:order.id,
@@ -310,7 +310,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                                 estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
                                 nombre:order.client.name,
                                 fecha:order.creation_date.substring(0, 10),
-                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                                 total:order.payment_amount,
                                 numeroPedido:order.origin_store_id,
                                 idOrder:order.id,
@@ -345,7 +345,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                                 nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                                 nombre:order.client.name,
                                 fecha:order.creation_date.substring(0, 10),
-                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                                 total:order.payment_amount,
                                 numeroPedido:order.origin_store_id,
                                 idOrder:order.id,
@@ -362,21 +362,36 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         }
     
         getDeliveryDate(delivery_day){
-            //console.log(delivery_day)
+            console.log(delivery_day)
             let deliveryDate = new Date()
             let divDate = delivery_day.split('-')
-            //console.log(divDate)
+            console.log(divDate)
             let divYear = divDate[2].split (' ')
-            //console.log(divYear)
+            let timep = divYear[1] + " " + divYear[2]
+            console.log("soy la hora "+timep)
             let divHour = divYear[1].split(':')
             //console.log(divHour)
             let deliveryMonth = parseInt(divDate[0]) - 1
             let deliveryDay = parseInt(divDate[1])
             let deliveryYear = parseInt(divYear[0])
-            let deliveryHour = parseInt(divHour[0])
-            let deliveryMinute = parseInt(divHour[1])=== 1 ? 30: 0
-            deliveryDate = new Date(deliveryYear, deliveryMonth, deliveryDay, deliveryHour, deliveryMinute)
-            //console.log(deliveryDate)
+            //let deliveryHour = parseInt(divHour[0])
+            //let deliveryMinute = parseInt(divHour[1])=== 1 ? 30: 0
+            let hours = Number(timep.match(/^(\d+)/)[1]);
+            let minutes = Number(timep.match(/:(\d+)/)[1]);
+            let meridiem = timep.match(/\s(.*)$/)[1];
+          
+            if (meridiem === 'PM' && hours < 12) {
+              hours += 12;
+            }
+            if (meridiem === 'AM' && hours === 12) {
+              hours -= 12;
+            }
+          
+            let hoursStr = hours.toString().padStart(2, '0');
+            let minutesStr = minutes.toString().padStart(2, '0');
+            console.log("hora convertida "+ hoursStr+ " " + minutes )
+            deliveryDate = new Date(deliveryYear, deliveryMonth, deliveryDay, parseInt(hoursStr) ,parseInt(minutesStr))
+            console.log(deliveryDate)
             return deliveryDate
         }
     
@@ -401,18 +416,19 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                                 nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                                 nombre:order.client.name,
                                 fecha:order.creation_date.substring(0, 10),
-                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                                tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                                 total:order.payment_amount,
                                 numeroPedido:order.origin_store_id,
                                 idOrder:order.id,
-                                deliveryDate: this.getDeliveryDate(order.delivery_day)
+                                deliveryDate: this.getDeliveryDate(order.delivery_day),
+                                dateView:order.delivery_day
                             }
                         )
                 }
                     
                 });
-                this.proOrdersStructure = filtProga.reverse()
-                //console.log(this.proOrdersStructure)
+                this.proOrdersStructure = filtProga//.reverse()
+                console.log(this.proOrdersStructure)
               
             });
             console.log("es la de delivery")

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import {Router} from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +14,7 @@ export class GeoService{
         return !!this.useLocation
     }
 
-    constructor(){
+    constructor(public router: Router){
         this.getUserLocation()
     }
 
@@ -28,6 +28,7 @@ export class GeoService{
                 (err)=>{
                     console.log("no se pudo obtener la geolocalización")
                     console.log(err)
+                    this.router.navigate(['login'])
                     reject()
                 }
             )

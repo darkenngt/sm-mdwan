@@ -112,11 +112,11 @@ export class BikerComponent implements OnInit{
                     telefono:orderbiker.order.client.phone,
                     alt_tel: orderbiker.order.client.alternate_phone,
                     tipoPago:orderbiker.order.payment_authorization,
-                    total:parseInt(orderbiker.order.payment_amount).toFixed(2),
+                    total:parseFloat(orderbiker.order.payment_amount).toFixed(2),
                     cambio:orderbiker.order.payment_change,
                     detalle:detalle,
                     tipo_orden:orderbiker.order.order_type,
-                    deliveryDate: new Date(orderbiker.initial_date)
+                    deliveryDate:new Date(new Date(orderbiker.initial_date).setHours(new Date(orderbiker.initial_date).getHours() + 6))
                 }
             }))
             this.ordersStructureBiker = this.ordersStructureBiker.map( (orderstatus, index) =>{

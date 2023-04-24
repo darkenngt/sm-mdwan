@@ -1,0 +1,41 @@
+<NavSm></NavSm>
+
+<div class="continer">
+<div class="">
+    <h5>Ordenes Completas</h5>
+</div>
+<div class="row">
+    <div class="col-4">
+
+    </div>
+    <div class="col-4">
+        
+    </div>
+    <div class="mb-3 col-4">
+        <label for="exampleFormControlInput1" class="form-label">No. orden</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Buscar">
+    </div>
+</div>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>Orden</th>
+            <th>Nombre</th>
+            <th>Monto</th>
+            <th>tipo pago</th>
+            <th>Ver Orden</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let comp of ordenComplete">
+            <td>{{comp.orden}}</td>
+            <td>{{comp.name}}</td>
+            <td>{{comp.monto}}</td>
+            <td>{{comp.tipo_pago}}</td>
+            <td><a [routerLink]="['/single-order/', comp.order_id]" class="btn bg-info text-dark" (click)="router.navigate(['/PedidoDelivery']);"
+                >ver orden</a></td>
+        </tr>
+    </tbody>
+
+</table>
+</div>

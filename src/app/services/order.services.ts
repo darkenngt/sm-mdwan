@@ -45,8 +45,8 @@ export class OrderServices{
         // return an observable with a user-facing error message
         return throwError('Something bad happened. Please try again later.');
       }
-        apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
-        //apiUrl = "http://localhost/orders/v1";
+        //apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
+        apiUrl = "http://localhost/orders/v1";
     constructor(private http: HttpClient, public router: Router){
         this.httpOptionApi={
             headers: new HttpHeaders({
@@ -380,6 +380,19 @@ export class OrderServices{
             )
     }
 
+    closed(jsonBody:any){
+        console.log(jsonBody)
+        return this.http.put(`${this.apiUrl}/updateOrder/closed`,jsonBody,this.httpOptionApi).pipe(
+            catchError(err =>{
+                //this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again later.');
+                
+            
+            })
+            )
+    }
+
     ////aloha
     sendAloha(orderId){
             return this.http.post(`${this.apiUrl}/setOrderToAlohaById/${orderId}`,{},this.httpOptionApi).pipe(
@@ -446,9 +459,20 @@ export class OrderServices{
     }
 
     
-    getDetalleLista(storeId,dateInit,dateEnd){
+    /*getDetalleLista(storeId,dateInit,dateEnd){
         return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}/${dateInit}/${dateEnd}`,this.httpOptionApi).pipe(
             catchError(err =>{
+                this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again no entrego nada.');
+            })
+        );
+    }*/
+
+    listViiew(storeId,status,dateInit,dateEnd){
+        return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}/${status}/${dateInit}/${dateEnd}`,this.httpOptionApi).pipe(
+            catchError(err =>{
+                this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again no entrego nada.');
             })
@@ -459,11 +483,34 @@ export class OrderServices{
         return this.http.get(`${this.apiUrl}/ordersByStoreWithoutType/${storeId}`,this.httpOptionApi).pipe(
             //catchError(this.handleError)
             catchError(err =>{
+                this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again later.');
+                
+            
+            })
+        );
+    }
+
+    ListComplete(storeId){
+        return this.http.get(`${this.apiUrl}/getAllDeliveredTodayMdwOrders/${storeId}`,this.httpOptionApi).pipe(
+            //catchError(this.handleError)
+            catchError(err =>{
                 //this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again later.');
                 
             
+            })
+        );
+    }
+
+    removeOrder(orderId){
+        return this.http.put(`${this.apiUrl}/updateOrderToClosed/${orderId}`,null,this.httpOptionApi).pipe(
+            catchError(err =>{
+                this.router.navigate(['login'])
+                console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
+                return throwError('Something bad happened. Please try again later.');
             })
         );
     }

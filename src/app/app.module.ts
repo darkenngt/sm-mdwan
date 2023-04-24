@@ -44,7 +44,9 @@ import { ListOrders } from './pages/list-orders/list-orders.component';
 import { OrderlistComponent} from './pages/orderlist/orderlist.component'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
 import { ProgramadaComponent } from "./pages/programadas/programadas.component";
+import { completedOrders } from "./pages/complete-orders/complete-orders.component";
 
 
 @NgModule({
@@ -68,7 +70,8 @@ import { ProgramadaComponent } from "./pages/programadas/programadas.component";
     DetalleEstadosComponent,
     ListOrders,
     OrderlistComponent,
-    ProgramadaComponent
+    ProgramadaComponent,
+    completedOrders
   ],
   imports: [
     BrowserAnimationsModule,
@@ -90,7 +93,8 @@ import { ProgramadaComponent } from "./pages/programadas/programadas.component";
     MatAutocompleteModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [DatePipe],
   

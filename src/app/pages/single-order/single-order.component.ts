@@ -56,6 +56,7 @@ export class SingleOrderComponent implements OnInit{
           }*/
         //this.rendermap
         //console.log(this.storeId)
+        console.log(this.userInfo.id)
        
     }
 
@@ -84,8 +85,8 @@ export class SingleOrderComponent implements OnInit{
     getDetailOrder(IdOrder){
 
         this.orderservices.informationOrder(IdOrder).subscribe((data: any) =>{
-            /*console.log("esta es la data completa");
-            console.log(data);*/
+            console.log("esta es la data completa");
+            console.log(data);
            let detalle = data.MDW_Order_Details.map((detalle)=>{           
                 return{
                     master:detalle.product.name,
@@ -172,9 +173,10 @@ export class SingleOrderComponent implements OnInit{
                     telefono:data.client.phone,
                     telalt:data.client.alternate_phone,
                     correo:data.client.email,
-                    tipoPago:data.payment_type ===1?"Efectivo":data.payment_type===13?"Pago con tarjeta":data.payment_type===17?"Visa delivery":"",
+                    tipoPago:data.payment_type===1?"efectivo":data.payment_type===13?"Cybersource":data.payment_type===17?"Visa delivery":data.payment_type===18?"Whatsapp":"",
+                    //tipoPago:data.payment_type ===1?"Efectivo":data.payment_type===13?"Pago con tarjeta":data.payment_type===17?"Visa delivery":"",
                     nomfac:data.client.name,
-                    nit:data.nit,
+                    nit:data.client.nit,
                     direcfact:"ciudad",
                     indicaciones:data.observations,
                     autorizacion:data.payment_authorization,
@@ -184,7 +186,7 @@ export class SingleOrderComponent implements OnInit{
                     detalle:detalle
             }
             console.log("array para orden")
-            console.log(this.ordersStructureSingle.detalle)
+            console.log(this.ordersStructureSingle)
         })
     }
 
@@ -325,6 +327,36 @@ export class SingleOrderComponent implements OnInit{
         this.orderservices.testAloha(this.orderid).subscribe((data: any)=>{
             console.log(data)
         })
+    }
+
+    DeleteOrder(){
+        console.log("ufff")
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        //console.log(getgeo)
+        let jsonBiker = {orderId: this.orderid, "geolocalization": getgeo}
+        //let jsonBiker = {userId:this.userInfo.id, storeId:this.storeId, getgeo}
+        console.log(jsonBiker)
+        this.orderservices.removeOrder(this.orderid).subscribe((data: any) =>{
+            console.log(data)// cambiar fecha end a fecha ini en el servicio
+                let message = "Ordenes Eliminada"
+                this.toastr.warning(
+                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
+                    "",
+                    {
+                      timeOut: 4000,
+                      closeButton: true,
+                      enableHtml: true,
+                      toastClass: "alert alert-warning alert-with-icon",
+                      positionClass: "toast-" + this.from + "-" + this.align
+                    }
+                  )
+                  this.router.navigate(['OrderLIst'])
+
+           
+         });
+
     }
 
 }

@@ -120,7 +120,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
-                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
@@ -155,7 +155,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
-                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
@@ -190,7 +190,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
-                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
@@ -234,8 +234,8 @@ export class PedidosComponent implements OnInit, AfterViewInit{
         //console.log(this.showProgramada)
         this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
             let filtProga = []
-            //console.log(data)
-            console.log("programadas")
+            console.log(data)
+            console.log("programadas...")
             data.forEach(order => {
                 if (order.status !== 0 && order.status !== 5) {
                     filtProga.push(
@@ -245,7 +245,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                             nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
                             nombre:order.client.name,
                             fecha:order.creation_date.substring(0, 10),
-                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===2?"Visa delivery":"Cybersource",
+                            tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                             total:order.payment_amount,
                             numeroPedido:order.origin_store_id,
                             idOrder:order.id,
@@ -256,7 +256,7 @@ export class PedidosComponent implements OnInit, AfterViewInit{
                 
             });
             this.proOrdersStructure = filtProga.reverse()
-            //console.log(this.proOrdersStructure)
+            console.log(this.proOrdersStructure)
           
         });
     }

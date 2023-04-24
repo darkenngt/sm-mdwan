@@ -57,7 +57,8 @@ export class CoordinadoresComponent implements OnInit{
         //console.log("entre a data");
         //console.log(data)
         this.statesWithFlags = data.map((coor)=>{
-          //console.log(coor)
+          console.log("data coordinador")
+          console.log(coor)
             return {
                 codigo: coor.code===""?coor.dpi:coor.code,
                 nombre:coor.first_name+" "+coor.last_name,
@@ -116,6 +117,7 @@ export class CoordinadoresComponent implements OnInit{
       let typeUser = 2
       this.orderservices.getUserAllStore(typeUser).subscribe((data: any) =>{
         //this.listCoorStore.push(data)
+        console.log("data para eliminar")
         console.log(data)
         this.listCoorStore = data.map((CoorStore)=>{
             return {
@@ -124,7 +126,8 @@ export class CoordinadoresComponent implements OnInit{
                 empresa:CoorStore.user.enterprise.name,
                 user_id:CoorStore.user_id,
                 store_name: CoorStore.store.name,
-                fechaAsignacion:CoorStore.initial_date
+                fechaAsignacion:CoorStore.initial_date,
+                store_id:CoorStore.store_id 
             }           
         })
         //console.log(this.listCoorStore)
