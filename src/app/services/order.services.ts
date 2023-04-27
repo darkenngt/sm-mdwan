@@ -45,8 +45,8 @@ export class OrderServices{
         // return an observable with a user-facing error message
         return throwError('Something bad happened. Please try again later.');
       }
-        //apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
-        apiUrl = "http://localhost/orders/v1";
+        apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
+        //apiUrl = "http://localhost/orders/v1";
     constructor(private http: HttpClient, public router: Router){
         this.httpOptionApi={
             headers: new HttpHeaders({
@@ -492,8 +492,8 @@ export class OrderServices{
         );
     }
 
-    ListComplete(storeId){
-        return this.http.get(`${this.apiUrl}/getAllDeliveredTodayMdwOrders/${storeId}`,this.httpOptionApi).pipe(
+    ListComplete(storeId,dateEnd){
+        return this.http.get(`${this.apiUrl}/getAllDeliveredMdwOrdersByDay/${storeId}/${dateEnd}`,this.httpOptionApi).pipe(
             //catchError(this.handleError)
             catchError(err =>{
                 //this.router.navigate(['login'])

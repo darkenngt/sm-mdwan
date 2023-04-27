@@ -20,6 +20,11 @@ import * as moment from 'moment';
         public dateStart: string
         public dateEnd: string
         public selected: string
+        public ordersViews: any []
+        public enterprises: any = []
+        public model: any;
+        public idTienda: number;
+        public allstore: any = [];
         
         constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
             
@@ -28,6 +33,9 @@ import * as moment from 'moment';
 
     
         ngOnInit(){
+            this.ordersViews = []
+            this.getallstore()
+
         }
         
     
@@ -46,14 +54,38 @@ import * as moment from 'moment';
             //location.reload()
         }
 
+        getallstore(){
+            this.orderservices.getAllStore().subscribe((data: any) =>{
+              this.allstore = data.map((stores)=>{
+                return{
+                  id:stores.id,
+                  name:stores.name
+                }
+              })
+            })
+          }
+
         viewData(){
+            this.ordersViews = []
             let initDate = moment(this.dateStart).format('YYYY-MM-DD')
             let endDate = moment(this.dateEnd).format('YYYY-MM-DD')
             console.log(initDate+"--"+endDate+"--"+this.selected)
             console.log(this.storeId)
 
-            this.orderservices.ordersList(this.storeId).subscribe((data: any) =>{
+            this.orderservices.listViiew(this.idTienda,this.selected,initDate,endDate).subscribe((data: any) =>{
                 console.log(data)
+                data.forEach(complete => {
+                    console.log(complete)
+                    this.ordersViews.push(
+                        {
+                            orden:complete.origin_store_id,
+                            name:complete.client.name,
+                            monto:complete.payment_amount,
+                            tipo_pago:complete.payment_type===1?"efectivo":complete.payment_type===13?"Cybersource":complete.payment_type===17?"Visa delivery":complete.payment_type===18?"Whatsapp":"",
+                            order_id:complete.id
+                        }
+                    )
+                });
             })
         }
         

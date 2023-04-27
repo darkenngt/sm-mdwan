@@ -27,6 +27,7 @@ export class SingleOrderComponent implements OnInit{
     public ordersStructureSingle: any = {}
     public geoBiker: any = {}
     dataItem: any[]
+    public ordenesBiker: any = {}
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
         this.geolocation$.subscribe(position => 
             this.rendermap(position));
@@ -66,8 +67,8 @@ export class SingleOrderComponent implements OnInit{
             //console.log(data)
 
             this.BikerAvailable = data.map((biker)=>{
-                //console.log("soy biker")
-                //console.log(biker)
+                console.log("soy biker")
+                console.log(biker)
                 //console.log(biker.user.MDW_User_Orders.length)
                 return{
                     name:biker.user.first_name+" "+biker.user.last_name,
@@ -75,6 +76,9 @@ export class SingleOrderComponent implements OnInit{
                     nDelivered:biker.user.MDW_User_Orders.length,
                     countName:biker.user.MDW_User_Orders.length>0?biker.user.first_name+" "+biker.user.last_name+" "+"("+biker.user.MDW_User_Orders.length+")":biker.user.first_name+" "+biker.user.last_name
                 }
+                biker.forEach(orderbiker => {
+                    this.ordenesBiker
+                });
                 
             })
             //console.log(this.BikerAvailable)
@@ -148,7 +152,7 @@ export class SingleOrderComponent implements OnInit{
                             )
                         }
                     });
-                    console.log(itemsG)
+                    //console.log(itemsG)
                     detalle.push(
                         {
                             master:item.product.name,
@@ -158,6 +162,7 @@ export class SingleOrderComponent implements OnInit{
                             parent:item.parent_sku,
                             sku:item.sku,
                             items: items ,
+                            comment: item.comment,
                             totalprd:(parseFloat(item.quantity)*parseFloat(item.amount)).toFixed(2)  
                         }
                     )
@@ -185,8 +190,8 @@ export class SingleOrderComponent implements OnInit{
                     sendAloha:data.send_aloha,
                     detalle:detalle
             }
-            console.log("array para orden")
-            console.log(this.ordersStructureSingle)
+            //console.log("array para orden")
+            //console.log(this.ordersStructureSingle)
         })
     }
 

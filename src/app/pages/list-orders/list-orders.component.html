@@ -4,7 +4,7 @@
     <h4 class="bg-info text-center">Reporte Ordenes</h4>
 </div>
 <div class="row" style="background-color:#AED6F1;">
-    <div class="col-4">
+    <div class="col-3">
         <mat-form-field appearance="fill">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
@@ -16,21 +16,58 @@
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
     </div>
-    <div class="col-4">
-        <h5>mat select</h5>
+    <div class="col-3">
+        <h5>Status Orden</h5>
         <mat-form-field appearance="fill">
-            <mat-label>Select an option</mat-label>
+            <mat-label>Seleccione</mat-label>
             <mat-select [(value)]="selected">
               <mat-option>None</mat-option>
+              <mat-option value="0">Todas las ordenes</mat-option>
+              <mat-option value="1">Ordenes Procesadas</mat-option>
               <mat-option value="5">Ordenes entregadas</mat-option>
               <mat-option value="2">Ordenes en ruta</mat-option>
               <mat-option value="3">Ordenes en sitio</mat-option>
             </mat-select>
           </mat-form-field>
     </div>
-    <div class="col-4 text-end ">
+    <div class="col-3">
+      <h5>Tienda</h5>
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccione</mat-label>
+        <select matNativeControl [(ngModel)]="idTienda" name="tienda">
+          <option value="" selected></option>
+          <option *ngFor="let tdsm  of allstore" [value]="tdsm.id">
+            {{tdsm.name}}
+          </option>
+        </select>
+      </mat-form-field>
+    </div>
+    <div class="col-3 text-end ">
         <br>
         <button class="btn btn-info btn-lg align-bottom" (click)="viewData()">Ver Informe</button>
     </div>
+    
 </div>
+<table class="table text-center">
+  <thead>
+      <tr>
+          <th>Orden</th>
+          <th>Nombre</th>
+          <th>Monto</th>
+          <th>tipo pago</th>
+          <th>Ver Orden</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let comp of ordersViews">
+          <td>{{comp.orden}}</td>
+          <td>{{comp.name}}</td>
+          <td>{{comp.monto}}</td>
+          <td>{{comp.tipo_pago}}</td>
+          <td><a [routerLink]="['/single-order/', comp.order_id]" class="btn bg-info text-dark" (click)="router.navigate(['/PedidoDelivery']);"
+              >ver orden</a></td>
+      </tr>
+  </tbody>
+
+</table>
 </div>

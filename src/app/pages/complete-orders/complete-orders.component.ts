@@ -34,9 +34,12 @@ export class completedOrders implements OnInit, AfterViewInit{
     }
 
     orderComplete(){
-        this.orderservices.ListComplete(this.storeId).subscribe((data: any)=>{
+        let endDate = moment(new Date()).format('YYYY-MM-DD')
+        console.log(endDate)
+        this.orderservices.ListComplete(this.storeId,endDate).subscribe((data: any)=>{
             console.log(data)
             data.forEach(complete => {
+                console.log(complete)
                 this.ordenComplete.push(
                     {
                         orden:complete.origin_store_id,
