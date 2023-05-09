@@ -34,7 +34,7 @@ const httpOptions = {
       return throwError('Something bad happened. Please try again later.');
     }
        apiUrl = "https://middleware.sanmartinbakery.com/orders/v1";
-      //apiUrl = "http://localhost/orders/v1";
+       //apiUrl = "http://localhost/orders/v1";
     constructor(private http: HttpClient){
         this.httpOptionApi={headers: new HttpHeaders({
             'Content-Type': 'application/json',

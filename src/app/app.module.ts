@@ -47,6 +47,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { ProgramadaComponent } from "./pages/programadas/programadas.component";
 import { completedOrders } from "./pages/complete-orders/complete-orders.component";
+import { DetailOrderComponent } from "./pages/detail-order/detail-order.component";
+import { callCenterComponent } from "./pages/call-center/call-center.component";
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import { completedOrders } from "./pages/complete-orders/complete-orders.compone
     ListOrders,
     OrderlistComponent,
     ProgramadaComponent,
-    completedOrders
+    completedOrders,
+    DetailOrderComponent,
+    callCenterComponent
   ],
   imports: [
     BrowserAnimationsModule,

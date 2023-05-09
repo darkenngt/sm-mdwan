@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy  } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
-import {GeolocationService} from '@ng-web-apis/geolocation';
+//import {GeolocationService} from '@ng-web-apis/geolocation';
 import { Subscription, interval, Subject } from 'rxjs';
 import * as moment from 'moment';
 
@@ -16,7 +16,7 @@ import * as moment from 'moment';
     export class ListOrders implements OnInit, AfterViewInit{
         public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
         public userType = this.userInfo === null?0:this.userInfo.id
-        public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+        //public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
         public dateStart: string
         public dateEnd: string
         public selected: string
@@ -26,7 +26,7 @@ import * as moment from 'moment';
         public idTienda: number;
         public allstore: any = [];
         
-        constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
+        constructor(public orderservices: OrderServices){
             
         }
         
@@ -70,7 +70,7 @@ import * as moment from 'moment';
             let initDate = moment(this.dateStart).format('YYYY-MM-DD')
             let endDate = moment(this.dateEnd).format('YYYY-MM-DD')
             console.log(initDate+"--"+endDate+"--"+this.selected)
-            console.log(this.storeId)
+            //console.log(this.storeId)
 
             this.orderservices.listViiew(this.idTienda,this.selected,initDate,endDate).subscribe((data: any) =>{
                 console.log(data)

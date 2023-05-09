@@ -1,0 +1,34 @@
+<NavSm></NavSm>
+<div class="text-center">
+<h6>Detalle Ordenes</h6>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3 text-start">
+            <h5>Tienda</h5>
+            <mat-form-field appearance="fill">
+              <mat-label>Seleccione</mat-label>
+              <select matNativeControl [(ngModel)]="idTienda" name="tienda">
+                <option value="" selected></option>
+                <option *ngFor="let tdsm  of allstore" [value]="tdsm.id">
+                  {{tdsm.name}}
+                </option>
+              </select>
+            </mat-form-field>
+          </div>
+          <div class="col-3 text-end ">
+            <br>
+            <button class="btn btn-info btn-lg align-bottom" (click)="viewData()">Ver Informe</button>
+        </div>
+    </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Orden</th>
+            <th>Tienda</th>
+            <th>tiempo</th>
+            <th>status</th>
+        </tr>
+    </thead>
+</table>
+</div>

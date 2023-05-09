@@ -35,6 +35,12 @@
                 <a href="{{'tel:+502'+orderBiker.telefono}}">{{orderBiker.telefono}}</a>               
             </div>
             <div class="col-6">
+                Alternativo
+            </div>
+            <div class="col-6">
+                <a href="{{'tel:+502'+orderBiker.alt_tel}}">{{orderBiker.alt_tel}}</a>               
+            </div>
+            <div class="col-6">
                 Tipo pago
             </div>
             <div class="col-6">
@@ -51,6 +57,24 @@
             </div>
             <div class="col-6">
                 {{orderBiker.cambio}}
+            </div>
+            <div class="col-6">
+                <strong>Descuentos Call Center</strong>
+                <br>
+                {{orderBiker.cpn_call_description}}
+                <br>
+                {{orderBiker.cpn_call_amount}}
+            </div>
+            <div class="col-6">
+                <strong>canje cupon</strong>
+                <br>
+                {{orderBiker.cpn_cupon}}
+                <br>
+                {{orderBiker.cpn_amount}}
+                <br>
+                {{orderBiker.cpn_description}}
+                <br>
+                {{orderBiker.cpn_sms}}
             </div>
             <div class=" col-6 row">
                 <div *ngIf="orderBiker.mEnRuta" class="">

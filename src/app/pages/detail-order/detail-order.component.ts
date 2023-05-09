@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-//import {GeolocationService} from '@ng-web-apis/geolocation';
+import {GeolocationService} from '@ng-web-apis/geolocation';
 import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
@@ -9,18 +9,18 @@ import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
 declare var google: any;
 @Component({
-    selector: 'single-order',
+    selector: 'detail-order',
     moduleId: module.id,
-    templateUrl: 'single-order.component.html'
+    templateUrl: 'detail-order.component.html'
 })
 
-export class SingleOrderComponent implements OnInit{
+export class DetailOrderComponent implements OnInit{
     public from = "top"
     public align = "right"
     public geoPosition: any = [];
     public userInfo = JSON.parse(localStorage.getItem("userInformation")) !== undefined?JSON.parse(localStorage.getItem("userInformation")):404
     public userType = this.userInfo === null?0:this.userInfo.id
-    public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
+    //public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     public BikerAvailable = [];
     public bikerSelect:number
     public orderid: number
@@ -28,18 +28,17 @@ export class SingleOrderComponent implements OnInit{
     public geoBiker: any = {}
     dataItem: any[]
     public ordenesBiker: any = {}
-    constructor(/*private geolocation$: GeolocationService,*/ public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
-        /*this.geolocation$.subscribe(position => 
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
+        this.geolocation$.subscribe(position => 
             this.rendermap(position));
 
             this.geolocation$.subscribe(position => 
-                this.geoBiker=position);*///activar para geolocalización
+                this.geoBiker=position);
 
             this.route.params.subscribe(params => 
                 //console.log(params.idOrder));
             this.getDetailOrder(params.idOrder));   
             
-            this.getAvailableBiker(this.storeId)
             this.route.params.subscribe(params => 
                 //console.log(params.idOrder));
                 this.orderid=params.idOrder);
@@ -57,34 +56,10 @@ export class SingleOrderComponent implements OnInit{
           }*/
         //this.rendermap
         //console.log(this.storeId)
-        console.log(this.userInfo.id)
+        //console.log(this.userInfo.id)
        
     }
 
-    getAvailableBiker(storeId){
-        this.orderservices.bikerAvailableToOrder(storeId).subscribe((data: any)=>{
-            //console.log("motoristas")
-            //console.log(data)
-
-            this.BikerAvailable = data.map((biker)=>{
-                console.log("soy biker")
-                console.log(biker)
-                //console.log(biker.user.MDW_User_Orders.length)
-                return{
-                    name:biker.user.first_name+" "+biker.user.last_name,
-                    id:biker.user.id,
-                    nDelivered:biker.user.MDW_User_Orders.length,
-                    countName:biker.user.MDW_User_Orders.length>0?biker.user.first_name+" "+biker.user.last_name+" "+"("+biker.user.MDW_User_Orders.length+")":biker.user.first_name+" "+biker.user.last_name
-                }
-                biker.forEach(orderbiker => {
-                    this.ordenesBiker
-                });
-                
-            })
-            //console.log(this.BikerAvailable)
-        })
-        
-    }
 
     getDetailOrder(IdOrder){
 
@@ -186,15 +161,9 @@ export class SingleOrderComponent implements OnInit{
                     indicaciones:data.observations,
                     autorizacion:data.payment_authorization,
                     total:parseFloat(data.payment_amount).toFixed(2),
-                    cambio:parseFloat(data.payment_change).toFixed(2),
+                    cambio:data.payment_change,
                     sendAloha:data.send_aloha,
-                    cpn_call_description:data.desc_cpn_callcenter === "" || data.desc_cpn_callcenter === null?"sin cupón call center":data.desc_cpn_callcenter,
-                    cpn_call_amount:data.amount_cpn_callcenter == null || data.amount_cpn_callcenter == ""?"":parseFloat(data.amount_cpn_callcenter).toFixed(2),
-                    cpn_amount:data.amount_cpn == null || data.amount_cpn == ""?"":parseFloat(data.amount_cpn).toFixed(2),
-                    cpn_cupon:data.cupon === "" || data.cupon === null?"sin cupón":data.cupon,
-                    cpn_sms:data.sms_cpn,
-                    cpn_description:data.descrip_cpn,
-                    userbiker:data.MDW_User_Orders.length > 0?data.MDW_User_Orders[0].user.first_name+" "+data.MDW_User_Orders[0].user.last_name:"sin motorista asignado",
+                    //userbiker:data.MDW_User_Orders[0].user.first_name+" "+data.MDW_User_Orders[0].user.last_name,
                     detalle:detalle
             }
             //console.log("array para orden")
@@ -207,55 +176,7 @@ export class SingleOrderComponent implements OnInit{
         //this.router.navigate(['pedidos']);
     }
 
-    getAssingAloha(){
-        let from = "top"
-        let align = "right"
-        let message = "Motosita asignado"
-        
-        let geolat = 1//this.geoBiker.coords.latitude activar para geolocalización
-        let geolong = 1//this.geoBiker.coords.longitude activar para geolocalización
-        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        let mensaje = "Acción cancelada";
-        let opcion = confirm("Deseas asignar o reasignar motorista");
-        //console.log(getgeo)
-        //console.log(this.bikerSelect, this.orderid)
-       
-        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
-        //console.log(jsonBiker)
-        if (opcion === true) {
-            this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
-                this.toastr.success(
-                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
-                    "",
-                    {
-                      timeOut: 4000,
-                      closeButton: true,
-                      enableHtml: true,
-                      toastClass: "alert alert-success alert-with-icon",
-                      positionClass: "toast-" + from + "-" + align
-                    }
-                  )
-                //console.log(data)// cambiar fecha end a fecha ini en el servicio
-                setInterval(this.settimer, 1500)
-               
-             });
-        } else {
-            this.toastr.warning(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+mensaje+'</span>',
-                "",
-                {
-                  timeOut: 4000,
-                  closeButton: true,
-                  enableHtml: true,
-                  toastClass: "alert alert-warning alert-with-icon",
-                  positionClass: "toast-" + from + "-" + align
-                }
-              )
-              setInterval(this.settimer, 1500)
-        }
-        
-    }
-
+    
     rendermap(position){
         //console.log(position.coords.longitude)
         var myLatlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -278,73 +199,12 @@ export class SingleOrderComponent implements OnInit{
         marker.setMap(map);
     }
 
-    sendToAloha(){
-        let from = "top"
-        let align = "right"
-        let message = "Orden enviada"
-        let smscancel = "se cancelo el envio"
-        let errorsms = "Error comuniquese con un administrador"
-        let btnAloha = document.getElementById('idAloha')
-        let opcion = confirm("Deseas enviar la orden a Aloha");
-        if (opcion === true) {
-            this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
-                //console.log(data)
-                btnAloha.setAttribute('disabled', '')
-                this.toastr.success(
-                    '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
-                    "",
-                    {
-                      timeOut: 4000,
-                      closeButton: true,
-                      enableHtml: true,
-                      toastClass: "alert alert-success alert-with-icon",
-                      positionClass: "toast-" + from + "-" + align
-                    }
-                  )
-                setInterval(this.settimer, 1500)
-            },(err)=>{
-                console.log("esto es un error")
-                console.log("no viene data")
-                    this.toastr.error(
-                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+errorsms+'</span>',
-                        "",
-                        {
-                        timeOut: 4500,
-                        closeButton: true,
-                        enableHtml: true,
-                        toastClass: "alert alert-error alert-with-icon",
-                        positionClass: "toast-" + this.from + "-" + this.align
-                        }
-                    )
-            }
-            )
-        }else{
-            this.toastr.warning(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smscancel+'</span>',
-                "",
-                {
-                  timeOut: 4000,
-                  closeButton: true,
-                  enableHtml: true,
-                  toastClass: "alert alert-warning alert-with-icon",
-                  positionClass: "toast-" + from + "-" + align
-                }
-              )
-              setInterval(this.settimer, 1500)
-        }
-        
-    }
-
-    testToAloha(){
-        this.orderservices.testAloha(this.orderid).subscribe((data: any)=>{
-            console.log(data)
-        })
-    }
+    
 
     DeleteOrder(){
         console.log("ufff")
-        let geolat = 1//this.geoBiker.coords.latitude activar para geolocalización
-        let geolong = 1//this.geoBiker.coords.longitude activar para geolocalización
+        let geolat = this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
         let jsonBiker = {orderId: this.orderid, "geolocalization": getgeo}

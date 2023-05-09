@@ -459,15 +459,15 @@ export class OrderServices{
     }
 
     
-    /*getDetalleLista(storeId,dateInit,dateEnd){
-        return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}/${dateInit}/${dateEnd}`,this.httpOptionApi).pipe(
+    getDetalleListaReport(storeId,dateOrder){
+        return this.http.get(`${this.apiUrl}/getAllAssignedMdwOrdersByDay/${storeId}/${dateOrder}`,this.httpOptionApi).pipe(
             catchError(err =>{
                 this.router.navigate(['login'])
                 console.error(`Backend returned code ${err.status}, ` + `body was: ${err.error}`);
                 return throwError('Something bad happened. Please try again no entrego nada.');
             })
         );
-    }*/
+    }
 
     listViiew(storeId,status,dateInit,dateEnd){
         return this.http.get(`${this.apiUrl}/getAllMiddlewareOrdersByStore/${storeId}/${status}/${dateInit}/${dateEnd}`,this.httpOptionApi).pipe(

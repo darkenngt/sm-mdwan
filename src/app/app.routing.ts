@@ -20,6 +20,8 @@ import { ListOrders } from './pages/list-orders/list-orders.component';
 import { OrderlistComponent } from './pages/orderlist/orderlist.component';
 import { ProgramadaComponent } from './pages/programadas/programadas.component';
 import { completedOrders } from './pages/complete-orders/complete-orders.component';
+import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
+import { callCenterComponent } from './pages/call-center/call-center.component';
 
 export const AppRoutes: Routes = [
   {
@@ -139,6 +141,18 @@ export const AppRoutes: Routes = [
     component:completedOrders,
     data:{
       title:"completas"
+    }
+  },{
+    path:'detail-single/:idOrder',
+    component:DetailOrderComponent,
+    data:{
+      title:"detetalle por orden"
+    }
+  },{
+    path:'dtcall',
+    component:callCenterComponent,
+    data:{
+      title:"detalle call center"
     }
   },
   {

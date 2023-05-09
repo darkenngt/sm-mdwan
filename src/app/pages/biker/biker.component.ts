@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
-import {GeolocationService} from '@ng-web-apis/geolocation';
+//import {GeolocationService} from '@ng-web-apis/geolocation';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { takeUntil } from "rxjs/operators"
@@ -34,11 +34,11 @@ export class BikerComponent implements OnInit{
     private subscription: Subscription;
     public firstCall: boolean = true;
     
-    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
+    constructor(/*private geolocation$: GeolocationService,*/ public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
         this.userId = this.userInfo === null?0:this.userInfo.id
-        this.geolocation$.subscribe(position => 
-            this.geoBiker = position);
+        /*this.geolocation$.subscribe(position => 
+            this.geoBiker = position);*/
     }
     ngOnInit(): void{
         
@@ -111,9 +111,15 @@ export class BikerComponent implements OnInit{
                     direccion:orderbiker.order.client.address,
                     telefono:orderbiker.order.client.phone,
                     alt_tel: orderbiker.order.client.alternate_phone,
-                    tipoPago:orderbiker.order.payment_authorization,
+                    tipoPago:orderbiker.order.payment_type===1?"efectivo":orderbiker.order.payment_type===13?"Cybersource":orderbiker.order.payment_type===17?"Visa delivery":orderbiker.order.payment_type===18?"Whatsapp":"",
                     total:parseFloat(orderbiker.order.payment_amount).toFixed(2),
                     cambio:orderbiker.order.payment_change,
+                    cpn_call_description:orderbiker.order.desc_cpn_callcenter === "" || orderbiker.order.desc_cpn_callcenter === null?"sin cupón call center":orderbiker.order.desc_cpn_callcenter,
+                    cpn_call_amount:orderbiker.order.amount_cpn_callcenter == null || orderbiker.order.amount_cpn_callcenter == ""?"":parseFloat(orderbiker.order.amount_cpn_callcenter).toFixed(2),
+                    cpn_amount:orderbiker.order.amount_cpn == null || orderbiker.order.amount_cpn == ""?"":parseFloat(orderbiker.order.amount_cpn).toFixed(2),
+                    cpn_cupon:orderbiker.order.cupon === "" || orderbiker.order.cupon === null?"sin cupón":orderbiker.order.cupon,
+                    cpn_sms:orderbiker.order.sms_cpn,
+                    cpn_description:orderbiker.order.descrip_cpn,
                     detalle:detalle,
                     tipo_orden:orderbiker.order.order_type,
                     deliveryDate:new Date(new Date(orderbiker.initial_date).setHours(new Date(orderbiker.initial_date).getHours() + 6))
@@ -137,8 +143,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Pedido en ruta"
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(idOrder)
        console.log("btn en ruta")
@@ -190,8 +196,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -238,8 +244,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -267,8 +273,8 @@ export class BikerComponent implements OnInit{
 
     }
     showPedido(showOrder, indice){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong =1 // this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -282,8 +288,8 @@ export class BikerComponent implements OnInit{
 
 
     emergency(){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -298,8 +304,8 @@ export class BikerComponent implements OnInit{
     }
 
     prick(){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1  //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -342,8 +348,8 @@ export class BikerComponent implements OnInit{
     }
 
     singas(){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -388,8 +394,8 @@ export class BikerComponent implements OnInit{
     }
 
     robber(){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -434,8 +440,8 @@ export class BikerComponent implements OnInit{
     }
 
     injury(){
-        let geolat = this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude
+        let geolat = 1 //this.geoBiker.coords.latitude
+        let geolong = 1 //this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
