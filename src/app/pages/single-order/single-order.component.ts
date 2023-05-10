@@ -4,6 +4,7 @@ import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import {Router} from '@angular/router';
+import * as bootstrap from 'bootstrap';
 
 import * as _ from 'lodash';
 import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
@@ -27,12 +28,14 @@ export class SingleOrderComponent implements OnInit{
     public orderid: number
     public ordersStructureSingle: any = {}
     public geoBiker: any = {}
+    public confirm: number
+    public bikerData: any = []
     dataItem: any[]
     public ordenesBiker: any = {}
     constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
         
-        this.geolocation$.subscribe(position => 
-            this.rendermap(position));
+        /*this.geolocation$.subscribe(position => 
+            this.rendermap(position));*/
 
             this.geolocation$.subscribe(position => 
                 this.geoBiker=position);
@@ -207,23 +210,41 @@ export class SingleOrderComponent implements OnInit{
         //this.router.navigate(['pedidos']);
     }
 
-    getAssingAloha(){
+    openModal(){
+        console.log(Object.keys(this.geoBiker).length)
+        
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
+        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
+        let mensaje = "Acción cancelada";
+        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
+        const modal = document.getElementById('assingBiker')
+        const modalInstance = new bootstrap.Modal(modal)
+        modalInstance.show()
+        console.log(jsonBiker)
+        this.bikerData = jsonBiker
+    }
+
+    
+    openAloha(){
+        console.log(Object.keys(this.geoBiker).length)
+        const modal = document.getElementById('sendAloha')
+        const modalInstance = new bootstrap.Modal(modal)
+        modalInstance.show()
+    }
+
+    cancelModal(){
+        location.reload();
+    }
+
+    getAssingBiker(){
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude === ''?1: this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
-        let getgeo = `{lat: ${geolat}, long: ${geolong}}`
-        let mensaje = "Acción cancelada";
-        let opcion = confirm("Deseas asignar o reasignar motorista");
-        //console.log(getgeo)
-        //console.log(this.bikerSelect, this.orderid)
-       
-        let jsonBiker = {userId: this.bikerSelect, orderId: this.orderid, "geolocalization": JSON.stringify(getgeo)}
+        let errorsms = "Motosita no asignado"
+        console.log(this.bikerData)
         //console.log(jsonBiker)
-        if (opcion === true) {
-            this.orderservices.assingBikertoOrder(jsonBiker).subscribe((data: any) =>{
+            this.orderservices.assingBikertoOrder(this.bikerData).subscribe((data: any) =>{
                 this.toastr.success(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
                     "",
@@ -238,21 +259,24 @@ export class SingleOrderComponent implements OnInit{
                 //console.log(data)// cambiar fecha end a fecha ini en el servicio
                 setInterval(this.settimer, 1500)
                
-             });
-        } else {
-            this.toastr.warning(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+mensaje+'</span>',
-                "",
-                {
-                  timeOut: 4000,
-                  closeButton: true,
-                  enableHtml: true,
-                  toastClass: "alert alert-warning alert-with-icon",
-                  positionClass: "toast-" + from + "-" + align
-                }
-              )
-              setInterval(this.settimer, 1500)
-        }
+             },(err)=>{
+                console.log("esto es un error")
+                console.log("no viene data")
+                    this.toastr.error(
+                        '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+errorsms+'</span>',
+                        "",
+                        {
+                        timeOut: 4500,
+                        closeButton: true,
+                        enableHtml: true,
+                        toastClass: "alert alert-error alert-with-icon",
+                        positionClass: "toast-" + this.from + "-" + this.align
+                        }
+                    )
+            });
+
+              //setInterval(this.settimer, 1500)
+        
         
     }
 
@@ -285,9 +309,9 @@ export class SingleOrderComponent implements OnInit{
         let smscancel = "se cancelo el envio"
         let errorsms = "Error comuniquese con un administrador"
         let btnAloha = document.getElementById('idAloha')
-        let opcion = confirm("Deseas enviar la orden a Aloha");
-        if (opcion === true) {
-            this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
+        //let opcion = confirm("Deseas enviar la orden a Aloha");
+        console.log(this.orderid)
+           this.orderservices.sendAloha(this.orderid).subscribe((data: any)=>{
                 //console.log(data)
                 btnAloha.setAttribute('disabled', '')
                 this.toastr.success(
@@ -318,20 +342,7 @@ export class SingleOrderComponent implements OnInit{
                     )
             }
             )
-        }else{
-            this.toastr.warning(
-                '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+smscancel+'</span>',
-                "",
-                {
-                  timeOut: 4000,
-                  closeButton: true,
-                  enableHtml: true,
-                  toastClass: "alert alert-warning alert-with-icon",
-                  positionClass: "toast-" + from + "-" + align
-                }
-              )
-              setInterval(this.settimer, 1500)
-        }
+              //setInterval(this.settimer, 1500)
         
     }
 
@@ -343,8 +354,8 @@ export class SingleOrderComponent implements OnInit{
 
     DeleteOrder(){
         console.log("ufff")
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude === ''?1: this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
         let jsonBiker = {orderId: this.orderid, "geolocalization": getgeo}

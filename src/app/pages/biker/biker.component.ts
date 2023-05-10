@@ -143,8 +143,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Pedido en ruta"
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(idOrder)
        console.log("btn en ruta")
@@ -196,8 +196,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -244,8 +244,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -273,8 +273,8 @@ export class BikerComponent implements OnInit{
 
     }
     showPedido(showOrder, indice){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -288,8 +288,8 @@ export class BikerComponent implements OnInit{
 
 
     emergency(){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -304,8 +304,8 @@ export class BikerComponent implements OnInit{
     }
 
     prick(){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -348,8 +348,8 @@ export class BikerComponent implements OnInit{
     }
 
     singas(){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -394,8 +394,8 @@ export class BikerComponent implements OnInit{
     }
 
     robber(){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -440,8 +440,8 @@ export class BikerComponent implements OnInit{
     }
 
     injury(){
-        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
-        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
+        let geolat = Object.keys(this.geoBiker).length  === 0 ?1: this.geoBiker.coords.latitude
+        let geolong = Object.keys(this.geoBiker).length === 0 ?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        

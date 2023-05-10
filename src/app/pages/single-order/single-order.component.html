@@ -12,13 +12,13 @@
             <div class="col-md-12 fs-6">
                 <span class="material-icons">motorcycle</span>
                 
-                <select class=""  name="" id="biker" [(ngModel)]="bikerSelect" (ngModelChange)="getAssingAloha()">
+                <select class=""  name="" id="biker" [(ngModel)]="bikerSelect" (ngModelChange)="openModal()">
                     <option>Seleccione Motorista</option>
                     <option *ngFor="let biker of BikerAvailable" [ngClass]="biker.nDelivered > 0?'text-danger fw-bold':''" [value]="biker.id">{{biker.countName}} </option>
                 </select>
             </div>
             <div class="col-md-12 fs-5">
-                <button id="idAloha" class="btn btn-success"  (click)="sendToAloha()" *ngIf="ordersStructureSingle.sendAloha != 1">Enviar Aloha</button>
+                <button id="idAloha" class="btn btn-success"  (click)="openAloha()"  *ngIf="ordersStructureSingle.sendAloha != 1">Enviar Aloha</button>
             </div>
             <h6 class="col-md-12">Motorista asignado:</h6>
             <div class="col-md-12 fs-5">
@@ -220,6 +220,42 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="DeleteOrder()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="assingBiker" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar motorista</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <strong class="text-danger">! Desea asignar o reasignar motorista</strong> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelModal()">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="getAssingBiker()">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="sendAloha" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar motorista</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <strong class="text-danger">! Desea enviar la orden a Aloha</strong> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelModal()">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="sendToAloha()">Confirmar</button>
         </div>
       </div>
     </div>
