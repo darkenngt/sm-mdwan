@@ -163,6 +163,12 @@ export class DetailOrderComponent implements OnInit{
                     total:parseFloat(data.payment_amount).toFixed(2),
                     cambio:data.payment_change,
                     sendAloha:data.send_aloha,
+                    cpn_call_description:data.desc_cpn_callcenter === "" || data.desc_cpn_callcenter === null?"sin cupón call center":data.desc_cpn_callcenter,
+                    cpn_call_amount:data.amount_cpn_callcenter == null || data.amount_cpn_callcenter == ""?"":parseFloat(data.amount_cpn_callcenter).toFixed(2),
+                    cpn_amount:data.amount_cpn == null || data.amount_cpn == ""?"":parseFloat(data.amount_cpn).toFixed(2),
+                    cpn_cupon:data.cupon === "" || data.cupon === null?"sin cupón":data.cupon,
+                    cpn_sms:data.sms_cpn,
+                    cpn_description:data.descrip_cpn,
                     //userbiker:data.MDW_User_Orders[0].user.first_name+" "+data.MDW_User_Orders[0].user.last_name,
                     detalle:detalle
             }

@@ -1,7 +1,7 @@
 <NavSm></NavSm>
 <div class="container">
     <div  class="row">
-        <button class="material-icons" (click)="DeleteOrder()" ng-disabled="all">delete</button>
+        <!--<button class="material-icons" (click)="DeleteOrder()" ng-disabled="all">delete</button>-->
         <div class="col-md-4 overflow-auto">
             <h4>Datos del cliente</h4>
             <div class="progress" [ngStyle]="{background: '#00356f'}">
@@ -85,6 +85,24 @@
             <h6 class="col-md-12">Fecha</h6>
             <div class="col-md-12 fs-5">
                 {{ordersStructureSingle.fecha}}
+            </div>
+            <h6 class="col-md-12">Datos Descuentos</h6>
+            <div class="col-md-12">
+                <strong>Descuentos Call Center</strong>
+                <br>
+                {{ordersStructureSingle.cpn_call_description}}
+                <br>
+                {{ordersStructureSingle.cpn_call_amount}}
+                <br>
+                <strong>canje cupon</strong>
+                <br>
+                {{ordersStructureSingle.cpn_cupon}}
+                <br>
+                {{ordersStructureSingle.cpn_amount}}
+                <br>
+                {{ordersStructureSingle.cpn_description}}
+                <br>
+                {{ordersStructureSingle.cpn_sms}}
             </div>
         </div>
         <div class="col-md-8 overflow-hidden">
@@ -183,4 +201,4 @@
     </div>
     
 </div>
-<div id="map" class="map"></div>
+<!--<div id="map" class="map"></div>-->
