@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectionStrategy  } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
-//import {GeolocationService} from '@ng-web-apis/geolocation';
+import {GeolocationService} from '@ng-web-apis/geolocation';
 import { Subscription, interval, Subject } from 'rxjs';
 import * as moment from 'moment';
 

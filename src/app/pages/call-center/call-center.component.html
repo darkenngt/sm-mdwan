@@ -25,10 +25,35 @@
     <thead>
         <tr>
             <th>Orden</th>
-            <th>Tienda</th>
-            <th>tiempo</th>
-            <th>status</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Tiempo</th>
+            <th>Monto</th>
+            <th>Metodo pago</th>
+            <th>Ver orden</th>
         </tr>
     </thead>
+    <tbody>
+        <tr *ngFor="let comp of ordersViews" [ngClass]="comp.estado === 'Orden sin asignar'? 'bg-light':comp.estado === 'asignada'?
+        'bg-secondary':comp.estado === 'en ruta'?'bg-warning':comp.estado === 'en el sitio'?
+        'bg-info':comp.estado === 'entregado'?'bg-success':comp.estado === 'emergencia'?'bg-danger':comp.estado === 'programado'?'bg-dark':''">
+            <td>{{comp.orden}}</td>
+            <td>{{comp.name}}</td>
+            <td [ngClass]="comp.estado === 'Orden sin asignar'? 'bg-light':comp.estado === 'asignada'?
+            'bg-secondary':comp.estado === 'en ruta'?'bg-warning':comp.estado === 'en el sitio'?
+            'bg-info':comp.estado === 'entregado'?'bg-success':comp.estado === 'emergencia'?'bg-danger':comp.estado === 'programado'?'bg-dark':''">{{comp.estado}}</td>
+            <td>
+                <app-count-down 
+                [deliveryDate] = "comp.deliveryDate"
+                [orderType] = comp.order_type
+                ></app-count-down>
+            </td>
+            <td>{{comp.monto}}</td>
+            <td>{{comp.tipoPago}}</td>
+            <td><a [routerLink]="['/detail-single/', comp.order_id]" class="btn bg-info text-dark"
+                >ver orden</a></td>
+
+        </tr>
+    </tbody>
 </table>
 </div>

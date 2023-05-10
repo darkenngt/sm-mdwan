@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
 
 export class GeoService{
 
-   /* public useLocation?:[number,number]
+    public useLocation?:[number,number]
 
     get isUserLocationReady(): boolean {
         return !!this.useLocation
@@ -33,5 +33,5 @@ export class GeoService{
                 }
             )
         })
-    }*/
+    }
 }

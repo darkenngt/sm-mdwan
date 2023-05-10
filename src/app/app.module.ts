@@ -44,6 +44,8 @@ import { ListOrders } from './pages/list-orders/list-orders.component';
 import { OrderlistComponent} from './pages/orderlist/orderlist.component'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatButtonModule } from "@angular/material/button";
 import {MatSelectModule} from '@angular/material/select';
 import { ProgramadaComponent } from "./pages/programadas/programadas.component";
 import { completedOrders } from "./pages/complete-orders/complete-orders.component";
@@ -85,6 +87,8 @@ import { callCenterComponent } from "./pages/call-center/call-center.component";
       useHash: true
     }),
     SidebarModule,
+    MatDialogModule,
+    MatButtonModule,
     NavbarModule,
     ToastrModule.forRoot(),
     FooterModule,

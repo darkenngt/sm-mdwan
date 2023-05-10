@@ -1,9 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-//import {GeolocationService} from '@ng-web-apis/geolocation';
+import {GeolocationService} from '@ng-web-apis/geolocation';
 import { OrderServices } from 'app/services/order.services'
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import {Router} from '@angular/router';
+
 import * as _ from 'lodash';
 import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
@@ -28,12 +29,13 @@ export class SingleOrderComponent implements OnInit{
     public geoBiker: any = {}
     dataItem: any[]
     public ordenesBiker: any = {}
-    constructor(/*private geolocation$: GeolocationService,*/ public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
-        /*this.geolocation$.subscribe(position => 
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
+        
+        this.geolocation$.subscribe(position => 
             this.rendermap(position));
 
             this.geolocation$.subscribe(position => 
-                this.geoBiker=position);*///activar para geolocalización
+                this.geoBiker=position);
 
             this.route.params.subscribe(params => 
                 //console.log(params.idOrder));
@@ -45,9 +47,7 @@ export class SingleOrderComponent implements OnInit{
                 this.orderid=params.idOrder);
 
     }
- 
-
-
+    
     ngOnInit() {
         
         //this.dataItem = JSON.parse(this.ordersStructureSingle);
@@ -212,8 +212,8 @@ export class SingleOrderComponent implements OnInit{
         let align = "right"
         let message = "Motosita asignado"
         
-        let geolat = 1//this.geoBiker.coords.latitude activar para geolocalización
-        let geolong = 1//this.geoBiker.coords.longitude activar para geolocalización
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude === ''?1: this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         let mensaje = "Acción cancelada";
         let opcion = confirm("Deseas asignar o reasignar motorista");
@@ -343,8 +343,8 @@ export class SingleOrderComponent implements OnInit{
 
     DeleteOrder(){
         console.log("ufff")
-        let geolat = 1//this.geoBiker.coords.latitude activar para geolocalización
-        let geolong = 1//this.geoBiker.coords.longitude activar para geolocalización
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude === ''?1: this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
         let jsonBiker = {orderId: this.orderid, "geolocalization": getgeo}

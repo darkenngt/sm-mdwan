@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrderServices } from 'app/services/order.services'
-//import {GeolocationService} from '@ng-web-apis/geolocation';
+import {GeolocationService} from '@ng-web-apis/geolocation';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { takeUntil } from "rxjs/operators"
@@ -34,11 +34,11 @@ export class BikerComponent implements OnInit{
     private subscription: Subscription;
     public firstCall: boolean = true;
     
-    constructor(/*private geolocation$: GeolocationService,*/ public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
+    constructor(private geolocation$: GeolocationService, public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService){
         this.storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
         this.userId = this.userInfo === null?0:this.userInfo.id
-        /*this.geolocation$.subscribe(position => 
-            this.geoBiker = position);*/
+        this.geolocation$.subscribe(position => 
+            this.geoBiker = position);
     }
     ngOnInit(): void{
         
@@ -143,8 +143,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Pedido en ruta"
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(idOrder)
        console.log("btn en ruta")
@@ -196,8 +196,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -244,8 +244,8 @@ export class BikerComponent implements OnInit{
         let from = "top"
         let align = "right"
         let message = "Motosita asignado"
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         console.log(getgeo)
        
@@ -273,8 +273,8 @@ export class BikerComponent implements OnInit{
 
     }
     showPedido(showOrder, indice){
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong =1 // this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -288,8 +288,8 @@ export class BikerComponent implements OnInit{
 
 
     emergency(){
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = {'lat': geolat, 'long': geolong}
         let json =
         {
@@ -304,8 +304,8 @@ export class BikerComponent implements OnInit{
     }
 
     prick(){
-        let geolat = 1  //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -348,8 +348,8 @@ export class BikerComponent implements OnInit{
     }
 
     singas(){
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -394,8 +394,8 @@ export class BikerComponent implements OnInit{
     }
 
     robber(){
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
@@ -440,8 +440,8 @@ export class BikerComponent implements OnInit{
     }
 
     injury(){
-        let geolat = 1 //this.geoBiker.coords.latitude
-        let geolong = 1 //this.geoBiker.coords.longitude
+        let geolat = this.geoBiker.coords.latitude === null || this.geoBiker.coords.latitude ===''?1:this.geoBiker.coords.latitude
+        let geolong = this.geoBiker.coords.longitude === null || this.geoBiker.coords.longitude === ''?1:this.geoBiker.coords.longitude
         let getgeo = `{lat: ${geolat}, long: ${geolong}}`
         //console.log(getgeo)
        
