@@ -51,6 +51,7 @@ import { ProgramadaComponent } from "./pages/programadas/programadas.component";
 import { completedOrders } from "./pages/complete-orders/complete-orders.component";
 import { DetailOrderComponent } from "./pages/detail-order/detail-order.component";
 import { callCenterComponent } from "./pages/call-center/call-center.component";
+import { FilterPipeModule } from "ngx-filter-pipe"
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { callCenterComponent } from "./pages/call-center/call-center.component";
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    FilterPipeModule
   ],
   providers: [DatePipe],
   

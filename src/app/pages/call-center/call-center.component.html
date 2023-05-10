@@ -21,6 +21,12 @@
             <button class="btn btn-info btn-lg align-bottom" (click)="viewData()">Ver Informe</button>
         </div>
     </div>
+    <div class="row">
+        <div class="input-group mb-3 col-4 text-start">
+            <span class="input-group-text" id="basic-addon1">Buscar</span>
+            <input type="text" [(ngModel)]="ordenFilter.orden" class="form-control"  aria-describedby="basic-addon1">
+          </div>
+    </div>
 <table class="table">
     <thead>
         <tr>
@@ -34,7 +40,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let comp of ordersViews" [ngClass]="comp.estado === 'Orden sin asignar'? 'bg-light':comp.estado === 'asignada'?
+        <tr *ngFor="let comp of ordersViews |filterBy:ordenFilter" [ngClass]="comp.estado === 'Orden sin asignar'? 'bg-light':comp.estado === 'asignada'?
         'bg-secondary':comp.estado === 'en ruta'?'bg-warning':comp.estado === 'en el sitio'?
         'bg-info':comp.estado === 'entregado'?'bg-success':comp.estado === 'emergencia'?'bg-danger':comp.estado === 'programado'?'bg-dark':''">
             <td>{{comp.orden}}</td>
@@ -43,7 +49,7 @@
             'bg-secondary':comp.estado === 'en ruta'?'bg-warning':comp.estado === 'en el sitio'?
             'bg-info':comp.estado === 'entregado'?'bg-success':comp.estado === 'emergencia'?'bg-danger':comp.estado === 'programado'?'bg-dark':''">{{comp.estado}}</td>
             <td>
-                <app-count-down 
+                <app-count-down ordenFilter
                 [deliveryDate] = "comp.deliveryDate"
                 [orderType] = comp.order_type
                 ></app-count-down>

@@ -244,6 +244,7 @@ export class SingleOrderComponent implements OnInit{
         let errorsms = "Motosita no asignado"
         console.log(this.bikerData)
         //console.log(jsonBiker)
+        
             this.orderservices.assingBikertoOrder(this.bikerData).subscribe((data: any) =>{
                 this.toastr.success(
                     '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">'+message+'</span>',
@@ -258,6 +259,7 @@ export class SingleOrderComponent implements OnInit{
                   )
                 //console.log(data)// cambiar fecha end a fecha ini en el servicio
                 setInterval(this.settimer, 1500)
+                this.router.navigate(['OrderLIst']);
                
              },(err)=>{
                 console.log("esto es un error")

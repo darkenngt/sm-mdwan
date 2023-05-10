@@ -20,6 +20,8 @@ export class callCenterComponent implements OnInit{
     public allstore: any = [];
     public ordersViews: any []
     public selected: string
+    ordenFilter: any = {orden:''}
+    
     constructor(public orderservices: OrderServices, private route: ActivatedRoute, private toastr: ToastrService, private router: Router){
 
     }
