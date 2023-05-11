@@ -23,6 +23,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         public showProgramada: boolean = false;
         public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
         private subscriptionDeliver: Subscription;
+        private subscriptionDeliverbtn: Subscription;
         private subscriptionProgramer: Subscription;
         private firstCall: boolean = false;
         private previousLength: number = 0;
@@ -41,6 +42,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         isPrimaryPr = false;
         isPrimaryE = false;
         height = 100;
+        ordenFilter: any = {numeroPedido:''}
       
         intervaloColorDe;
         intervaloColorPick;
@@ -61,6 +63,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         ngOnInit(){
             this.getDelivery()
             this.WebSocketDelivery()
+            this.WebSocketDeliverybtn()
         }
         
         detenerDe() {
@@ -92,19 +95,19 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         // crea un nuevo objeto `Date`
         }
     
-        WebSocketDelivery(){
+       WebSocketDeliverybtn(){
             console.log(this.isPrimaryD)
             if (!this.firstCall){
                 this.alertNewOrder()
                 this.firstCall = true
-                this.subscriptionDeliver = interval(15000)
+                this.subscriptionDeliverbtn = interval(15000)
                 .subscribe(x =>{
                     this.alertNewOrder()
                 })
             }
             else{
                 this.firstCall = true
-                this.subscriptionDeliver = interval(15000)
+                this.subscriptionDeliverbtn = interval(15000)
                 .subscribe(x =>{
                     this.alertNewOrder()
                 })
@@ -112,8 +115,40 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         }
 
     
+        /*ngOnDestroy(): void {
+            this.subscriptionDeliver.unsubscribe();
+          }*/
+
+          WebSocketDelivery(): void {
+            if (!this.firstCall){
+                console.log("entre if")
+                this.getDelivery()
+                this.firstCall = true
+                this.subscriptionDeliver = interval(15000)
+                .subscribe(x =>{
+                    this.getDelivery()
+                    //console.log(this.delOrdersStructure+"1")
+                    //console.log(this.firstCall)
+                })
+                //console.log(this.delOrdersStructure+"2")
+                //console.log(this.firstCall)
+                
+            }
+            else{
+                console.log("entre else")
+                this.firstCall = true
+                this.subscriptionDeliver = interval(15000)
+                .subscribe(x =>{
+                    this.getDelivery()
+                    //console.log(this.delOrdersStructure)
+                    //console.log(this.firstCall)
+                })
+            }
+        }
+    
         ngOnDestroy(): void {
             this.subscriptionDeliver.unsubscribe();
+            this.subscriptionDeliverbtn.unsubscribe();
           }
     
         getPosition() {
@@ -250,8 +285,9 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
             this.showDelivery = true
             this.showPickup = false;
             this.showEmergencia = false;
-            this.showProgramada = false
+            this.showProgramada = true
             let typeorder = 1
+            let typeorderpro = 3
             this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
                 //console.log(data)
                 let filtDelevy = []
@@ -268,6 +304,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                                 tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
                                 total:order.payment_amount,
                                 numeroPedido:order.origin_store_id,
+                                fechasort:order.creation_date,
                                 idOrder:order.id,
                                 //deliveryDate: new Date(order.creation_date),
                                 deliveryDate: new Date(new Date(order.creation_date).setHours(new Date(order.creation_date).getHours() + 6)),
@@ -277,9 +314,55 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
                     }
                     
                 });
-                this.delOrdersStructure = filtDelevy.reverse()
+                // Ordenar los elementos por la fecha
+                filtDelevy.sort((a, b) => {
+                  const dateA = new Date(a.fechasort).getTime();
+                  const dateB = new Date(b.fechasort).getTime();
+                  return dateB - dateA;
+                });
+                this.delOrdersStructure = filtDelevy
                 //console.log(filtDelevy)
             });
+
+            this.orderservices.getOrders(this.storeId,typeorderpro).subscribe((data: any) =>{
+              let filtProga = []
+              //console.log(data)
+              //console.log("programadas")
+              data.forEach(order => {
+                  if (order.status !== 0 && order.status !== 5) {
+                      filtProga.push(
+                          {
+                              tipo: order.order_type===1?"delivery":order.order_type===2?"pickup":order.order_type===3?"programada":"emergencia",
+                              estado:order.status===1?"procesada":order.status===2?"asignada":order.status===3?"en ruta":order.status===4?"en el sitio":order.status===6?"emergencia":order.status===7?"emergencia":order.status===8?"emergencia":order.status===9?"emergencia":"entregado",
+                              nameEstado:order.status===6?"pinchazo":order.status===7?"sin gas":order.status===8?"robo":order.status===9?"accidente":"",
+                              nombre:order.client.name,
+                              fecha:order.creation_date.substring(0, 10),
+                              tipoPago:order.payment_type===1?"efectivo":order.payment_type===13?"Cybersource":order.payment_type===17?"Visa delivery":order.payment_type===18?"Whatsapp":"",
+                              total:order.payment_amount,
+                              numeroPedido:order.origin_store_id,
+                              idOrder:order.id,
+                              deliveryDate: this.getDeliveryDate(order.delivery_day),
+                              dateView:order.delivery_day
+                          }
+                      )
+              }
+                  
+              });
+              filtProga.sort((a, b) => {
+                // Convertir las fechas de 'a' y 'b' a objetos Date
+                const dateA = new Date(a.deliveryDate);
+                const dateB = new Date(b.deliveryDate);
+              
+                // Restar las fechas para obtener la diferencia en milisegundos
+                const difference = dateA.getTime() - dateB.getTime() ;
+              
+                // Retornar el resultado de la comparación de diferencia
+                return difference;
+              });
+              this.proOrdersStructure = filtProga//.reverse()
+              console.log(this.proOrdersStructure.dateView)
+            
+          });
             //window.onload = this.getEmergencia
         }
         

@@ -1,8 +1,8 @@
 <NavSm></NavSm>
 <div class="container">
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button (click)="getDelivery(); detenerDe()" class="nav-link btn-outline-primary" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="false" [ngClass]="{ 'btn-primary': isPrimaryD, 'btn-outline-primary': !isPrimaryD }">Delivery</button>
+        <li class="nav-item" role="presentation"> <!--detenerDe(); getprogramadas(); detenerPr()-->
+          <button (click)="getDelivery();" class="nav-link btn-outline-primary" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="false" [ngClass]="{ 'btn-primary': isPrimaryD, 'btn-outline-primary': !isPrimaryD }">Delivery</button>
         </li>
         <li class="nav-item" role="presentation">
           <button (click)="getPickup(); detenerPic()"  class="nav-link btn-outline-warning"  id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false" [ngClass]="{ 'btn-warning': isPrimaryPick, 'btn-outline-warning': !isPrimaryPick }">Pickup</button>
@@ -10,48 +10,106 @@
         <li class="nav-item" role="presentation">
           <button (click)="getEmergencia(); detenerEm()"  class="nav-link btn-outline-danger" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false" [ngClass]="{ 'btn-danger': isPrimaryE, 'btn-outline-danger': !isPrimaryE }">Pedidos Emergencia</button>
         </li>
-        <li class="nav-item" role="presentation">
+        <!--<li class="nav-item" role="presentation">
             <button (click)="getprogramadas(); detenerPr()"  class="nav-link btn-outline-success" id="pills-progra-tab" data-bs-toggle="pill" data-bs-target="#pills-progra" type="button" role="tab" aria-controls="pills-progra" aria-selected="false" [ngClass]="{ 'btn-success': isPrimaryPr, 'btn-outline-success': !isPrimaryPr }">Programadas</button>
-          </li>
+          </li>-->
       </ul>
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <input type="text" placeholder="Buscar" [(ngModel)]="ordenFilter.numeroPedido" class="form-control text-end"   aria-describedby="basic-addon1" style="width: 200px;">
+        </div> 
+    </div>
+    <br>
       <div class="tab-content " id="pills-tabContent">
-        <div  class="stab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            <div *ngIf="this.showDelivery == true" class="row">
-                <div class="col-md-3" *ngFor="let order of delOrdersStructure">
-                    <div class="card border border-primary border-2 rounded-start" alt="75x75" style="width: 15rem;">
-                        <div class="card-header" 
-                        [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
-                        'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?
-                        'bg-info':order.estado === 'entregado'?'bg-success':order.estado === 'emergencia'?'bg-danger':order.estado === 'programado'?'bg-dark':''">
-                            <div class="start-0 text-black fw-bold"
-                            [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
-                        'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
-                        'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                {{order.estado}}
+        <div class="row">
+            
+            <div class="col-md-8 bg-light" style="overflow-y: auto;">
+                <strong class="col-md-12">DELIVERY</strong>
+                <!--<div  class="stab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">-->
+                    <div *ngIf="this.showDelivery == true" class="row">
+                        <div class="col-md-4" *ngFor="let order of delOrdersStructure |filterBy:ordenFilter">
+                            <div class="card border border-primary border-2 rounded-start" alt="75x75" style="width: 15rem;">
+                                <div class="card-header" 
+                                [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
+                                'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?
+                                'bg-info':order.estado === 'entregado'?'bg-success':order.estado === 'emergencia'?'bg-danger':order.estado === 'programado'?'bg-dark':''">
+                                    <div class="start-0 text-black fw-bold"
+                                    [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                                'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                                'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                                        {{order.estado}}
+                                    </div>
+                                    <div class="end-0 text-black fw-bold"
+                                    [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                                'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                                'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                                    <app-count-down 
+                                        [deliveryDate] = "order.deliveryDate"
+                                        [orderType] = 1
+                                    ></app-count-down>
+                                    </div>
+                                    
+                                    </div>
+                                <div class="card-body bg-info">
+                                    <h6 class="card-subtitle">{{order.nombre}}</h6>
+                                    <p class="card-text">Fecha {{order.fecha}}</p>
+                                    <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
+                                    <p class="card-text">Total Q {{order.total}}</p>
+                                    <p class="card-text">Pedido {{order.numeroPedido}}</p>
+                                    <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark"
+                                    [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
+                                'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
+                                'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"
+                                    >ver orden</a>
+                                </div>
                             </div>
-                            <div class="end-0 text-black fw-bold"
-                            [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
-                        'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
-                        'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                            <app-count-down 
-                                [deliveryDate] = "order.deliveryDate"
-                                [orderType] = 1
-                            ></app-count-down>
-                            </div>
-                            
-                            </div>
-                        <div class="card-body">
-                            <h6 class="card-subtitle">{{order.nombre}}</h6>
-                            <p class="card-text">Fecha {{order.fecha}}</p>
-                            <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
-                            <p class="card-text">Total Q {{order.total}}</p>
-                            <p class="card-text">Pedido {{order.numeroPedido}}</p>
-                            <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark"
-                            [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
-                        'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
-                        'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"
-                            >ver orden</a>
                         </div>
+                    </div>
+                <!--</div>-->
+            </div>
+            <div class="col-md-4" style="overflow-y: auto; background-color: #D3D6D6;">
+                <strong>PROGRAMADAS</strong>
+                <div *ngIf="this.showProgramada == true" class="row">
+                    <div class="col-md-12" *ngFor="let order of proOrdersStructure |filterBy:ordenFilter">
+                        <div class="card border border-success border-2 rounded-start" alt="75x75" style="width: 15rem;">
+                            <div class="card-header" 
+                            [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
+                            'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?
+                            'bg-info':order.estado === 'entregado'?'bg-success':order.estado === 'emergencia'?'bg-danger':order.estado === 'programado'?'bg-dark':''">
+                                <div class="start-0 text-black fw-bold"
+                                [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                            'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                            'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                                    {{order.estado}}
+                                </div>
+                                <div class="end-0 text-black fw-bold"
+                                [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
+                            'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
+                            'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
+                                <app-count-down 
+                                    [deliveryDate] = "order.deliveryDate"
+                                    [orderType] = 3
+                                ></app-count-down>
+                                    
+                                </div>
+                                
+                                </div>
+                            <div class="card-body bg-success">
+                                <h6 class="card-subtitle">{{order.nombre}}</h6>
+                                <p class="card-text">Fecha Entrega {{order.dateView}}</p>
+                                <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
+                                <p class="card-text">Total Q {{order.total}}</p>
+                                <p class="card-text">Pedido {{order.numeroPedido}}</p>
+                                <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark" (click)="router.navigate(['/PedidoDelivery']);"
+                                [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
+                            'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
+                            'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"
+                                >ver orden</a>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -143,47 +201,7 @@
         </div>
         <div class="tab-pane fade" id="pills-progra" role="tabpanel" aria-labelledby="pills-progra-tab">
             
-            <div *ngIf="this.showProgramada == true" class="row">
-                <div class="col-md-3" *ngFor="let order of proOrdersStructure">
-                    <div class="card border border-success border-2 rounded-start" alt="75x75" style="width: 15rem;">
-                        <div class="card-header" 
-                        [ngClass]="order.estado === 'procesada'? 'bg-light':order.estado === 'asignada'?
-                        'bg-secondary':order.estado === 'en ruta'?'bg-warning':order.estado === 'en el sitio'?
-                        'bg-info':order.estado === 'entregado'?'bg-success':order.estado === 'emergencia'?'bg-danger':order.estado === 'programado'?'bg-dark':''">
-                            <div class="start-0 text-black fw-bold"
-                            [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
-                        'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
-                        'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                                {{order.estado}}
-                            </div>
-                            <div class="end-0 text-black fw-bold"
-                            [ngClass]="order.estado === 'procesada'? 'text-black':order.estado === 'asignada'?
-                        'text-white':order.estado === 'en ruta'?'text-black':order.estado === 'en el sitio'?
-                        'text-black':order.estado === 'entregado'?'text-black':order.estado === 'emergencia'?'text-white':order.estado === 'programado'?'text-white':''">
-                            <app-count-down 
-                                [deliveryDate] = "order.deliveryDate"
-                                [orderType] = 3
-                            ></app-count-down>
-                                
-                            </div>
-                            
-                            </div>
-                        <div class="card-body">
-                            <h6 class="card-subtitle">{{order.nombre}}</h6>
-                            <p class="card-text">Fecha Entrega {{order.dateView}}</p>
-                            <p class="card-text">Tipo de pago {{order.tipoPago}}</p>
-                            <p class="card-text">Total Q {{order.total}}</p>
-                            <p class="card-text">Pedido {{order.numeroPedido}}</p>
-                            <a [routerLink]="['/single-order/', order.idOrder]" class="card-link btn bg-light text-dark" (click)="router.navigate(['/PedidoDelivery']);"
-                            [ngClass]="order.estado === 'procesada'? 'bg-light text-black':order.estado === 'asignada'?
-                        'bg-Secondary text-black':order.estado === 'en ruta'?'bg-warning text-black':order.estado === 'en el sitio'?
-                        'bg-info text-black':order.estado === 'entregado'?'bg-success text-black':order.estado === 'emergencia'?'bg-danger text-white':order.estado === 'programado'?'bg-dark text-white':''"
-                            >ver orden</a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
+           
         </div>
       </div>
 

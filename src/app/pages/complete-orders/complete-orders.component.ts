@@ -15,6 +15,7 @@ export class completedOrders implements OnInit, AfterViewInit{
     public userType = this.userInfo === null?0:this.userInfo.id
     public storeId = this.userInfo === null?0:this.userInfo.MDW_User_Stores[0].store_id
     public ordenComplete : any = []
+    ordenFilter: any = {orden:''}
     
     constructor(public orderservices: OrderServices, private geolocation$: GeolocationService ){
         

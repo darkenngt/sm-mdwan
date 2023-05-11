@@ -13,7 +13,7 @@
     </div>
     <div class="mb-3 col-4">
         <label for="exampleFormControlInput1" class="form-label">No. orden</label>
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Buscar">
+        <input type="email" class="form-control" [(ngModel)]="ordenFilter.orden" id="exampleFormControlInput1" placeholder="Buscar">
     </div>
 </div>
 <table class="table text-center">
@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let comp of ordenComplete">
+        <tr *ngFor="let comp of ordenComplete |filterBy:ordenFilter">
             <td>{{comp.orden}}</td>
             <td>{{comp.name}}</td>
             <td>{{comp.monto}}</td>

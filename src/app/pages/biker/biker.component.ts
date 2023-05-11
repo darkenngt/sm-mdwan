@@ -108,7 +108,7 @@ export class BikerComponent implements OnInit{
                     orden:orderbiker.order.origin_store_id,
                     nombre:orderbiker.order.client.name,
                     fecha:orderbiker.order.creation_date.substring(0, 10),
-                    direccion:orderbiker.order.client.address,
+                    direccion:orderbiker.order.client.address+ ' '+ orderbiker.order.observations,
                     telefono:orderbiker.order.client.phone,
                     alt_tel: orderbiker.order.client.alternate_phone,
                     tipoPago:orderbiker.order.payment_type===1?"efectivo":orderbiker.order.payment_type===13?"Cybersource":orderbiker.order.payment_type===17?"Visa delivery":orderbiker.order.payment_type===18?"Whatsapp":"",
