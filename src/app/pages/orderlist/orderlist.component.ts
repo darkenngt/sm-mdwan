@@ -162,7 +162,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
         }
 
         alertNewOrder(){
-            this.orderservices.getOrders(this.storeId, 1)
+            /*this.orderservices.getOrders(this.storeId, 1)
               .pipe(
                 tap((data: any) => {
                   let filtDelevyD = [];
@@ -192,7 +192,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
               )
               .subscribe((data: any) => {
                 // Tu lógica para procesar los datos
-            });
+            });*/
             this.orderservices.getOrders(this.storeId, 2)
             .pipe(
                 tap((data: any) => {
@@ -289,7 +289,7 @@ import { Subscription, interval, tap,  Subject } from 'rxjs';
             let typeorder = 1
             let typeorderpro = 3
             this.orderservices.getOrders(this.storeId,typeorder).subscribe((data: any) =>{
-                //console.log(data)
+                console.log(data)
                 let filtDelevy = []
                 let dataSotD = data.forEach(order => {
                     if (order.status !== 0 && order.status !== 5) {

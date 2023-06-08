@@ -22,6 +22,9 @@ import { ProgramadaComponent } from './pages/programadas/programadas.component';
 import { completedOrders } from './pages/complete-orders/complete-orders.component';
 import { DetailOrderComponent } from './pages/detail-order/detail-order.component';
 import { callCenterComponent } from './pages/call-center/call-center.component';
+import { report } from './pages/report/report.component';
+import { updateUser } from './pages/update-user/update-user.component';
+import { Component } from '@angular/core';
 
 export const AppRoutes: Routes = [
   {
@@ -153,6 +156,18 @@ export const AppRoutes: Routes = [
     component:callCenterComponent,
     data:{
       title:"detalle call center"
+    }
+  },{
+    path:'report',
+    component:report,
+    data:{
+      title:"reporte biker"
+    }
+  },{
+    path:'update_user',
+    component:updateUser,
+    data:{
+      title:"actualizar usuario"
     }
   },
   {

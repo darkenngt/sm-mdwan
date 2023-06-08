@@ -52,6 +52,8 @@ import { completedOrders } from "./pages/complete-orders/complete-orders.compone
 import { DetailOrderComponent } from "./pages/detail-order/detail-order.component";
 import { callCenterComponent } from "./pages/call-center/call-center.component";
 import { FilterPipeModule } from "ngx-filter-pipe"
+import { report } from "./pages/report/report.component";
+import { updateUser } from "./pages/update-user/update-user.component";
 
 
 @NgModule({
@@ -78,7 +80,9 @@ import { FilterPipeModule } from "ngx-filter-pipe"
     ProgramadaComponent,
     completedOrders,
     DetailOrderComponent,
-    callCenterComponent
+    callCenterComponent,
+    report,
+    updateUser
   ],
   imports: [
     BrowserAnimationsModule,

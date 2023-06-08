@@ -33,10 +33,12 @@
             <th>Orden</th>
             <th>Cliente</th>
             <th>Status</th>
+            <th>Tipo orden</th>
             <th>Tiempo</th>
             <th>Monto</th>
             <th>Metodo pago</th>
             <th>Ver orden</th>
+            <th>reporte</th>
         </tr>
     </thead>
     <tbody>
@@ -48,6 +50,7 @@
             <td [ngClass]="comp.estado === 'Orden sin asignar'? 'bg-light':comp.estado === 'asignada'?
             'bg-secondary':comp.estado === 'en ruta'?'bg-warning':comp.estado === 'en el sitio'?
             'bg-info':comp.estado === 'entregado'?'bg-success':comp.estado === 'emergencia'?'bg-danger':comp.estado === 'programado'?'bg-dark':''">{{comp.estado}}</td>
+            <td>{{comp.type_order}}</td>
             <td>
                 <app-count-down ordenFilter
                 [deliveryDate] = "comp.deliveryDate"
@@ -58,8 +61,226 @@
             <td>{{comp.tipoPago}}</td>
             <td><a [routerLink]="['/detail-single/', comp.order_id]" class="btn bg-info text-dark"
                 >ver orden</a></td>
+            <td>
+                <button class="btn btn-info" (click)="reportBiker(comp.orden,comp.store)" >Ver data</button>
+            </td>
 
         </tr>
     </tbody>
 </table>
 </div>
+<!-- Modal -->
+<div class="modal modal-xl fade" id="ReporModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Orden {{ordersStructureSingle.orden}} </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div  class="border border-success border-5 text-center row">
+              <h6>Detalle motorista</h6>
+                <div class="col-md-3 fw-bold">
+                  Nombre
+                </div>
+                <div class="col-md-2 fw-bold">
+                  Codigo
+                </div>
+                <div class="col-md-3 fw-bold">
+                  Status
+                </div>
+                <div class="col-md-2 fw-bold">
+                  Fecha inicio
+                </div>
+                <div class="col-md-2 fw-bold">
+                  Fecha fin
+                </div>
+              <div *ngIf="dataStepBiker && dataStepBiker.length > 0" class="text-center">
+              <div class="row" *ngFor="let dbiker of dataStepBiker">
+                <div class="col-md-3">
+                  {{dbiker.nombre}}
+                </div>
+                <div class="col-md-2">
+                  {{dbiker.codigo}}
+                </div>
+                <div class="col-md-3">
+                  {{dbiker.status}}
+                </div>
+                <div class="col-md-2">
+                  {{dbiker.fecha_inicio}}
+                </div>
+                <div class="col-md-2">
+                  {{dbiker.fecha_fin}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border border-primary border-5 row">
+              <div class="col-md-4">
+                Nombre de la orden: {{ordersStructureSingle.nombre}}
+              </div>
+              <div class="col-md-4">
+                Telefono: {{ordersStructureSingle.telefono}}
+              </div>
+              <div class="col-md-4">
+                Telefono alternativo: {{ordersStructureSingle.telalt}}
+              </div>
+              <div class="col-md-4">
+                Correo: {{ordersStructureSingle.correo}}
+              </div>
+              <div class="col-md-12">
+                Dirección entrega: {{ordersStructureSingle.direccion}}
+              </div>
+              <hr [ngStyle]="{background: '#00356f'}" class="col-md-12 border-2">
+              <h6 class="col-md-12">Datos facturación</h6>
+              <div class="col-md-4">
+                Nombre: {{ordersStructureSingle.nomfac}}
+              </div>
+              <div class="col-md-4">
+                Nit: {{ordersStructureSingle.nit}}
+              </div>
+              <div class="col-md-4">
+                Dirección: {{ordersStructureSingle.direcfact}}
+              </div>
+              <hr class="col-md-12 border-2" [ngStyle]="{background: '#00356f'}">
+              <h6 class="col-md-12">Datos de pago</h6>
+              <div class="col-md-4">
+                Tipo de pago: {{ordersStructureSingle.tipoPago}}
+              </div>
+              <div class="col-md-4">
+                Autorización: {{ordersStructureSingle.autorizacion}}
+              </div>
+              <div class="col-md-4">
+                Total: Q {{ordersStructureSingle.total}}
+              </div>
+              <div class="col-md-4">
+                Cambio: Q {{ordersStructureSingle.cambio}}
+              </div>
+              <div class="col-md-4">
+                Fecha: {{ordersStructureSingle.fecha}}
+              </div>
+              <hr class="col-md-12 border-2" [ngStyle]="{background: '#00356f'}">
+              <h6 class="col-md-12">Datos Descuentos</h6>
+              <div class="col-md-12 row">
+                <div class="col-md-6">
+                  <strong>Descuentos Call Center</strong>
+                  <div class="col-md-6">
+                    {{ordersStructureSingle.cpn_call_description}}
+                  </div>
+                  <div class="col-md-6">
+                    {{ordersStructureSingle.cpn_call_amount}}
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <strong>canje cupon</strong>
+                  <div class="col-md-3">
+                    {{ordersStructureSingle.cpn_cupon}}
+                  </div>
+                  <div class="col-md-3">
+                    {{ordersStructureSingle.cpn_amount}}
+                  </div>
+                  <div class="col-md-3">
+                    {{ordersStructureSingle.cpn_description}}
+                  </div>
+                  <div class="col-md-3">
+                    {{ordersStructureSingle.cpn_sms}}
+                  </div>
+                </div>
+              </div>
+              <hr class="col-md-12 border-2" [ngStyle]="{background: '#00356f'}">
+              <h6 class="col-md-12">Indicaciones del Pedido</h6>
+             
+              <div class="col-md-12">
+                  {{ordersStructureSingle.indicaciones}}
+              </div>
+          </div>
+          <div class="row text-center bg-info">
+            <div class="col-6 fs-5">Item</div>
+            <div class="col-2 fs-5">Cantidad</div>
+            <div class="col-2 fs-5">Precio</div>
+            <div class="col-2 fs-5">Total</div>
+        </div>
+        <div *ngIf="ordersStructureSingle.detalle && ordersStructureSingle.detalle.length > 0" class="text-center">
+            <div class="row" *ngFor="let masterSingle of ordersStructureSingle.detalle">
+                <div class="col-6">
+                    {{masterSingle.master}}
+                    <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                        <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                            <div class="text-dark">
+                                - {{itemsSingle.producto}}
+                                <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                    <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                        <div>
+                                            &nbsp; &nbsp; &nbsp;-- {{complemento.itemcomp}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    {{masterSingle.cantidad}}
+                    <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                        <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                            <div class="text-dark">
+                                {{itemsSingle.unidad}}
+                                <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                    <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                        <div>
+                                            {{complemento.cantidad}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    {{masterSingle.total}}
+                    <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                        <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                            <div class="text-dark">
+                                {{itemsSingle.precio}}
+                                <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                    <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                        <div>
+                                           {{complemento.precio}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    {{masterSingle.total}}
+                    <div *ngIf="masterSingle.items && masterSingle.items.length > 0">
+                        <div *ngFor="let itemsSingle of masterSingle.items" class="">
+                            <div class="text-dark">
+                                {{itemsSingle.precio}}
+                                <div *ngIf="itemsSingle.complemento && itemsSingle.complemento.length > 0">
+                                    <div *ngFor="let complemento of itemsSingle.complemento" class="text-secondary">
+                                        <div>
+                                            {{complemento.precio}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-start">Observaciones: {{masterSingle.comment}}</div>
+                <div class="progress bg-success">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+  
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
